@@ -41,5 +41,21 @@ namespace bondgeek
 		
 		build();
 	}
+    
+    boost::shared_ptr<YieldTermStructure>   CurveBase::spreadedTermStructurePtr(const Handle<Quote>& spread,
+                                                                                Compounding comp,
+                                                                                Frequency freq,
+                                                                                const DayCounter& dc
+                                                                                ) 
+    {
+        boost::shared_ptr<YieldTermStructure> zcrv(new ZeroSpreadedTermStructure(discountingTermStructure(), 
+                                                                                 spread, 
+                                                                                 comp,  
+                                                                                 freq,  
+                                                                                 dc
+                                                                                 )
+                                                   );
+        return zcrv;
+    }
 	
 }

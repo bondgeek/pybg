@@ -1,0 +1,56 @@
+# pybg
+# sample run
+import pybg
+
+pybg.set_eval_date()
+pybg.set_eval_date( date(1960,8,9) )
+
+pybg.get_eval_date()  // Settings::instance().evaluationDate();
+
+pybg.set_curvetype('curve_id', CurveBase(calendar.TARGET,     // TARGET(),
+                                         settledays,          // =2,
+                                         daycount.act360,     // Actual360(),
+                                         ibor.USDLibor('3M'), // boost::shared_ptr<IborIndex>(new USDLibor(Period(3,Months))),
+                                         frequency.semi,      // Semiannual,
+                                         bdConvention.modifiedFollowing,          // ModifiedFollowing,
+                                         daycount.thirty360(thirty360.European),  // Thirty360(Thirty360::European),
+                                         daycount.actAct(actAct.ISDA)             // ActualActual(ActualActual::ISDA)
+                                        )
+                   ) // Loads curvetype into Repository under 'id'
+
+mycrv = pybg.create_curve('curve_id', depocurve, swapcurve) 
+/* RateHelperCurve mycrv = CurveFactory::instance().ratehelperCurve("USDSEMI_QTR", 
+																	  today, 
+																	  depotenors, 
+																	  depospots, 
+                                                                      6,
+																	  swaptenors,																	  
+                                                                      swapspots,
+                                                                      7);
+                                                                      */
+
+callbnd = pybg.CallBond(coupon, 
+					 maturity, 
+					 callDate, 
+					 callPrice, 
+					 dated, 
+					 bondCalendar,  
+					 settlementDays,
+					 bondDayCounter,
+					 frequency,
+					 frequency,
+					 redemption,
+					 faceAmount,
+					 accrualConvention,
+					 paymentConvention)
+					 
+lognorm = True // use Black Karasinski, false = Hull White
+
+callbnd.oasEngine(acurve, mean_reversion, sigma, oas_spread, lognorm)
+
+prc = callbnd.cleanPrice()
+prc = callbnd.oasValue(oas_spread)
+
+oas_spread = callbnd.oas(prc, sigma, mean_reversion, lognorm)
+sigma = callbnd.oasImpliedVol(prc, oas_spread, mean_reversion, lognorm)
+

@@ -11,7 +11,10 @@ from setup_config import *
 
 extension_paths  = [
  ('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
- ('pybg.curves', ['pybg/curves.pyx']),
+ 
+ ('pybg.curves', ['pybg/curves.pyx', 
+                  'bg/curvebase.cpp',
+                  'bg/curves/ratehelpercurve.cpp']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),

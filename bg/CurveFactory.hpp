@@ -54,6 +54,6 @@ namespace bondgeek {
                                         int swapcount,
                                         int fixingDays = -1);        
     };
-    
+
 }
 #endif

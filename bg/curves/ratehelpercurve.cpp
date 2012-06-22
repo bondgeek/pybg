@@ -117,5 +117,42 @@ namespace bondgeek
         const Real &q = _quotes.count(key) > 0 ? _quotes[key]->value() : 0.0;
 		return q;
 	}
+    
+    void RateHelperCurve::update(Date todaysDate,
+                                 std::string depotenors[],
+                                 double depospots[],
+                                 int depocount,                          
+                                 std::string swaptenors[],
+                                 double swapspots[],
+                                 int swapcount,
+                                 int fixingDays) 
+    {
+        CurveMap depocurve;
+        CurveMap swapcurve;
+        
+        for (int i=0; i<depocount; i++) 
+            depocurve[depotenors[i]] = depospots[i];
+        
+        for (int i=0; i<swapcount; i++) 
+            swapcurve[swaptenors[i]] = swapspots[i];
+
+        this->update(todaysDate,
+                     depocurve,
+                     swapcurve,
+                     fixingDays);
+        
+    }
+    
+    void RateHelperCurve::update(Date todaysDate,
+                                 CurveMap depocurve,
+                                 CurveMap swapcurve,
+                                 int fixingDays) 
+    {        
+        this->add_depos(depocurve);
+        this->add_swaps(swapcurve);
+        
+        this->build(todaysDate, fixingDays);
+        
+    }
 	
 }

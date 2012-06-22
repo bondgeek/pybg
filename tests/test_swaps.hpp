@@ -26,6 +26,7 @@ struct SwapTests {
 	Calendar calendar;
 	Date todaysDate;
 	RateHelperCurve acurve;
+    RateHelperCurve *bcurve;
 	
 	SwapTests() : 
 	calendar(TARGET()), 
@@ -43,16 +44,33 @@ struct SwapTests {
                                                           todaysDate, 
                                                           depotenors, depospots, 6,
                                                           swaptenors, swapspots, 5);
+        
+        bcurve = new RateHelperCurve(USDLiborCurve("3M"));
+        bcurve->update(todaysDate, 
+                       depotenors, depospots, 6,
+                       swaptenors, swapspots, 5);
+                                 
 		
 	}
 };
 
 BOOST_FIXTURE_TEST_SUITE( curvetest, SwapTests )
 
+
 BOOST_AUTO_TEST_CASE( evaluation_date )
 {			
 	BOOST_TEST_MESSAGE(">>date: " << Settings::instance().evaluationDate() );
 	BOOST_CHECK( Settings::instance().evaluationDate() == todaysDate );
+}
+
+
+BOOST_AUTO_TEST_CASE( curve_values )
+{			
+    BOOST_TEST_MESSAGE(">>EUR curve.discount(10Y): " << acurve.discount(10.0) );
+    BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << bcurve->discount(10.0) );
+    BOOST_CHECK(  acurve.tenorquote("10Y") ==  0.05165 );
+    BOOST_CHECK(  bcurve->tenorquote("10Y") == 0.05165 );
+    
 }
 
 BOOST_AUTO_TEST_CASE( swap_value )

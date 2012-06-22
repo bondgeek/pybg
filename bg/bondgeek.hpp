@@ -16,6 +16,7 @@
 
 #include <bg/indexbase.hpp>
 #include <bg/curves/ratehelpercurve.hpp>
+#include <bg/curves/usdliborcurve.hpp>
 
 #include <bg/instruments/bulletbond.hpp>
 #include <bg/instruments/callbond.hpp>
@@ -23,7 +24,7 @@
 #include <bg/swaptype.hpp>
 #include <bg/bondtype.hpp>
 
-#include <bg/CurveFactory.hpp>
+#include <bg/curvefactory.hpp>
 
 namespace bondgeek {
 }

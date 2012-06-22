@@ -72,10 +72,11 @@ namespace bondgeek {
         }
         
     public:
-        CurveBase(Calendar calendar=TARGET(),
+        CurveBase() {}
+        CurveBase(boost::shared_ptr<IborIndex> swFloatingLegIndex,
+                  Calendar calendar=TARGET(),
                   Integer fixingDays=2,                  
                   DayCounter depositDayCounter=Actual360(),
-                  boost::shared_ptr<IborIndex> swFloatingLegIndex=boost::shared_ptr<IborIndex>(new Euribor6M),
                   Frequency fixedRateFrequency=Annual,
                   BusinessDayConvention swFixedLegConvention=Unadjusted, 
                   DayCounter swFixedLegDayCounter=Thirty360(Thirty360::European), 
@@ -116,21 +117,14 @@ namespace bondgeek {
 		boost::shared_ptr<YieldTermStructure>	yieldTermStructurePtr() const { return _yieldTermStructure;}
 		RelinkableHandle<YieldTermStructure>	discountingTermStructure() const { return _discountingTermStructure; }
 		RelinkableHandle<YieldTermStructure>	forecastingTermStructure() const { return _forecastingTermStructure; }
-        
 		boost::shared_ptr<YieldTermStructure>   spreadedTermStructurePtr(const Handle<Quote>& spread,
 																		 Compounding comp = Continuous,
 																		 Frequency freq = NoFrequency,
-																		 const DayCounter& dc = DayCounter()) 
-		{
-			boost::shared_ptr<YieldTermStructure> zcrv(new ZeroSpreadedTermStructure(discountingTermStructure(), 
-                                                                                     spread, 
-                                                                                     comp,  
-                                                                                     freq,  
-                                                                                     dc
-                                                                                     )
-													   );
-			return zcrv;
-		}
+																		 const DayCounter& dc = DayCounter()
+                                                                         );        
+		
+        Real discount(double years) { return discountingTermStructure().currentLink()->discount(years); }
+        
 		
 	};
     

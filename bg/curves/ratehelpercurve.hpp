@@ -44,7 +44,22 @@ namespace bondgeek {
 		Date settlementDate() { return _settlementDate; }
 		
 		boost::shared_ptr<IborIndex> euribor6MIndex(void);
-		
+        
+        void update(Date todaysDate,
+                    std::string depotenors[],
+                    double depospots[],
+                    int depocount,                          
+                    std::string swaptenors[],
+                    double swapspots[],
+                    int swapcount,
+                    int fixingDays = -1
+                    );        
+        void update(Date todaysDate,
+                    CurveMap depocurve,
+                    CurveMap swapcurve,
+                    int fixingDays = -1
+                    );
+        
 	};
 
 }

@@ -1,7 +1,7 @@
 
 clean:
-	find bgpy -name \*.so -exec rm {} \;
-	find bgpy -name \*.pyc -exec rm {} \;
+	find pybg -name \*.so -exec rm {} \;
+	find pybg -name \*.pyc -exec rm {} \;
     
 	rm -rf build
 	rm -rf dist
