@@ -1,5 +1,5 @@
 # setup.py
-# bgpy
+# pybg
 #
 
 from distutils.core import setup
@@ -10,25 +10,25 @@ from Cython.Build import cythonize
 from setup_config import *
 
 extension_paths  = [
- ('bgpy.ql', ['bgpy/ql.pyx', 'bg/date_utilities.cpp']),
- ('bgpy.curves', ['bgpy/curves.pyx']),
+ ('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
+ ('pybg.curves', ['pybg/curves.pyx']),
  
- ('bgpy.quantlib.currency', ['bgpy/quantlib/currency.pyx']), 
- ('bgpy.quantlib.cashflow', ['bgpy/quantlib/cashflow.pyx']),
- ('bgpy.quantlib.quotes', ['bgpy/quantlib/quotes.pyx']),
+ ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
+ ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),
+ ('pybg.quantlib.quotes', ['pybg/quantlib/quotes.pyx']),
  
- ('bgpy.quantlib.math.optimization', ['bgpy/quantlib/math/optimization.pyx']),
+ ('pybg.quantlib.math.optimization', ['pybg/quantlib/math/optimization.pyx']),
  
- ('bgpy.quantlib.time.calendar', ['bgpy/quantlib/time/calendar.pyx']),
- ('bgpy.quantlib.time.date', ['bgpy/quantlib/time/date.pyx']),
- ('bgpy.quantlib.time.daycounter', ['bgpy/quantlib/time/daycounter.pyx']),
- ('bgpy.quantlib.time.schedule', ['bgpy/quantlib/time/schedule.pyx']),
- ('bgpy.quantlib.time.calendars.germany', ['bgpy/quantlib/time/calendars/germany.pyx']),
- ('bgpy.quantlib.time.calendars.null_calendar', ['bgpy/quantlib/time/calendars/null_calendar.pyx']),
- ('bgpy.quantlib.time.calendars.united_kingdom', ['bgpy/quantlib/time/calendars/united_kingdom.pyx']),
- ('bgpy.quantlib.time.calendars.united_states', ['bgpy/quantlib/time/calendars/united_states.pyx']),
- ('bgpy.quantlib.time.daycounters.actual_actual', ['bgpy/quantlib/time/daycounters/actual_actual.pyx']),
- ('bgpy.quantlib.time.daycounters.thirty360', ['bgpy/quantlib/time/daycounters/thirty360.pyx'])
+ ('pybg.quantlib.time.calendar', ['pybg/quantlib/time/calendar.pyx']),
+ ('pybg.quantlib.time.date', ['pybg/quantlib/time/date.pyx']),
+ ('pybg.quantlib.time.daycounter', ['pybg/quantlib/time/daycounter.pyx']),
+ ('pybg.quantlib.time.schedule', ['pybg/quantlib/time/schedule.pyx']),
+ ('pybg.quantlib.time.calendars.germany', ['pybg/quantlib/time/calendars/germany.pyx']),
+ ('pybg.quantlib.time.calendars.null_calendar', ['pybg/quantlib/time/calendars/null_calendar.pyx']),
+ ('pybg.quantlib.time.calendars.united_kingdom', ['pybg/quantlib/time/calendars/united_kingdom.pyx']),
+ ('pybg.quantlib.time.calendars.united_states', ['pybg/quantlib/time/calendars/united_states.pyx']),
+ ('pybg.quantlib.time.daycounters.actual_actual', ['pybg/quantlib/time/daycounters/actual_actual.pyx']),
+ ('pybg.quantlib.time.daycounters.thirty360', ['pybg/quantlib/time/daycounters/thirty360.pyx'])
 
  ]
  
@@ -53,6 +53,6 @@ for ext in extensions:
     print ext.name
 print("\n\nBeginning\n\n")
 
-setup(name="bgpy",
+setup(name="pybg",
       ext_modules=extensions,  
       cmdclass={'build_ext': build_ext})

@@ -10,5 +10,5 @@ build_ext:
 	python setup.py build_ext --inplace
     
 test:
-	nosetests -v bgpy/tests
+	nosetests -v pybg/tests
 	

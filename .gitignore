@@ -24,22 +24,22 @@ swig/example/example_wrap.c
 .DS_Store
 #
 # cython intermediate products
-bgpy/*.h
-bgpy/*.cpp
+pybg/*.h
+pybg/*.cpp
 
-bgpy/quantlib/*.h
-bgpy/quantlib/*.cpp
+pybg/quantlib/*.h
+pybg/quantlib/*.cpp
 
-bgpy/quantlib/time/*.h
-bgpy/quantlib/time/*.cpp
+pybg/quantlib/time/*.h
+pybg/quantlib/time/*.cpp
 
-bgpy/quantlib/time/daycounters/*.h
-bgpy/quantlib/time/daycounters/*.cpp
+pybg/quantlib/time/daycounters/*.h
+pybg/quantlib/time/daycounters/*.cpp
 
-bgpy/quantlib/time/calendars/*.h
-bgpy/quantlib/time/calendars/*.cpp
+pybg/quantlib/time/calendars/*.h
+pybg/quantlib/time/calendars/*.cpp
 
-bgpy/quantlib/math/*.h
-bgpy/quantlib/math/*.cpp
+pybg/quantlib/math/*.h
+pybg/quantlib/math/*.cpp
 
 
