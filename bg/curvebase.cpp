@@ -10,23 +10,7 @@
 #include <bg/curvebase.hpp>
 
 namespace bondgeek 
-{
-	// output format for RHType
-    std::ostream& operator<<(std::ostream& out, const RHType& timeunit) {
-        switch (timeunit) {
-            case DEPO:
-                return out << "DepositRate";
-            case FRA:
-                return out << "FRA";
-            case FUT:
-                return out << "Futures";
-            case SWAP:
-                return out << "Swaps";
-            default:
-                QL_FAIL("unknown TimeUnit");
-        }
-    } 
-	
+{	
 	void CurveBase::build(const Date &todaysDate, const int &fixingDays) 
 	{
 		if (fixingDays >= 0) 

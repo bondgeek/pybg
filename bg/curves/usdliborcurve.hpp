@@ -28,12 +28,12 @@ namespace bondgeek {
                   )
         {}
         
-        USDLiborCurve(string tenor):
+        USDLiborCurve(string tenor, Frequency fixedFrequency=Semiannual):
         CurveBase(boost::shared_ptr<IborIndex>(new USDLibor( Tenor(tenor) )),
                   TARGET(),
                   2,
                   Actual360(),
-                  Semiannual,
+                  fixedFrequency,
                   ModifiedFollowing,
                   Thirty360(Thirty360::European),
                   ActualActual(ActualActual::ISDA)

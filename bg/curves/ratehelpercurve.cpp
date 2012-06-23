@@ -10,17 +10,35 @@
 
 namespace bondgeek 
 {
+    // output format for RHType
+    std::ostream& operator<<(std::ostream& out, const RHType& timeunit) {
+        switch (timeunit) {
+            case DEPO:
+                return out << "DepositRate";
+            case FRA:
+                return out << "FRA";
+            case FUT:
+                return out << "Futures";
+            case SWAP:
+                return out << "Swaps";
+            default:
+                QL_FAIL("unknown RateHelperType");
+        }
+    } 
+    
 	boost::shared_ptr<RateHelper> RateHelperCurve::newRateHelper(const Period &tnr, 
-														   const Rate &quote, 
-														   const RHType &rhtype) 
+                                                                 const Rate &quote, 
+                                                                 const RHType &rhtype
+                                                                 ) 
 	{
 		boost::shared_ptr<Quote> _quote(new SimpleQuote(quote));
 		return newRateHelper(tnr, _quote, rhtype);
 	}
 	
 	boost::shared_ptr<RateHelper> RateHelperCurve::newRateHelper(const Period &tnr, 
-														   const boost::shared_ptr<Quote> &_quote, 
-														   const RHType &rhtype) 
+                                                                 const boost::shared_ptr<Quote> &_quote, 
+                                                                 const RHType &rhtype
+                                                                 ) 
 	{
 		switch(rhtype) {
 			case DEPO:
@@ -33,9 +51,10 @@ namespace bondgeek
 																		   true, 
 																		   _depositDayCounter)) ;
 				break;
-			case SWAP:
+			
+            case SWAP:
 				return boost::shared_ptr<RateHelper>(new SwapRateHelper(
-																		Handle<Quote>(Handle<Quote>(_quote)), 
+																		Handle<Quote>(_quote), 
 																		tnr,
 																		_calendar, 
 																		_swFixedLegFrequency,
@@ -43,6 +62,7 @@ namespace bondgeek
 																		_swFixedLegDayCounter,
 																		_swFloatingLegIndex));
 				break;
+            
 			default:
 				break;
 		}
@@ -103,13 +123,6 @@ namespace bondgeek
 		_discountingTermStructure.linkTo(ts);
 		
 		_yieldTermStructure = ts;
-	}
-
-	boost::shared_ptr<IborIndex> RateHelperCurve::euribor6MIndex() 
-	{
-		boost::shared_ptr<IborIndex> euriborIndex(
-												  new Euribor6M(forecastingTermStructure()));
-		return euriborIndex;
 	}
 
 	const Real &RateHelperCurve::tenorquote(string key) 

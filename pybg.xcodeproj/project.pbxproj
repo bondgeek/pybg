@@ -111,7 +111,7 @@
 		CB4D02831594B8350002568B /* quotes.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = quotes.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D02851594B8350002568B /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		CB4D02861594B8350002568B /* _calendar.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _calendar.pxd; sourceTree = "<group>"; };
-		CB4D02871594B8350002568B /* _date.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _date.pxd; sourceTree = "<group>"; };
+		CB4D02871594B8350002568B /* _date.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _date.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D02881594B8350002568B /* _daycounter.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _daycounter.pxd; sourceTree = "<group>"; };
 		CB4D02891594B8350002568B /* _period.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _period.pxd; sourceTree = "<group>"; };
 		CB4D028A1594B8350002568B /* _schedule.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _schedule.pxd; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 		CB4D02A11594B8350002568B /* thirty360.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = thirty360.pyx; sourceTree = "<group>"; };
 		CB4D02A21594B8350002568B /* schedule.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schedule.pxd; sourceTree = "<group>"; };
 		CB4D02A31594B8350002568B /* schedule.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schedule.pyx; sourceTree = "<group>"; };
-		CB4D02A41594B8350002568B /* types.pxi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = types.pxi; sourceTree = "<group>"; };
+		CB4D02A41594B8350002568B /* types.pxi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = types.pxi; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D02A61594B8350002568B /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		CB4D02A71594B8350002568B /* test_calendar.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_calendar.py; sourceTree = "<group>"; };
 		CB4D02A81594B8350002568B /* test_cashflows.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_cashflows.py; sourceTree = "<group>"; };
@@ -148,6 +148,7 @@
 		CB4D02AC1594B8350002568B /* test_schedule.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_schedule.py; sourceTree = "<group>"; };
 		CB4D02AD1594B8360002568B /* test_settings.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_settings.py; sourceTree = "<group>"; };
 		CB4D02B71594B8A50002568B /* pybg */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pybg; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC0BCDC915964E5400DBA0DC /* test_curves.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_curves.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,7 +234,6 @@
 			children = (
 				CB4D02001594B7470002568B /* bondgeek.cpp */,
 				CB4D02011594B7470002568B /* bondgeek.hpp */,
-				CB4D02021594B7470002568B /* bondtype.hpp */,
 				CB4D02031594B7470002568B /* curvebase.cpp */,
 				CB4D02041594B7470002568B /* curvebase.hpp */,
 				CB4D02061594B7470002568B /* curvefactory.hpp */,
@@ -243,9 +243,10 @@
 				CB4D020B1594B7470002568B /* date_utilities.hpp */,
 				CB4D020C1594B7470002568B /* indexbase.cpp */,
 				CB4D020D1594B7470002568B /* indexbase.hpp */,
+				CB4D02021594B7470002568B /* bondtype.hpp */,
+				CB4D02181594B7470002568B /* swaptype.hpp */,
 				CB4D020E1594B7470002568B /* instruments */,
 				CB4D02161594B7470002568B /* repository.hpp */,
-				CB4D02181594B7470002568B /* swaptype.hpp */,
 			);
 			path = bg;
 			sourceTree = "<group>";
@@ -406,6 +407,7 @@
 				CB4D02AB1594B8350002568B /* test_daycounter.py */,
 				CB4D02AC1594B8350002568B /* test_schedule.py */,
 				CB4D02AD1594B8360002568B /* test_settings.py */,
+				CC0BCDC915964E5400DBA0DC /* test_curves.py */,
 			);
 			path = tests;
 			sourceTree = "<group>";

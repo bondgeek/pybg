@@ -6,12 +6,17 @@ from libcpp.string cimport string
 
 from cython.operator cimport dereference as deref
 
-from pybg.quantlib.handle cimport shared_ptr
-
 cimport _curves
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
-    
+
+from pybg.quantlib.time._period cimport Frequency
+from pybg.quantlib.handle cimport shared_ptr
+
+from pybg.quantlib.time.api import *
+
+from pybg.ql cimport _pydate_from_qldate
+
 cdef public enum RateHelperType:
     DEPO    = _curves.DEPO
     FRA     = _curves.FRA
@@ -22,22 +27,22 @@ cdef class RateHelperCurve:
     """Rate Helper Curve
     
     """
-    def __cinit__(self):
-        self._thisptr = NULL
-
-    def __dealloc__(self):
-        if self._thisptr is not NULL:
-            del self._thisptr
             
-    def __init__(self, tenor="3M"):
+    def __init__(self, tenor="3M", fxFrequency=Semiannual):
         
-        cdef char* tnr = tenor
-        
+        #TODO:  this should be in a separate "View/Controller" class
+        #       to allow using something other than USDLiborCurve
+        cdef char* tnr             = tenor
+           
         self._thisptr = new shared_ptr[_curves.RateHelperCurve]( \
-            new _curves.RateHelperCurve(_curves.USDLiborCurve(<string>tnr))
+        
+            new _curves.RateHelperCurve(
+                                        _curves.USDLiborCurve(<string>tnr,
+                                                              <Frequency>fxFrequency)
+                                       )
             )
 
-    dbg = """
+
     def update(self, evaldate, depos, swaps, fixingdays=-1):
     
         cdef qldate.Date qdate_ref = qldate.Date.from_datetime(evaldate)
@@ -57,4 +62,19 @@ cdef class RateHelperCurve:
             swapcurve[<string>tnr] = value
             
         self._thisptr.get().update(deref(date_ref), depocurve, swapcurve, fixingdays)
-        """
+    
+    property settlementDate:
+        def __get__(self):
+            cdef _qldate.Date _qdate_ref = self._thisptr.get().settlementDate()
+            return _pydate_from_qldate(_qdate_ref)
+    
+    
+    def tenorquote(self, key):
+        cdef char* tnr = key
+        cdef Rate rate = self._thisptr.get().tenorquote(<string>tnr)
+        return rate
+        
+    def discount(self, years):
+        cdef double yrs = <double>years
+        print("/nIn discount" % yrs)
+        return self._thisptr.get().discount(yrs)

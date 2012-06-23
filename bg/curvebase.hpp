@@ -23,9 +23,6 @@ namespace bondgeek {
     // Curves
     typedef map<string, Rate> CurveMap; 
     typedef vector< boost::shared_ptr<RateHelper> > RHelperList;
-        
-    // Rate Helper Types
-    enum RHType {DEPO, FRA, FUT, SWAP};
     
     class CurveBase {
     protected:

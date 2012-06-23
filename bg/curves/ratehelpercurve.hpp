@@ -13,6 +13,9 @@
 #include <bg/date_utilities.hpp>
 
 namespace bondgeek {
+    
+    // Rate Helper Types
+    enum RHType {DEPO, FRA, FUT, SWAP};
 	
 	class RateHelperCurve : public CurveBase {
 	protected:
@@ -25,12 +28,12 @@ namespace bondgeek {
 		RateHelperCurve(CurveBase crvtype) { update_parms(crvtype); }
 		
 		boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr, 
-															   const Rate &quote, 
-															   const RHType &rhtype);
+                                                    const Rate &quote,
+                                                    const RHType &rhtype);
 		
-		boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr, 
-															   const boost::shared_ptr<Quote> &_quote, 
-															   const RHType &rhtype);
+		boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr,
+                                                    const boost::shared_ptr<Quote> &_quote, 
+                                                    const RHType &rhtype);
 		
 		void add_ratehelpers(CurveMap, RHType); 
 		
@@ -39,12 +42,6 @@ namespace bondgeek {
 		
 		virtual void build_termstructure(void);
 		
-		const Real &tenorquote(string key);
-		
-		Date settlementDate() { return _settlementDate; }
-		
-		boost::shared_ptr<IborIndex> euribor6MIndex(void);
-        
         void update(Date todaysDate,
                     std::string depotenors[],
                     double depospots[],
@@ -60,6 +57,10 @@ namespace bondgeek {
                     int fixingDays = -1
                     );
         
+        // Inspectors
+        Date settlementDate() { return _settlementDate; }
+		const Real &tenorquote(string key);
+
 	};
 
 }
