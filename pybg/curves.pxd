@@ -6,7 +6,15 @@ include 'quantlib/types.pxi'
 from pybg.quantlib.handle cimport shared_ptr
 
 cimport _curves
+
+
+cdef class CurveBase:
+    cdef shared_ptr[_curves.CurveBase]* _thisptr
  
 cdef class RateHelperCurve:
     cdef shared_ptr[_curves.RateHelperCurve]* _thisptr
-    
+
+# Specific Curve types
+
+cdef class USDLiborCurve(CurveBase):
+    pass

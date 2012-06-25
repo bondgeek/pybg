@@ -29,19 +29,12 @@ cdef extern from 'bg/curvebase.hpp' namespace 'bondgeek':
     cdef cppclass CurveBase:
         CurveBase() except +        
 
-
-cdef extern from 'bg/curves/usdliborcurve.hpp' namespace 'bondgeek':
-        
-    cdef cppclass USDLiborCurve(CurveBase):
-        USDLiborCurve() except +
-        USDLiborCurve(string tenor, Frequency frequency) except +
-        
-
 cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
     
     ctypedef map[string, Rate] CurveMap
     
     cdef cppclass RateHelperCurve(CurveBase):
+        RateHelperCurve() except +
         RateHelperCurve(CurveBase crvtype) except +
         
         void update(_QLDate todaysDate,
@@ -63,4 +56,12 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
         
         Real        tenorquote(string key)        
         Real        discount(double years)
+
+
+# Specific Curve types
+cdef extern from 'bg/curves/usdliborcurve.hpp' namespace 'bondgeek':
+        
+    cdef cppclass USDLiborCurve(CurveBase):
+        USDLiborCurve() except +
+        USDLiborCurve(string tenor, Frequency frequency) except +
         

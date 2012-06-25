@@ -25,24 +25,50 @@ cdef public enum RateHelperType:
     FUT     = _curves.FUT
     SWAP    = _curves.SWAP
 
+
+cdef class CurveBase:
+    """Rate Helper Curve
+    
+    """
+    def __cinit__(self):
+        self._thisptr = NULL
+
+    def __dealloc__(self):
+        if self._thisptr is not NULL:
+            del self._thisptr
+            
+    def __init__(self):
+        raise ValueError(
+            'This is an abstract class.'
+        )
+            
+                        
 cdef class RateHelperCurve:
     """Rate Helper Curve
     
     """
-            
-    def __init__(self, tenor="3M", fxFrequency=Semiannual):
+    def __cinit__(self):
+        self._thisptr = NULL
+
+    def __dealloc__(self):
+        if self._thisptr is not NULL:
+            del self._thisptr
+
+    def __init__(self, CurveBase curvebase):
         
-        #TODO:  this should be in a separate "View/Controller" class
-        #       to allow using something other than USDLiborCurve
-        cdef char* tnr             = tenor
-           
-        self._thisptr = new shared_ptr[_curves.RateHelperCurve]( \
+        cdef _curves.CurveBase *_crvbase
         
-            new _curves.RateHelperCurve(
-                                        _curves.USDLiborCurve(<string>tnr,
-                                                              <_Frequency>fxFrequency)
-                                       )
-            )
+        try:
+            print("init1")
+            _crvbase = curvebase._thisptr.get()
+            self._thisptr = new shared_ptr[_curves.RateHelperCurve]( \
+                new _curves.RateHelperCurve(deref(_crvbase))
+                )
+        except:
+            print("init2")
+            self._thisptr = new shared_ptr[_curves.RateHelperCurve]( \
+                new _curves.RateHelperCurve()
+                )
 
 
     def update(self, depos, swaps, evaldate=None, fixingdays=-1):
@@ -102,4 +128,17 @@ cdef class RateHelperCurve:
         cdef double discfactor = self._thisptr.get().discount(yrs)
         
         return discfactor
+
+cdef class USDLiborCurve(CurveBase):
+    """Rate Helper Curve
+    
+    """
+            
+    def __init__(self, tenor="3M", fxFrequency=Semiannual):
+        
+        cdef char* tnr             = tenor
+           
+        self._thisptr = new shared_ptr[_curves.CurveBase]( \
+            new _curves.USDLiborCurve(<string>tnr, <_Frequency>fxFrequency)
+            )
         
