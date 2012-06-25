@@ -102,23 +102,7 @@ namespace bondgeek
 																							 tolerance) 
 												 );
 		_settlementDate = ts->referenceDate();
-		
-		/*
-		 boost::shared_ptr<YieldTermStructure> ts( new PiecewiseYieldCurve<Discount,LogLinear>(
-																	_settlementDate, 
-																	_rateHelpers,
-																	_termStructureDayCounter,
-																	tolerance) 
-												 );
-		 
-		 PiecewiseYieldCurve (Natural settlementDays, 
-							  const Calendar &calendar, 
-		                      const std::vector< boost::shared_ptr< typename Traits::helper > > &instruments, 
-							  const DayCounter &dayCounter, 
-		                      Real accuracy, 
-							  const Interpolator &i=Interpolator(), 
-		                      const Bootstrap< this_curve > &bootstrap=Bootstrap< this_curve >())
-		 */
+
 		_forecastingTermStructure.linkTo(ts);
 		_discountingTermStructure.linkTo(ts);
 		

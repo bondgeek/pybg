@@ -102,7 +102,7 @@
 		CB4D02791594B8350002568B /* compounding.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = compounding.py; sourceTree = "<group>"; };
 		CB4D027A1594B8350002568B /* currency.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = currency.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D027B1594B8350002568B /* currency.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = currency.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
-		CB4D027C1594B8350002568B /* handle.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = handle.pxd; sourceTree = "<group>"; };
+		CB4D027C1594B8350002568B /* handle.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = handle.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D027E1594B8350002568B /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		CB4D027F1594B8350002568B /* _optimization.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _optimization.pxd; sourceTree = "<group>"; };
 		CB4D02801594B8350002568B /* optimization.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = optimization.pxd; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 		CB4D02861594B8350002568B /* _calendar.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _calendar.pxd; sourceTree = "<group>"; };
 		CB4D02871594B8350002568B /* _date.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _date.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D02881594B8350002568B /* _daycounter.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _daycounter.pxd; sourceTree = "<group>"; };
-		CB4D02891594B8350002568B /* _period.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _period.pxd; sourceTree = "<group>"; };
+		CB4D02891594B8350002568B /* _period.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _period.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D028A1594B8350002568B /* _schedule.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _schedule.pxd; sourceTree = "<group>"; };
 		CB4D028B1594B8350002568B /* api.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = api.py; sourceTree = "<group>"; };
 		CB4D028C1594B8350002568B /* calendar.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = calendar.pxd; sourceTree = "<group>"; };
@@ -148,6 +148,7 @@
 		CB4D02AC1594B8350002568B /* test_schedule.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_schedule.py; sourceTree = "<group>"; };
 		CB4D02AD1594B8360002568B /* test_settings.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_settings.py; sourceTree = "<group>"; };
 		CB4D02B71594B8A50002568B /* pybg */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pybg; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBBD1E701598B22A0057328C /* curvetypes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = curvetypes; sourceTree = "<group>"; };
 		CC0BCDC915964E5400DBA0DC /* test_curves.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_curves.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -303,6 +304,7 @@
 				CB4D026D1594B8350002568B /* _curves.pxd */,
 				CB4D026E1594B8350002568B /* curves.pxd */,
 				CB4D026F1594B8350002568B /* curves.pyx */,
+				CBBD1E701598B22A0057328C /* curvetypes */,
 				CB4D02701594B8350002568B /* ql.pxd */,
 				CB4D02711594B8350002568B /* ql.pyx */,
 				CB4D02721594B8350002568B /* quantlib */,

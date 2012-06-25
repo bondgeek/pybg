@@ -63,7 +63,6 @@ namespace bondgeek {
                     );
         
         // Inspectors
-        Date settlementDate() { return _settlementDate; }
         Real tenorquote(string key);
 
 	};

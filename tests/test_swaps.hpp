@@ -104,9 +104,9 @@ BOOST_AUTO_TEST_CASE( swap_value )
 																						   );
 	
 	Real fixedRate = .04;
-    Date settlementDate = acurve.settlementDate(); 
+    Date settlementDate = acurve.referenceDate(); 
     Integer lengthInYears = 5;
-    Date maturity = acurve.settlementDate() + lengthInYears*Years;
+    Date maturity = acurve.referenceDate() + lengthInYears*Years;
 	
 	SwapType<Euribor> euriborswaps(Annual,
 								   Thirty360(Thirty360::European),

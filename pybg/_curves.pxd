@@ -49,19 +49,12 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
         # Inspectors
         _QLDate     curvedate() 
         _QLDate     referenceDate()
-        _QLDate     settlementDate()
         _QLDate     maxDate()
         Calendar    calendar()
         Integer     fixingDays() 
         
         Real        tenorquote(string key)        
-        Real        discount(double years)
+        Real        discount(double years, bool extrapolate)
+        Real        discount(_QLDate dfdate, bool extrapolate)
 
-
-# Specific Curve types
-cdef extern from 'bg/curves/usdliborcurve.hpp' namespace 'bondgeek':
-        
-    cdef cppclass USDLiborCurve(CurveBase):
-        USDLiborCurve() except +
-        USDLiborCurve(string tenor, Frequency frequency) except +
         

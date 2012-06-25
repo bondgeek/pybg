@@ -15,6 +15,7 @@ extension_paths  = [
  ('pybg.curves', ['pybg/curves.pyx', 
                   'bg/curvebase.cpp',
                   'bg/curves/ratehelpercurve.cpp']),
+ ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),
