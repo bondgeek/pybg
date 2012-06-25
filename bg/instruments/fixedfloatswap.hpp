@@ -1,9 +1,9 @@
 /*
- *  fxflswap.h
+ *  fixedfloatswap.h
  *  bondgeek
  *
  *  Created by Bart Mosley on 5/18/12.
- *  Copyright 2012 __MyCompanyName__. All rights reserved.
+ *  Copyright 2012 BG Research LLC. All rights reserved.
  *
  */
 #ifndef FIXEDFLOATSWAP_H
@@ -40,23 +40,23 @@ namespace bondgeek {
 		
 		RelinkableHandle<YieldTermStructure> _discountingTermStructure;        
 	public:
-		FixedFloatSwap(const Date &settle, 
-			  const Date &maturity, 
-			  const Rate &fixedRate, 
-			  const boost::shared_ptr< IborIndex > &iborIndex,
-			  const Type &payerType=VanillaSwap::Payer,
-			  const Spread &floating_spread=0.0,
-			  const Real &notional=1000000.0,
-			  // Fixed Leg
-			  const Frequency fixedLegFrequency = Semiannual,
-			  const DayCounter fixedLegDayCounter = Thirty360(Thirty360::European),
-			  const BusinessDayConvention fixedLegConvention = ModifiedFollowing,
-			  // floating leg 
-			  const Frequency floatingLegFrequency = Quarterly,
-			  const DayCounter floatingLegDayCounter = Actual360(),
-			  const BusinessDayConvention floatingLegConvention = ModifiedFollowing,
-			  const Calendar calendar = TARGET()
-			  );
+		FixedFloatSwap(Date settle, 
+                       Date maturity, 
+                       Rate fixedRate, 
+                       boost::shared_ptr< IborIndex > &iborIndex,
+                       const Type &payerType=VanillaSwap::Payer,
+                       const Spread &floating_spread=0.0,
+                       const Real &notional=1000000.0,
+                       // Fixed Leg
+                       const Frequency fixedLegFrequency = Semiannual,
+                       const DayCounter fixedLegDayCounter = Thirty360(Thirty360::European),
+                       const BusinessDayConvention fixedLegConvention = ModifiedFollowing,
+                       // floating leg 
+                       const Frequency floatingLegFrequency = Quarterly,
+                       const DayCounter floatingLegDayCounter = Actual360(),
+                       const BusinessDayConvention floatingLegConvention = ModifiedFollowing,
+                       const Calendar calendar = TARGET()
+                       );
 		
 		virtual void setEngine(CurveBase &crv) ;
 		virtual void setEngine(CurveBase &crv, 

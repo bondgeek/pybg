@@ -32,7 +32,28 @@ extension_paths  = [
  ('pybg.quantlib.time.calendars.united_kingdom', ['pybg/quantlib/time/calendars/united_kingdom.pyx']),
  ('pybg.quantlib.time.calendars.united_states', ['pybg/quantlib/time/calendars/united_states.pyx']),
  ('pybg.quantlib.time.daycounters.actual_actual', ['pybg/quantlib/time/daycounters/actual_actual.pyx']),
- ('pybg.quantlib.time.daycounters.thirty360', ['pybg/quantlib/time/daycounters/thirty360.pyx'])
+ ('pybg.quantlib.time.daycounters.thirty360', ['pybg/quantlib/time/daycounters/thirty360.pyx']),
+ 
+ ('pybg.quantlib.index', ['pybg/quantlib/index.pyx']),
+ ('pybg.quantlib.indexes.euribor', ['pybg/quantlib/indexes/euribor.pyx']),
+ ('pybg.quantlib.indexes.ibor_index', ['pybg/quantlib/indexes/ibor_index.pyx']),
+ ('pybg.quantlib.indexes.interest_rate_index', [
+            'pybg/quantlib/indexes/interest_rate_index.pyx']),
+ ('pybg.quantlib.indexes.libor', ['pybg/quantlib/indexes/libor.pyx']),
+ 
+ ('pybg.quantlib.termstructures.volatility.equityfx.black_vol_term_structure', [
+            'pybg/quantlib/termstructures/volatility/equityfx/black_vol_term_structure.pyx'
+            ]),
+ ('pybg.quantlib.termstructures.yields.flat_forward', [
+            'pybg/quantlib/termstructures/yields/flat_forward.pyx'
+            ]),
+ ('pybg.quantlib.termstructures.yields.piecewise_yield_curve', [
+            'pybg/quantlib/termstructures/yields/piecewise_yield_curve.pyx',
+            'pybg/quantlib/termstructures/yields/_piecewise_support_code.cpp'
+            ]),
+ ('pybg.quantlib.termstructures.yields.yield_term_structure', ['pybg/quantlib/termstructures/yields/yield_term_structure.pyx']),
+ ('pybg.quantlib.termstructures.yields.zero_curve', ['pybg/quantlib/termstructures/yields/zero_curve.pyx']),
+ ('pybg.quantlib.termstructures.yields.rate_helpers', ['pybg/quantlib/termstructures/yields/rate_helpers.pyx'])
 
  ]
  
