@@ -27,6 +27,7 @@ struct SwapTests {
 	Date todaysDate;
 	RateHelperCurve acurve;
     RateHelperCurve *bcurve;
+    RateHelperCurve *ccurve;
 	
 	SwapTests() : 
 	calendar(TARGET()), 
@@ -49,7 +50,14 @@ struct SwapTests {
         bcurve->update(todaysDate, 
                        depotenors, depospots, 6,
                        swaptenors, swapspots, 5);
-                                 
+        
+        ccurve = new RateHelperCurve(USDLiborCurve("3M"));
+        ccurve->update(Date(21, January, 2012), 
+                       depotenors, depospots, 6,
+                       swaptenors, swapspots, 5);
+        
+        
+        Settings::instance().evaluationDate() = todaysDate;
 		
 	}
 };
@@ -71,6 +79,22 @@ BOOST_AUTO_TEST_CASE( curve_values )
     BOOST_CHECK(  acurve.tenorquote("10Y") ==  0.05165 );
     BOOST_CHECK(  bcurve->tenorquote("10Y") == 0.05165 );
     
+}
+
+BOOST_AUTO_TEST_CASE( curve_different_date )
+{	
+    Date today0 = Settings::instance().evaluationDate();
+    
+    BOOST_TEST_MESSAGE("\nCheck under different date:" );
+    Settings::instance().evaluationDate() = ccurve->curvedate();
+    BOOST_TEST_MESSAGE(">>date: " << Settings::instance().evaluationDate() );
+	
+    BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << ccurve->discount(10.0) );
+    BOOST_CHECK(  ccurve->tenorquote("10Y") ==  0.05165 );
+    
+    
+    Settings::instance().evaluationDate() = today0;
+    BOOST_CHECK( Settings::instance().evaluationDate() == todaysDate );
 }
 
 BOOST_AUTO_TEST_CASE( swap_value )

@@ -10,6 +10,7 @@ class CurvesTestCase(unittest.TestCase):
 
     def test_ratehelpercurve(self):
         
+        # 1/21/2012 is a weekend, should be adjusted to 23rd
         evaldate = date(2012, 1, 21)
         
         depos = dict([(str(n)+"M", .05) for n in [1, 3, 6, 9, 12]])
@@ -17,8 +18,21 @@ class CurvesTestCase(unittest.TestCase):
         
         rh = curves.RateHelperCurve("3M")
         
-        rh.update(evaldate, depos, swaps)
+        rh.update(depos, swaps, evaldate)
 
         self.assertTrue(
-            rh.settlementDate == date(2012, 1, 24)
+            rh.settlementDate == date(2012, 1, 25)
         )
+
+        self.assertTrue(
+            rh.tenorquote("10Y") == .05
+        )
+        
+        self.assertTrue(
+            rh.discount(0.0) == 1.0
+        )    
+        
+        
+        self.assertTrue(
+            rh.discount(10.0) <= rh.discount(5.0)
+        )    

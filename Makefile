@@ -12,3 +12,6 @@ build_ext:
 test:
 	nosetests -v pybg/tests
 	
+test0:
+	nosetests -v pybg/tests/test_curves.py
+	

@@ -92,14 +92,15 @@ namespace bondgeek {
         
         // inspectors
         Calendar						calendar() { return _calendar; }
+        Date                            curvedate(void) {return _todaysDate;}
         Integer							fixingDays() { return _fixingDays;}
         DayCounter						depositDayCounter() { return _depositDayCounter; }
         Frequency						fixedLegFrequency() { return _swFixedLegFrequency; }
         BusinessDayConvention			fixedLegConvention() { return _swFixedLegConvention; }
         DayCounter						fixedLegDayCounter() { return _swFixedLegDayCounter; }
         DayCounter						termStructureDayCounter() { return _termStructureDayCounter; }
-		Date                            referenceDate() { return discountingTermStructure().currentLink()->referenceDate(); }
-        Date                            maxDate()  { return discountingTermStructure().currentLink()->maxDate(); }
+		Date                            referenceDate() { return this->discountingTermStructure().currentLink()->referenceDate(); }
+        Date                            maxDate()  { return this->discountingTermStructure().currentLink()->maxDate(); }
         
         boost::shared_ptr<IborIndex>	floatingLegIndex() { return _swFloatingLegIndex; }
         
@@ -110,7 +111,7 @@ namespace bondgeek {
 		void build(void) { build_termstructure(); }
 		virtual void build_termstructure(void) {}    
 		
-        // inspectors for Term Structures
+        // Inspectors for Term Structures
 		boost::shared_ptr<YieldTermStructure>	yieldTermStructurePtr() const { return _yieldTermStructure;}
 		RelinkableHandle<YieldTermStructure>	discountingTermStructure() const { return _discountingTermStructure; }
 		RelinkableHandle<YieldTermStructure>	forecastingTermStructure() const { return _forecastingTermStructure; }
@@ -118,11 +119,11 @@ namespace bondgeek {
 																		 Compounding comp = Continuous,
 																		 Frequency freq = NoFrequency,
 																		 const DayCounter& dc = DayCounter()
-                                                                         );        
-		
-        Real discount(double years) { return discountingTermStructure().currentLink()->discount(years); }
-        
-		
+                                                                         ); 
+        // values from term structure
+        Real discount(double years, bool extrapolate=false); 
+        Real discount(const Date &d, bool extrapolate=false);
+        		
 	};
     
 	// Price Engines

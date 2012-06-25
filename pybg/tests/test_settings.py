@@ -1,7 +1,7 @@
 import unittest
 
 from pybg.quantlib.time.api import (
-    Date, Days, August, Period, Jul, Annual, today, Years, TARGET,
+    Date, Days, August, January, Period, Jul, Annual, today, Years, TARGET,
     Unadjusted, Schedule, ModifiedFollowing, Backward, ActualActual, ISMA,
     Following
 )
@@ -16,7 +16,7 @@ class SettingsTestCase(unittest.TestCase):
 
         settings = Settings()
 
-        ql_date_today = today()
+        ql_date_today = Date(12, January, 2012)
 
         evaluation_date = pydate_from_qldate(ql_date_today)
         
@@ -33,10 +33,10 @@ class SettingsTestCase(unittest.TestCase):
 
     def test_settings_instance_method(self):
 
-        Settings.instance().evaluation_date = date.today()
+        Settings.instance().evaluation_date = date(2012, 6, 21)
 
         self.assertEquals(
-                date.today(),
+                date(2012, 6, 21),
                 Settings.instance().evaluation_date
         )
         
@@ -55,8 +55,8 @@ class SettingsTestCase(unittest.TestCase):
         
         set_eval_date()
         
-        self.assertEquals(
-            date.today(),
-            get_eval_date()
+        #if you run on the weekend, date will roll forward
+        self.assertTrue(
+            get_eval_date() >= date.today()
             )
         

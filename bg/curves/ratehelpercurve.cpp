@@ -124,12 +124,6 @@ namespace bondgeek
 		
 		_yieldTermStructure = ts;
 	}
-
-	const Real &RateHelperCurve::tenorquote(string key) 
-	{
-        const Real &q = _quotes.count(key) > 0 ? _quotes[key]->value() : 0.0;
-		return q;
-	}
     
     void RateHelperCurve::update(Date todaysDate,
                                  std::string depotenors[],
@@ -167,5 +161,21 @@ namespace bondgeek
         this->build(todaysDate, fixingDays);
         
     }
-	
+    
+    void RateHelperCurve::update(CurveMap depocurve,
+                                 CurveMap swapcurve) 
+    {        
+        this->add_depos(depocurve);
+        this->add_swaps(swapcurve);
+        
+        this->build();
+        
+    }
+
+    // Inspectors
+    Real RateHelperCurve::tenorquote(string key) 
+	{
+        return this->_quotes.count(key) > 0 ? this->_quotes[key]->value() : 0.0;
+	}
+    
 }

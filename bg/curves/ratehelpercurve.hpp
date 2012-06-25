@@ -51,15 +51,20 @@ namespace bondgeek {
                     int swapcount,
                     int fixingDays = -1
                     );        
+
         void update(Date todaysDate,
                     CurveMap depocurve,
                     CurveMap swapcurve,
                     int fixingDays = -1
                     );
         
+        void update(CurveMap depocurve,
+                    CurveMap swapcurve
+                    );
+        
         // Inspectors
         Date settlementDate() { return _settlementDate; }
-		const Real &tenorquote(string key);
+        Real tenorquote(string key);
 
 	};
 

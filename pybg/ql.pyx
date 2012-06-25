@@ -1,6 +1,8 @@
 # distutils: language = c++
 # distutils: libraries = QuantLib
 
+import datetime  
+
 from cython.operator cimport dereference as deref
 
 from libcpp cimport bool as cbool
@@ -8,8 +10,6 @@ from libcpp.string cimport string
 
 cimport pybg.quantlib.time._date as __qldate
 cimport pybg.quantlib.time.date as qldate
-
-import datetime  
 
 cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     _qldate.Date get_evaluation_date()
@@ -54,6 +54,16 @@ cpdef object pydate_from_qldate(qldate.Date qdate):
     cdef int y = qdate.year
     
     return datetime.date(y, m, d)
+
+cdef _qldate.Date _qldate_from_pydate(object pydate):
+    cdef qldate.Date qdate_ref = qldate.Date.from_datetime(pydate)
+    cdef _qldate.Date* date_ref = <_qldate.Date*>qdate_ref._thisptr.get()
+    return deref(date_ref)
+    
+
+cpdef qldate.Date qldate_from_pydate(object pydate):
+    cdef qldate.Date qdate_ref = qldate.Date.from_datetime(pydate)
+    return qdate_ref
     
 # Global Settings
 #    Using datetime objects for interface with the real world
@@ -76,10 +86,12 @@ cdef class Settings:
             #       or just leave it the user to transform to a datetime object
             
             #cdef _qldate.Date* date_ref = <_qldate.Date*>evaluation_date._thisptr.get()
-            cdef qldate.Date qdate_ref = qldate.Date.from_datetime(evaluation_date)
-            cdef _qldate.Date* date_ref = <_qldate.Date*>qdate_ref._thisptr.get()
-            set_evaluation_date(deref(date_ref))
-
+            #cdef qldate.Date qdate_ref = qldate.Date.from_datetime(evaluation_date)
+            #cdef _qldate.Date* date_ref = <_qldate.Date*>qdate_ref._thisptr.get()
+            #set_evaluation_date(deref(date_ref))
+            cdef _qldate.Date date_ref = _qldate_from_pydate(evaluation_date)
+            set_evaluation_date(date_ref)
+            
     property version:
         """Returns the QuantLib C++ version (QL_VERSION) used by this wrapper.
         

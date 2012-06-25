@@ -77,17 +77,24 @@ namespace bondgeek {
 	
 	void set_evaluation_date(Date& cob_date) 
 	{
+        Calendar calendar = TARGET();
+        
+        // must be a business day
+        cob_date = calendar.adjust(cob_date);
+        
         Settings::instance().evaluationDate() = cob_date;
     }
-	
+    
 	void set_evaluation_date(int cob_date) 
 	{
-		Settings::instance().evaluationDate() = QDate(cob_date);
+        Date qdate_ref = QDate(cob_date);
+        set_evaluation_date( qdate_ref );
 	}
-	
-	void set_evaluation_date(string &cob_date) 
+
+    void set_evaluation_date(string &cob_date) 
 	{
-		Settings::instance().evaluationDate() = QDate(cob_date);
+        Date qdate_ref = QDate(cob_date);
+        set_evaluation_date( qdate_ref );
 	}
     
 }
