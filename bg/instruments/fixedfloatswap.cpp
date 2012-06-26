@@ -11,22 +11,24 @@
 
 namespace bondgeek {
 	
-	FixedFloatSwap::FixedFloatSwap(const Date &settle,  
-								   const Date &maturity, 
-								   const Rate &fixedRate, 
-								   const boost::shared_ptr< IborIndex > &iborIndex,
-								   const Type &payerType,
-								   const Spread &floating_spread,
-								   const Real &notional,
+	FixedFloatSwap::FixedFloatSwap(Date settle,  
+								   Date maturity, 
+								   Rate fixedRate, 
+								   boost::shared_ptr< IborIndex > iborIndex,
+								   SwapPayType payerType,
+								   Spread floating_spread,
+								   Real notional,
+                                   
 								   // Fixed Leg
-								   const Frequency fixedLegFrequency,
-								   const DayCounter fixedLegDayCounter,
-								   const BusinessDayConvention fixedLegConvention,
+								   Frequency fixedLegFrequency,
+								   DayCounter fixedLegDayCounter,
+								   BusinessDayConvention fixedLegConvention,
+                                   
 								   // floating leg 
-								   const Frequency floatingLegFrequency,
-								   const DayCounter floatingLegDayCounter,
-								   const BusinessDayConvention floatingLegConvention,
-								   const Calendar calendar
+								   Frequency floatingLegFrequency,
+								   DayCounter floatingLegDayCounter,
+								   BusinessDayConvention floatingLegConvention,
+								   Calendar calendar
 								   ) : 
 	_settlementDate(settle),
 	_maturity(maturity),
@@ -41,7 +43,7 @@ namespace bondgeek {
 	_floatingLegDayCounter(floatingLegDayCounter),
 	_floatingLegConvention(floatingLegConvention),
 	_calendar(calendar),
-	VanillaSwap(payerType, 
+	VanillaSwap(paytype(payerType), 
 				notional,
 				Schedule(settle, 
 						 maturity,
@@ -66,6 +68,21 @@ namespace bondgeek {
 				floatingLegDayCounter) 
     {}
 	
+    VanillaSwap::Type FixedFloatSwap::paytype(SwapPayType paytype) 
+    {
+        switch (paytype) {
+            case FixedPayer:
+                return VanillaSwap::Payer;
+                
+            case FixedReceiver:
+                return VanillaSwap::Receiver;
+                
+            default:
+                return VanillaSwap::Payer;
+                
+        }
+    }
+    
 	void FixedFloatSwap::setEngine(CurveBase &crv)  
 	{
 		boost::shared_ptr<PricingEngine> swapEngine = createPriceEngine<DiscountingSwapEngine>(

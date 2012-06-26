@@ -39,14 +39,14 @@ namespace bondgeek {
 		
 	public:
         SwapType(// Fixed Leg
-				  const Frequency fixedLegFrequency = Semiannual,
-				  const DayCounter fixedLegDayCounter = Thirty360(Thirty360::European),
-				  const BusinessDayConvention fixedLegConvention = ModifiedFollowing,
+				  Frequency fixedLegFrequency = Semiannual,
+				  DayCounter fixedLegDayCounter = Thirty360(Thirty360::European),
+				  BusinessDayConvention fixedLegConvention = ModifiedFollowing,
 				  // floating leg 
-				  const Frequency floatingLegFrequency = Quarterly,
-				  const DayCounter floatingLegDayCounter = Actual360(),
-				  const BusinessDayConvention floatingLegConvention = ModifiedFollowing,
-				  const Calendar calendar = TARGET()
+				  Frequency floatingLegFrequency = Quarterly,
+				  DayCounter floatingLegDayCounter = Actual360(),
+				  BusinessDayConvention floatingLegConvention = ModifiedFollowing,
+				  Calendar calendar = TARGET()
 				  ) :
         _fixedLegFrequency(fixedLegFrequency),
         _fixedLegDayCounter(fixedLegDayCounter),
@@ -63,12 +63,12 @@ namespace bondgeek {
 			_indexBase.linkTo(yieldTermStructurePtr);
 		}
 		
-		boost::shared_ptr<FixedFloatSwap> create(const Date &settle, 
-												 const Date &maturity, 
-												 const Rate &fixedRate,
-												 const VanillaSwap::Type &payerType = VanillaSwap::Payer,
-												 const Spread &floating_spread = 0.0,
-												 const Real &notional = 1000000.0
+		boost::shared_ptr<FixedFloatSwap> create(Date settle, 
+												 Date maturity, 
+												 Rate fixedRate,
+												 SwapPayType payerType = FixedPayer,
+												 Spread floating_spread = 0.0,
+												 Real notional = 1000000.0
 												 )
 		{
 			boost::shared_ptr<IborIndex> iborIdx = _indexBase();

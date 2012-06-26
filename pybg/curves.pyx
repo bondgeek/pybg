@@ -12,9 +12,6 @@ cimport _curves
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
 
-from pybg.quantlib.time._period cimport Frequency as _Frequency
-from pybg.quantlib.time._calendar cimport Calendar as _Calendar
-
 from pybg.quantlib.handle cimport shared_ptr
 
 from pybg.quantlib.time.api import *
