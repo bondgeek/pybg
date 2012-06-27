@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE( swap_value )
 																  fixedRate);
 	
 	qswp2->setPricingEngine(swapEngine);
-	
+    
 	BOOST_TEST_MESSAGE("Test equivalence of forecastingTermStructure and discountingTermStructure");
 	Real d1 = acurve.discountingTermStructure().currentLink()->discount(10.0);
 	Real d2 = acurve.forecastingTermStructure().currentLink()->discount(10.0);

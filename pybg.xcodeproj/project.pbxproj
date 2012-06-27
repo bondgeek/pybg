@@ -38,9 +38,6 @@
 		CB378E5B1594C6FD00C91A4E /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
 		CB378E5C1594C6FD00C91A4E /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
 		CB378E5F1594C73A00C91A4E /* callbond_example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D025F1594B7470002568B /* callbond_example.cpp */; };
-		CC9CE70815998616000D7F5E /* indexbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC9CE70715998616000D7F5E /* indexbase.cpp */; };
-		CC9CE70915998616000D7F5E /* indexbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC9CE70715998616000D7F5E /* indexbase.cpp */; };
-		CC9CE70A15998616000D7F5E /* indexbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC9CE70715998616000D7F5E /* indexbase.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,7 +155,7 @@
 		CB73B3F115990FC9008F60C4 /* _piecewise_support_code.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = _piecewise_support_code.cpp; sourceTree = "<group>"; };
 		CB73B3F215990FC9008F60C4 /* _piecewise_support_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = _piecewise_support_code.hpp; sourceTree = "<group>"; };
 		CB73B3F315990FC9008F60C4 /* _piecewise_yield_curve.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _piecewise_yield_curve.pxd; sourceTree = "<group>"; };
-		CB73B3F415990FC9008F60C4 /* _rate_helpers.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _rate_helpers.pxd; sourceTree = "<group>"; };
+		CB73B3F415990FC9008F60C4 /* _rate_helpers.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _rate_helpers.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B3F515990FC9008F60C4 /* _zero_curve.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _zero_curve.pxd; sourceTree = "<group>"; };
 		CB73B3F615990FC9008F60C4 /* api.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = api.py; sourceTree = "<group>"; };
 		CB73B3F715990FC9008F60C4 /* flat_forward.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flat_forward.pxd; sourceTree = "<group>"; };
@@ -189,10 +186,12 @@
 		CB73B46615991522008F60C4 /* test_piecewise_yield_curve.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_piecewise_yield_curve.py; sourceTree = "<group>"; };
 		CB73B46715991522008F60C4 /* test_rate_helpers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_rate_helpers.py; sourceTree = "<group>"; };
 		CB73B4741599197C008F60C4 /* _fixedfloatswap.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _fixedfloatswap.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CBC8CA6E1599F0F80042C992 /* _indexbase.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _indexbase.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CBC8CA731599F1470042C992 /* indexbase.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = indexbase.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CBC8CA761599F15A0042C992 /* indexbase.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = indexbase.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC0BCDC915964E5400DBA0DC /* test_curves.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_curves.py; sourceTree = "<group>"; };
 		CC9CE66D15997086000D7F5E /* fixedfloatswap.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fixedfloatswap.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC9CE66E15997092000D7F5E /* fixedfloatswap.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fixedfloatswap.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
-		CC9CE70715998616000D7F5E /* indexbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = indexbase.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,7 +284,6 @@
 				CB4D020A1594B7470002568B /* date_utilities.cpp */,
 				CB4D020B1594B7470002568B /* date_utilities.hpp */,
 				CB4D020D1594B7470002568B /* indexbase.hpp */,
-				CC9CE70715998616000D7F5E /* indexbase.cpp */,
 				CB4D02021594B7470002568B /* bondtype.hpp */,
 				CB4D02181594B7470002568B /* swaptype.hpp */,
 				CB4D020E1594B7470002568B /* instruments */,
@@ -348,6 +346,9 @@
 				CB4D026D1594B8350002568B /* _curves.pxd */,
 				CB4D026E1594B8350002568B /* curves.pxd */,
 				CB4D026F1594B8350002568B /* curves.pyx */,
+				CBC8CA6E1599F0F80042C992 /* _indexbase.pxd */,
+				CBC8CA731599F1470042C992 /* indexbase.pxd */,
+				CBC8CA761599F15A0042C992 /* indexbase.pyx */,
 				CB73B4741599197C008F60C4 /* _fixedfloatswap.pxd */,
 				CC9CE66D15997086000D7F5E /* fixedfloatswap.pxd */,
 				CC9CE66E15997092000D7F5E /* fixedfloatswap.pyx */,
@@ -644,7 +645,6 @@
 				CB378E1B1594C28200C91A4E /* curvefactory.cpp in Sources */,
 				CB378E1C1594C28200C91A4E /* ratehelpercurve.cpp in Sources */,
 				CB378E1D1594C28200C91A4E /* date_utilities.cpp in Sources */,
-				CC9CE70915998616000D7F5E /* indexbase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,7 +660,6 @@
 				CB378E5A1594C6FD00C91A4E /* curvefactory.cpp in Sources */,
 				CB378E5B1594C6FD00C91A4E /* ratehelpercurve.cpp in Sources */,
 				CB378E5C1594C6FD00C91A4E /* date_utilities.cpp in Sources */,
-				CC9CE70815998616000D7F5E /* indexbase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,7 +675,6 @@
 				CB378D861594BC5700C91A4E /* ratehelpercurve.cpp in Sources */,
 				CB378D871594BC5700C91A4E /* date_utilities.cpp in Sources */,
 				CB378D821594BC0E00C91A4E /* bg_example.cpp in Sources */,
-				CC9CE70A15998616000D7F5E /* indexbase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,8 @@
 
 #include <ql/quantlib.hpp>
 
-#include <bg/repository.hpp>
+// #include <bg/repository.hpp>
+#include <bg/date_utilities.hpp>
 
 #include <map>
 #include <string>
@@ -37,46 +38,32 @@ namespace bondgeek {
 		IndexBase(Frequency freq) {
 			_index = boost::shared_ptr<IborIndex>( new T(Period(freq), _indexTermStructure) );
 		}
+        IndexBase(string tenor) {
+            Period tnrperiod = Tenor(tenor);
+            _index = boost::shared_ptr<IborIndex>( new T(tnrperiod, _indexTermStructure) );
+        }
         
 		void linkTo(const boost::shared_ptr<YieldTermStructure> &yieldTermStructurePtr) {
 			_indexTermStructure.linkTo(yieldTermStructurePtr);
 		}
         
 		const boost::shared_ptr<IborIndex> &operator()(void) { return _index; }
-		const boost::shared_ptr<IborIndex> &operator()(const boost::shared_ptr<YieldTermStructure> &yieldTermStructurePtr) 
+		const boost::shared_ptr<IborIndex> &operator()(boost::shared_ptr<YieldTermStructure> yieldTermStructurePtr) 
 		{ 
 			this->linkTo(yieldTermStructurePtr);
 			return _index; 
 		}
         
+        // Inspectors
+        BusinessDayConvention businessDayConvention(void) { return _index->businessDayConvention(); }
+        bool endOfMonth(void) { return _index->endOfMonth(); }
+        
 	};
+    
     
 	typedef IndexBase<USDLibor> USDLiborBase;
 	typedef IndexBase<Euribor> EuriborBase;
     
-    
-	class IborIndexBase {
-	protected:
-		RelinkableHandle<YieldTermStructure>		_indexTermStructure;
-		boost::shared_ptr<IborIndex>				_index;
-		
-	public:
-		IborIndexBase();
-		IborIndexBase(Integer n, TimeUnit units);        
-		IborIndexBase(Frequency freq);
-		
-		void linkTo(const boost::shared_ptr<YieldTermStructure> &yieldTermStructurePtr);		
-		const boost::shared_ptr<IborIndex> &operator()(void);
-		
-	};
-	
-    class USDLiborIndex : public IborIndexBase {
-    protected:
-    public:
-        USDLiborIndex();
-        USDLiborIndex(Integer n, TimeUnit units);
-        USDLiborIndex(Frequency freq);
-    };
 }
 
 #endif

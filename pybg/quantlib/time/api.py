@@ -15,7 +15,8 @@ from .calendars.null_calendar import NullCalendar
 from .daycounter import Thirty360, Actual360, Actual365Fixed
 from .daycounters.actual_actual import ActualActual, ISMA, ISDA, Bond
 from .date import (
-    Date, Months, Period, today, Years, Days, Annual, Semiannual, Weeks,
+    Date, Months, Period, today, Years, Days, Weeks,
+    Annual, Semiannual, Quarterly, Monthly, Weekly, Daily,
     January, February, March, April, May, June, July, August, September, November, December,
     Jan, Feb, Mar, Apr, Jun, Jul, Aug, Sep, Oct, Nov, Dec
 )

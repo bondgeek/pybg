@@ -12,10 +12,11 @@ from cython.operator cimport dereference as deref
 
 from pybg.quantlib.handle cimport shared_ptr
 
+cimport pybg.quantlib.indexes._libor as _libor
 from pybg.quantlib.time._period cimport Frequency as _Frequency
 from pybg.quantlib.time._calendar cimport Calendar as _Calendar
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
-from pybg.quantlib.time._daycounter cimport DayCounter as _DayCounter
+from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 
 from pybg.quantlib.time.daycounter cimport DayCounter
 from pybg.quantlib.time.daycounters.thirty360 import (
@@ -23,14 +24,7 @@ from pybg.quantlib.time.daycounters.thirty360 import (
 )
 from pybg.quantlib.time.calendar import Following, ModifiedFollowing, Unadjusted
 
-from pybg.quantlib.indexes.ibor_index import IborIndex
-
 from pybg.quantlib.time.api import *
-
-from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
-from pybg.quantlib.time.date cimport Date, date_from_qldate
-
-from datetime import date 
 
 
 cdef public enum SwapPayType:
@@ -38,7 +32,7 @@ cdef public enum SwapPayType:
     FixedReceiver = _fixedfloatswap.FixedReceiver
     
 
-cdef class FixedFloatSwap:
+cdef class USDLiborSwap:
     def __cinit__(self):
         self._thisptr = NULL
 
@@ -47,10 +41,10 @@ cdef class FixedFloatSwap:
             del self._thisptr
     
     def __init__(self,
+            tenor,
             object settle, 
             object maturity, 
             Rate fixedRate, 
-            shared_ptr[IborIndex] iborIndex,
             SwapPayType payerType,
             Spread floating_spread=0.0,
             Real notional=1000000.0,
@@ -60,30 +54,31 @@ cdef class FixedFloatSwap:
             fixedLegConvention=ModifiedFollowing,
             # floating leg 
             floatingLegFrequency=Quarterly,
-            DayCounter floatingLegDayCounter=Actual360,
-            floatingLegConvention=ModifiedFollowing,
-            Calendar calendar=TARGET()
+            DayCounter floatingLegDayCounter=Actual360(),
+            floatingLegConvention=ModifiedFollowing
             ):
-        """Vanilla Swap wrapper
+        """Enter tenor as '3M'
         
         """
+
+        cdef _fixedfloatswap.SwapType[ _libor.USDLibor] *swptype = \
+            new _fixedfloatswap.SwapType[ _libor.USDLibor](
+                <_Frequency>fixedLegFrequency,
+                deref(fixedLegDayCounter._thisptr),
+                <_BusinessDayConvention>fixedLegConvention,
+                <_Frequency>floatingLegFrequency,
+                deref(floatingLegDayCounter._thisptr),
+                <_BusinessDayConvention>floatingLegConvention,
+                _Calendar.TARGET()
+                )
         
         self._thisptr = new shared_ptr[_fixedfloatswap.FixedFloatSwap]( \
-            new _fixedfloatswap.FixedFloatSwap(
+            deref(swptype).create(
                 _qldate_from_pydate(settle),
                 _qldate_from_pydate(maturity),
                 fixedRate,
-                iborIndex.get()._thisptr,
                 payerType,
                 floating_spread,
-                notional,
-                <_Frequency>fixedLegFrequency,
-                fixedLegDayCounter._thisptr,
-                <_BusinessDayConvention>fixedLegConvention,
-                <_Frequency>floatingLegFrequency,
-                floatingLegDayCounter._thisptr,
-                <_BusinessDayConvention>floatingLegConvention,
-                TARGET()._thisptr
+                notional
                 )
             )
-        

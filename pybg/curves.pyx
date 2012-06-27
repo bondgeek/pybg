@@ -68,7 +68,6 @@ cdef class RateHelperCurve:
                 new _curves.RateHelperCurve()
                 )
 
-
     def update(self, depos, swaps, evaldate=None, fixingdays=-1):
 
         cdef _curves.CurveMap   depocurve

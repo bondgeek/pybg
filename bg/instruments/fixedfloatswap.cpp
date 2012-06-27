@@ -67,7 +67,7 @@ namespace bondgeek {
 				floating_spread,
 				floatingLegDayCounter) 
     {}
-	
+    
     VanillaSwap::Type FixedFloatSwap::paytype(SwapPayType paytype) 
     {
         switch (paytype) {

@@ -11,6 +11,7 @@
 
 #include <ql/quantlib.hpp>
 #include <bg/instruments/bginstrument.hpp>
+#include <bg/indexbase.hpp>
 
 namespace bondgeek {
 
@@ -63,7 +64,6 @@ namespace bondgeek {
                        );
 
         VanillaSwap::Type paytype(SwapPayType paytype);
-      
         
 		virtual void setEngine(CurveBase &crv) ;
 		virtual void setEngine(CurveBase &crv, 

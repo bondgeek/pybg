@@ -85,10 +85,6 @@ cdef class Settings:
             #       i.e., datetime.date, ccyymmdd int, excel int, string...
             #       or just leave it the user to transform to a datetime object
             
-            #cdef _qldate.Date* date_ref = <_qldate.Date*>evaluation_date._thisptr.get()
-            #cdef qldate.Date qdate_ref = qldate.Date.from_datetime(evaluation_date)
-            #cdef _qldate.Date* date_ref = <_qldate.Date*>qdate_ref._thisptr.get()
-            #set_evaluation_date(deref(date_ref))
             cdef _qldate.Date date_ref = _qldate_from_pydate(evaluation_date)
             set_evaluation_date(date_ref)
             
