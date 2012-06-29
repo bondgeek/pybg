@@ -69,6 +69,50 @@ namespace bondgeek {
         return Period();
     }
     
+    // IMM Interfaces
+    bool isIMMdate(Date &date_ref, bool mainCycle) 
+    {
+        return IMM::isIMMdate(date_ref, mainCycle);
+    }
+    
+    bool isIMMcode(std::string &instring, bool mainCycle)
+    {
+        return IMM::isIMMcode(instring, mainCycle);
+    }
+    
+    std::string imm_code(Date &date_ref)
+    {
+        if ( isIMMdate(date_ref) )
+            return IMM::code(date_ref);
+        else {
+            return IMM::code(IMM::nextDate(date_ref));
+        }
+
+    }
+    
+    Date imm_date(std::string immCode, Date ref_date)
+    {
+        if ( isIMMcode(immCode) ) {
+            return IMM::date(immCode, ref_date);
+        }
+        else {
+            return Date();
+        }
+        
+    }
+    
+    Date imm_nextDate(Date &date_ref, bool mainCycle)
+    {
+        return IMM::nextDate(date_ref, mainCycle);
+    }
+    
+    std::string imm_nextCode(std::string immCode, 
+                             Date date_ref, 
+                             bool mainCycle)
+    {
+        return IMM::nextCode(immCode, mainCycle, date_ref);
+    }
+    
     // Settings
     Date get_evaluation_date()
 	{

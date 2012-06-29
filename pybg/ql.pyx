@@ -5,11 +5,11 @@ import datetime
 
 from cython.operator cimport dereference as deref
 
-from libcpp cimport bool as cbool
+from libcpp cimport bool as bool
 from libcpp.string cimport string
 
-cimport pybg.quantlib.time._date as __qldate
-cimport pybg.quantlib.time.date as qldate
+#cimport pybg.quantlib.time._date as __qldate
+#cimport pybg.quantlib.time.date as qldate
 
 cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     _qldate.Date get_evaluation_date()
@@ -21,6 +21,17 @@ cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     _qldate.Date QDate(_qldate.Date& indate)
     _qldate.Date QDate(string indate)
     _qldate.Date QDate(int indate)
+
+    # IMM Interfaces
+    bool            isIMMdate(_qldate.Date date_ref, bool mainCycle)
+    bool            isIMMcode(string instring, bool mainCycle)
+    string          imm_code(_qldate.Date date_ref)
+    _qldate.Date    imm_date(string immCode, _qldate.Date ref_date)
+    _qldate.Date    imm_nextDate(_qldate.Date date_ref, bool mainCycle)
+    string          imm_nextCode(string immCode, 
+                                 _qldate.Date date_ref,
+                                 bool mainCycle)
+
 
 cdef extern from 'ql/version.hpp':
 
@@ -58,6 +69,7 @@ cpdef object pydate_from_qldate(qldate.Date qdate):
 cdef _qldate.Date _qldate_from_pydate(object pydate):
     cdef qldate.Date qdate_ref = qldate.Date.from_datetime(pydate)
     cdef _qldate.Date* date_ref = <_qldate.Date*>qdate_ref._thisptr.get()
+    
     return deref(date_ref)
     
 
@@ -120,4 +132,44 @@ def set_eval_date(eval_date=None):
         print("\nError setting evaluation date: %s" % eval_date)
         Settings().instance().evaluation_date = dt
         print("Defaulting to %s\n" % dt)
+        
+# IMM Inteface
+cdef class IMM:
+        
+    @classmethod
+    def nextDate(cls, date_ref=None):
+        if not date_ref:
+            date_ref = get_eval_date()
+            
+        cdef _qldate.Date qdate = _qldate_from_pydate(date_ref)
+        qdate = imm_nextDate(qdate, 1)
+            
+        return _pydate_from_qldate(qdate)
+    
+    @classmethod
+    def nextCode(cls, tickercode=None, referenceDate=None):
+        
+        cdef _qldate.Date qdate
+        cdef string qticker
+        cdef char* cticker
+        
+        if not referenceDate:
+            referenceDate = get_eval_date()
+        
+        if not tickercode:
+            qdate = _qldate_from_pydate(get_eval_date())
+            qdate = imm_nextDate(qdate, 1)
+            qticker = imm_code(qdate)
+        
+        else:
+            qdate   = _qldate_from_pydate(referenceDate)
+            cticker = tickercode
+            qticker = imm_nextCode(<string>cticker,
+                                   qdate,
+                                   1)
+            
+        return qticker.c_str()
+            
+        
+        
         

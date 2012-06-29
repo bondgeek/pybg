@@ -62,8 +62,18 @@ namespace bondgeek {
     
     // Period, Quote interfaces
     Period Tenor(string);
-	
     
+    // IMM Interfaces
+    bool isIMMdate(Date &date_ref, bool mainCycle=true);
+    bool isIMMcode(std::string &instring, bool mainCycle=true);
+    std::string imm_code(Date &date_ref);
+    Date imm_date(std::string immCode, Date ref_date=Date());
+    Date imm_nextDate(Date &date_ref, bool mainCycle=true);
+    std::string imm_nextCode(std::string immCode, 
+                             Date date_ref=Date(),
+                             bool mainCycle=true
+                             );
+	
     // Settings
     Date get_evaluation_date();
     void set_evaluation_date(Date& cob_date);

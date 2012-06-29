@@ -72,8 +72,8 @@ int main ()
     VanillaSwap::Type swapType = VanillaSwap::Payer;
     
     
-    Date settlementDate = acurve.settlementDate(); 
-    Date maturity = acurve.settlementDate() + lenghtInYears*Years;
+    Date settlementDate = acurve.referenceDate(); 
+    Date maturity = acurve.referenceDate() + lenghtInYears*Years;
     Schedule fixedSchedule(settlementDate, maturity,
                            Period(fixedLegFrequency),
                            calendar, fixedLegConvention,
@@ -166,7 +166,7 @@ int main ()
 						maturity,
 						fixedRate,
 						euribor(acurve.yieldTermStructurePtr()),
-						VanillaSwap::Payer,
+						FixedPayer,
 						0.0,
 						1000000.0,
 						Annual,
@@ -256,5 +256,16 @@ int main ()
     double yld = bond1->yield(prc, bond1->dayCounter(), Compounded, bond1->frequency());
     cout << io::rate(yld) << endl;
 	
+    cout << "\n\nIMM Stuff\n";
+    cout << "settle: " << settlementDate << endl;
+    Date  imm = IMM::nextDate(settlementDate);
+    string immcode = IMM::code(imm);
+    
+    Date imm2 = imm_nextDate(imm);
+    string immcode2 = imm_nextCode(immcode);
+    
+    cout << "date: " << imm << " | code: " << immcode << endl; 
+    cout << "date: " << imm2 << " | code: " << immcode2 << endl; 
+    
 	return 0;
 }
