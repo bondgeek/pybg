@@ -17,6 +17,8 @@ from pybg.quantlib.handle cimport shared_ptr
 from pybg.quantlib.time.api import *
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
+from pybg.ql import get_eval_date, set_eval_date
+
 from datetime import date 
 
 cdef public enum RateHelperType:
@@ -24,6 +26,18 @@ cdef public enum RateHelperType:
     FRA     = _curves.FRA
     FUT     = _curves.FUT
     SWAP    = _curves.SWAP
+
+
+cdef _curves.CurveMap curveMap_from_dict(pycurve):
+    cdef _curves.CurveMap   curve
+        
+    cdef char* tnr
+    cdef Rate value
+    for t, value in pycurve.items():
+        t = t.upper()
+        tnr = t
+        curve[<string>tnr] = value
+    return curve 
 
 
 cdef class CurveBase:
@@ -68,27 +82,33 @@ cdef class RateHelperCurve:
                 new _curves.RateHelperCurve()
                 )
 
-    def update(self, depos, swaps, evaldate=None, fixingdays=-1):
+    def update(self, depos=None, futures=None, swaps=None, evaldate=None, fixingdays=-1):
 
+        MSG_ARGS = "RateHelperCurve.update must have at least one curve"
+        assert any((depos, futures, swaps)), MSG_ARGS
+        
         cdef _curves.CurveMap   depocurve
+        cdef _curves.CurveMap   futcurve
         cdef _curves.CurveMap   swapcurve
         
-        cdef char* tnr
-        cdef Rate value
-        for t, value in depos.items():
-            tnr = t
-            depocurve[<string>tnr] = value
-            
-        for t, value in swaps.items():
-            tnr = t
-            swapcurve[<string>tnr] = value
+        if depos:
+            depocurve = curveMap_from_dict(depos)
+
+        if futures:
+            futcurve = curveMap_from_dict(futures)
+                
+        if swaps:
+            swapcurve = curveMap_from_dict(swaps)
 
         if not evaldate:
             evaldate = date.today()
-
+        
+        set_eval_date(evaldate)
+        evaldate = get_eval_date()
+        
         cdef _qldate.Date date_ref  = _qldate_from_pydate(evaldate)
         
-        self._thisptr.get().update(date_ref, depocurve, swapcurve, fixingdays)
+        self._thisptr.get().update(depocurve, futcurve, swapcurve, date_ref,  fixingdays)
         
         return self.referenceDate
 
@@ -114,6 +134,7 @@ cdef class RateHelperCurve:
     
     # Curve functions
     def tenorquote(self, key):
+        key = key.upper()
         cdef char* tnr = key
         cdef Rate rate = self._thisptr.get().tenorquote(<string>tnr)
         return rate

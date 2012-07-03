@@ -62,6 +62,7 @@ namespace bondgeek {
     
     // Period, Quote interfaces
     Period Tenor(string);
+    int FuturesTenor(string);
     
     // IMM Interfaces
     bool isIMMdate(Date &date_ref, bool mainCycle=true);

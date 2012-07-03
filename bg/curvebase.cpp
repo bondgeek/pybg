@@ -16,12 +16,13 @@ namespace bondgeek
 		if (fixingDays >= 0) 
             _fixingDays = fixingDays;
 		
-        Date date_ref = this->_calendar.adjust(todaysDate);
-		_todaysDate = date_ref;
-		
 		if (_todaysDate == Date()) 
 			_todaysDate = Settings::instance().evaluationDate();
-		
+        else {
+            Date date_ref = this->_calendar.adjust(todaysDate);
+            _todaysDate = date_ref;
+        }
+
 		Settings::instance().evaluationDate() = _todaysDate;
 		
 		build();

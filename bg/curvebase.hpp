@@ -109,6 +109,7 @@ namespace bondgeek {
 		// Setting the date is handled in the base class
 		void build(const Date &todaysDate, const int &fixingDays=-1);
 		void build(void) { build_termstructure(); }
+        
 		virtual void build_termstructure(void) {}    
 		
         // Inspectors for Term Structures

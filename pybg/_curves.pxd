@@ -36,16 +36,14 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
     cdef cppclass RateHelperCurve(CurveBase):
         RateHelperCurve() except +
         RateHelperCurve(CurveBase crvtype) except +
-        
-        void update(_QLDate todaysDate,
-                    CurveMap &depocurve,
+                    
+        void update(CurveMap &depocurve,
+                    CurveMap &futcurve,
                     CurveMap &swapcurve,
+                    _QLDate todaysDate,
                     int fixingDays
                     )
-        void update(CurveMap &depocurve,
-                    CurveMap &swapcurve
-                    )
-                
+                    
         # Inspectors
         _QLDate     curvedate() 
         _QLDate     referenceDate()

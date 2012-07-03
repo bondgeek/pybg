@@ -16,7 +16,8 @@ extension_paths  = [
                   'bg/curvebase.cpp',
                   'bg/curves/ratehelpercurve.cpp']),
  ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx']),
-
+ ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx']),
+ 
  ('pybg.indexbase', ['pybg/indexbase.pyx']),
   
  ('pybg.fixedfloatswap', ['pybg/fixedfloatswap.pyx',

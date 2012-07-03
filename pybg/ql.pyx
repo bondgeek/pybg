@@ -8,9 +8,6 @@ from cython.operator cimport dereference as deref
 from libcpp cimport bool as bool
 from libcpp.string cimport string
 
-#cimport pybg.quantlib.time._date as __qldate
-#cimport pybg.quantlib.time.date as qldate
-
 cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     _qldate.Date get_evaluation_date()
     void set_evaluation_date(_qldate.Date& date)
@@ -135,9 +132,9 @@ def set_eval_date(eval_date=None):
         
 # IMM Inteface
 cdef class IMM:
-        
     @classmethod
     def nextDate(cls, date_ref=None):
+        
         if not date_ref:
             date_ref = get_eval_date()
             
@@ -157,7 +154,7 @@ cdef class IMM:
             referenceDate = get_eval_date()
         
         if not tickercode:
-            qdate = _qldate_from_pydate(get_eval_date())
+            qdate = _qldate_from_pydate(referenceDate)
             qdate = imm_nextDate(qdate, 1)
             qticker = imm_code(qdate)
         
@@ -169,7 +166,55 @@ cdef class IMM:
                                    1)
             
         return qticker.c_str()
+
+    @classmethod 
+    def tenor(cls, ticker):
+        try:
+            n = int( ticker.upper().strip().strip('ED') )
+        
+        except:
+            n = 1
+        
+        return n
             
+    @classmethod
+    def contract_date(cls, ticker='ED1', referenceDate=None):
+        '''Return contract date from generic ticker.
         
+        E.g., IMM.contract_date('ED2') yields ticker for second contract
         
+        '''
+        n = cls.tenor(ticker)
+            
+        tkr_list = [dt for dt in cls.futures_strip_dates(n)]
         
+        return tkr_list[n-1] if tkr_list else None
+        
+
+
+    @classmethod
+    def futures_strip_dates(cls, n=40, referenceDate=None):
+        '''Iterator for generating strip of eurodollar futures dates
+        
+        '''
+        limit = n
+        countr = 0
+
+        while countr < limit:
+            referenceDate = cls.nextDate(referenceDate)
+            yield referenceDate
+            countr += 1
+
+
+    @classmethod
+    def futures_strip(cls, n=40, code=None):
+        '''Iterator for generating strip of eurodollar futures tickers
+        '''
+        limit = n
+        countr = 0
+
+        while countr < limit:
+            code = cls.nextCode(code)
+            yield code
+            countr += 1
+

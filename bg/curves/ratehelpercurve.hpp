@@ -29,16 +29,19 @@ namespace bondgeek {
 		
 		boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr, 
                                                     const Rate &quote,
-                                                    const RHType &rhtype);
+                                                    const RHType &rhtype,
+                                                    int forwardPeriod=0);
 		
 		boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr,
                                                     const boost::shared_ptr<Quote> &_quote, 
-                                                    const RHType &rhtype);
+                                                    const RHType &rhtype,
+                                                    int forwardPeriod=0);
 		
 		void add_ratehelpers(CurveMap, RHType); 
 		
 		void add_depos(CurveMap crv) { add_ratehelpers(crv, DEPO); }
 		void add_swaps(CurveMap crv) { add_ratehelpers(crv, SWAP); }
+        void add_futs(CurveMap crv) { add_ratehelpers(crv, FUT); }
 		
 		virtual void build_termstructure(void);
 		
@@ -52,14 +55,11 @@ namespace bondgeek {
                     int fixingDays = -1
                     );        
 
-        void update(Date todaysDate,
-                    CurveMap depocurve,
-                    CurveMap swapcurve,
+        void update(CurveMap depocurve=CurveMap(),
+                    CurveMap futcurve=CurveMap(),
+                    CurveMap swapcurve=CurveMap(),
+                    Date todaysDate=Date(),
                     int fixingDays = -1
-                    );
-        
-        void update(CurveMap depocurve,
-                    CurveMap swapcurve
                     );
         
         // Inspectors

@@ -32,6 +32,10 @@ int main ()
 	
     cout << "\n\nToday: " << todaysDate << endl;
     
+    
+	string futtenors[] = {"ED1", "ED2", "ED3", "ED4", "ED5", "ED6", "ED7", "ED8"};
+	double futspots[] = {96.2875, 96.7875, 96.9875, 96.6875, 96.4875, 96.3875, 96.2875, 96.0875};
+    
 	string depotenors[] = {"1W", "1M", "3M", "6M", "9M", "1y"};
 	double depospots[] = {.0382, 0.0372, 0.0363, 0.0353, 0.0348, 0.0345};
     string swaptenors[] = {"2y", "3y", "5y", "10Y", "15Y"};
@@ -267,5 +271,32 @@ int main ()
     cout << "date: " << imm << " | code: " << immcode << endl; 
     cout << "date: " << imm2 << " | code: " << immcode2 << endl; 
     
-	return 0;
+    cout << "ED3: " << FuturesTenor("ED3") << endl;
+	
+    CurveMap depocurve;
+    CurveMap futscurve;
+    CurveMap swapcurve;
+    RateHelperCurve rhcurve( EURiborCurve("6M", Annual) );
+    
+    if (futscurve.empty()) {
+        cout << "futscurve empty " << endl;
+    } else {
+        cout << "futscurve not empty: " << endl;
+    }
+
+    
+    for (int i=0; i<2; i++) 
+        depocurve[depotenors[i]] = depospots[i];
+    
+    for (int i=0; i<6; i++) 
+        futscurve[futtenors[i]] = futspots[i];
+    
+    for (int i=0; i<5; i++) 
+        swapcurve[swaptenors[i]] = swapspots[i];
+    
+    rhcurve.update(depocurve, futscurve, swapcurve);
+    
+    cout << "\n10Y: " << io::rate(rhcurve.tenorquote("10Y")) << endl;
+    cout << "discount: " << rhcurve.discount(10.0) << endl;
+    return 0;
 }

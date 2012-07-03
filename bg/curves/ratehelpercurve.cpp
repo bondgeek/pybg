@@ -18,7 +18,7 @@ namespace bondgeek
             case FRA:
                 return out << "FRA";
             case FUT:
-                return out << "Futures";
+                return out << "ED Futures";
             case SWAP:
                 return out << "Swaps";
             default:
@@ -28,18 +28,22 @@ namespace bondgeek
     
 	boost::shared_ptr<RateHelper> RateHelperCurve::newRateHelper(const Period &tnr, 
                                                                  const Rate &quote, 
-                                                                 const RHType &rhtype
+                                                                 const RHType &rhtype,
+                                                                 int forwardPeriod
                                                                  ) 
 	{
 		boost::shared_ptr<Quote> _quote(new SimpleQuote(quote));
-		return newRateHelper(tnr, _quote, rhtype);
+		return newRateHelper(tnr, _quote, rhtype, forwardPeriod);
 	}
 	
 	boost::shared_ptr<RateHelper> RateHelperCurve::newRateHelper(const Period &tnr, 
                                                                  const boost::shared_ptr<Quote> &_quote, 
-                                                                 const RHType &rhtype
+                                                                 const RHType &rhtype,
+                                                                 int forwardPeriod
                                                                  ) 
 	{
+        Date forwardDate = Settings::instance().evaluationDate();
+        
 		switch(rhtype) {
 			case DEPO:
 				return boost::shared_ptr<RateHelper>(new DepositRateHelper(
@@ -49,7 +53,8 @@ namespace bondgeek
 																		   _calendar, 
 																		   ModifiedFollowing,
 																		   true, 
-																		   _depositDayCounter)) ;
+																		   _depositDayCounter)
+                                                     );
 				break;
 			
             case SWAP:
@@ -60,9 +65,26 @@ namespace bondgeek
 																		_swFixedLegFrequency,
 																		_swFixedLegConvention, 
 																		_swFixedLegDayCounter,
-																		_swFloatingLegIndex));
+																		_swFloatingLegIndex)
+                                                     );
 				break;
             
+            case FUT:
+
+                for (int i=0; i<forwardPeriod; i++) 
+                    forwardDate = IMM::nextDate(forwardDate);
+                
+                return boost::shared_ptr<RateHelper>(new FuturesRateHelper(
+																		Handle<Quote>(_quote), 
+																		forwardDate,
+                                                                        tnr.length(),
+																		_calendar, 
+																		ModifiedFollowing,
+                                                                        true,
+                                                                        _depositDayCounter)
+                                                     );
+                break;
+
 			default:
 				break;
 		}
@@ -74,14 +96,25 @@ namespace bondgeek
 		CurveMap::iterator it;
 		boost::shared_ptr<SimpleQuote> quote;
 		Period tnr;
+        int forwardPeriod = 0;
 
 		for ( it=crv.begin() ; it != crv.end(); it++ ){
-			tnr = Tenor((*it).first);
+			switch (type) {
+                case FUT:
+                    tnr = Tenor("3M");
+                    forwardPeriod = FuturesTenor((*it).first);
+                    break;
+                    
+                default:
+                    tnr = Tenor((*it).first);
+                    break;
+            }
+                    
 			quote = boost::shared_ptr<SimpleQuote>(new SimpleQuote((*it).second));
 			
 			_quotes[(*it).first ] = quote;
 			
-			_rateHelpers.push_back(newRateHelper(tnr, quote, type));
+			_rateHelpers.push_back(newRateHelper(tnr, quote, type, forwardPeriod));
 		}
 		
 	}
@@ -120,6 +153,7 @@ namespace bondgeek
     {
         CurveMap depocurve;
         CurveMap swapcurve;
+        CurveMap futcurve;
         
         for (int i=0; i<depocount; i++) 
             depocurve[depotenors[i]] = depospots[i];
@@ -127,33 +161,28 @@ namespace bondgeek
         for (int i=0; i<swapcount; i++) 
             swapcurve[swaptenors[i]] = swapspots[i];
 
-        this->update(todaysDate,
-                     depocurve,
+        this->update(depocurve,
+                     futcurve,
                      swapcurve,
+                     todaysDate,
                      fixingDays);
         
     }
-    
-    void RateHelperCurve::update(Date todaysDate,
-                                 CurveMap depocurve,
+        
+    void RateHelperCurve::update(CurveMap depocurve,
+                                 CurveMap futcurve,
                                  CurveMap swapcurve,
-                                 int fixingDays) 
-    {        
-        this->add_depos(depocurve);
-        this->add_swaps(swapcurve);
+                                 Date     todaysDate,
+                                 int      fixingDays) 
+    {   
+        if (!depocurve.empty()) 
+            this->add_depos(depocurve);
+        if (!futcurve.empty())
+            this->add_futs(futcurve);
+        if (!swapcurve.empty())
+            this->add_swaps(swapcurve);
         
         this->build(todaysDate, fixingDays);
-        
-    }
-    
-    void RateHelperCurve::update(CurveMap depocurve,
-                                 CurveMap swapcurve) 
-    {        
-        this->add_depos(depocurve);
-        this->add_swaps(swapcurve);
-        
-        this->build();
-        
     }
 
     // Inspectors

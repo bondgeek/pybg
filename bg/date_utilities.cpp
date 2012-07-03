@@ -49,6 +49,14 @@ namespace bondgeek {
 		return Date(datenum);
 	}
     
+    int FuturesTenor(string _tenorstr) 
+    {
+        trim(_tenorstr);
+        
+        int n = atoi( _tenorstr.substr( 2, _tenorstr.length() ).c_str() );
+        
+        return n;
+    }
     
     Period Tenor(string _tenorstr) {
         trim(_tenorstr);  

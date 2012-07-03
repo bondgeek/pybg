@@ -1,13 +1,13 @@
 /*
- *  usdliborcurve.hpp
+ *   euriborcurve.hpp
  *  pybg
  *
- *  Created by Bart Mosley on 6/22/12.
+ *  Created by Bart Mosley on 7/2/12.
  *  Copyright 2012 BG Research LLC. All rights reserved.
  *
  */
-#ifndef USDLIBORCURVE_HPP
-#define USDLIBORCURVE_HPP
+#ifndef EURIBORCURVE_HPP
+#define EURIBORCURVE_HPP
 
 #include <bg/curvebase.hpp>
 #include <bg/date_utilities.hpp>
@@ -15,23 +15,23 @@
 using namespace QuantLib;
 
 namespace bondgeek {
-    class USDLiborCurve : public CurveBase {
+    class EURiborCurve : public CurveBase {
     protected:
     public:
-        USDLiborCurve():
-        CurveBase(boost::shared_ptr<IborIndex>(new USDLibor(Period(3,Months))),
+        EURiborCurve():
+        CurveBase(boost::shared_ptr<IborIndex>(new Euribor(Period(6, Months))),
                   TARGET(),
                   2,
                   Actual360(),
-                  Semiannual,
+                  Annual,
                   ModifiedFollowing,
                   Thirty360(Thirty360::European),
                   ActualActual(ActualActual::ISDA)
                   )
         {}
         
-        USDLiborCurve(string tenor, Frequency fixedFrequency=Semiannual):
-        CurveBase(boost::shared_ptr<IborIndex>(new USDLibor( Tenor(tenor) )),
+        EURiborCurve(string tenor, Frequency fixedFrequency=Annual):
+        CurveBase(boost::shared_ptr<IborIndex>(new Euribor( Tenor(tenor) )),
                   TARGET(),
                   2,
                   Actual360(),
@@ -42,7 +42,7 @@ namespace bondgeek {
                   )
         {}
     };
-
+    
 }
 
 #endif
