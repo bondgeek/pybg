@@ -26,6 +26,10 @@ from pybg.quantlib.time.calendar import Following, ModifiedFollowing, Unadjusted
 
 from pybg.quantlib.time.api import *
 
+cimport pybg.quantlib._cashflow as _cashflow
+cimport pybg.quantlib.cashflow as cashflow
+cimport pybg.curves as curves
+cimport pybg._curves as _curves
 
 cdef public enum SwapPayType:
     FixedPayer    = _fixedfloatswap.FixedPayer
@@ -82,3 +86,130 @@ cdef class USDLiborSwap:
                 notional
                 )
             )
+    
+    def setEngine(self, curves.RateHelperCurve crv):
+        cdef _curves.RateHelperCurve _crv
+        
+        _crv = deref(crv._thisptr.get())
+        
+        self._thisptr.get().setEngine(_crv)
+        
+        
+    # Inspectors
+    #    SwapPayType payerType()
+    #    Real        nominal()
+    #    Rate        spread()
+    #    Rate        fixedRate()
+    #    Leg         fixedLeg()
+    #    Leg         floatingLeg()
+    property payerType:
+        def __get__(self):
+            cdef SwapPayType payType 
+            cdef _fixedfloatswap.SwapPayType _payType
+            
+            _payType = self._thisptr.get().payerType()
+            
+            payType = <SwapPayType>_payType 
+            
+            return payType
+    
+    property nominal:
+        def __get__(self):
+            cdef Real _nominal 
+            
+            _nominal = self._thisptr.get().nominal()
+            
+            return _nominal
+    
+    property fixedRate:
+        def __get__(self):
+            cdef Real _fixedRate 
+            
+            _fixedRate = self._thisptr.get().fixedRate()
+            
+            return _fixedRate
+
+    property spread:
+        def __get__(self):
+            cdef Real _spread 
+            
+            _spread = self._thisptr.get().spread()
+            
+            return _spread            
+
+    property fixedLeg:
+        def __get__(self):
+            cdef _cashflow.Leg leg
+            cdef object result 
+            
+            leg = self._thisptr.get().fixedLeg()
+            
+            result = cashflow.leg_items(leg)
+            
+            return result
+
+    property floatingLeg:
+        def __get__(self):
+            cdef _cashflow.Leg leg
+            cdef object result 
+            
+            leg = self._thisptr.get().floatingLeg()
+            
+            result = cashflow.leg_items(leg)
+            
+            return result        
+    
+    #Results
+    #    Real 	fixedLegBPS() 
+    #    Real 	fixedLegNPV() 
+    #    Rate 	fairRate()
+    #    Real 	floatingLegBPS()
+    #    Real 	floatingLegNPV()
+    #    Spread 	fairSpread()
+    property fixedLegBPS:
+        def __get__(self):
+            cdef Real result 
+            
+            result = self._thisptr.get().fixedLegBPS()
+            
+            return result
+
+    property fixedLegNPV:
+        def __get__(self):
+            cdef Real result 
+            
+            result = self._thisptr.get().fixedLegNPV()
+            
+            return result
+            
+    property fairRate:
+        def __get__(self):
+            cdef Rate result 
+            
+            result = self._thisptr.get().fairRate()
+            
+            return result
+
+    property fairSpread:
+        def __get__(self):
+            cdef Spread result 
+            
+            result = self._thisptr.get().fairSpread()
+            
+            return result
+            
+    property floatingLegBPS:
+        def __get__(self):
+            cdef Real result 
+            
+            result = self._thisptr.get().floatingLegBPS()
+            
+            return result 
+                       
+    property floatingLegNPV:
+        def __get__(self):
+            cdef Real result 
+            
+            result = self._thisptr.get().floatingLegNPV()
+            
+            return result

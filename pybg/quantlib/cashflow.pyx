@@ -9,7 +9,11 @@ cimport pybg.quantlib.time.date as date
 
 from libcpp.vector cimport vector
 from cython.operator cimport dereference as deref
+
 from pybg.quantlib.handle cimport shared_ptr
+
+from pybg.ql import pydate_from_qldate
+from pybg.ql cimport _qldate_from_pydate
 
 cdef class CashFlow:
     """Abstract Base Class.
@@ -59,7 +63,24 @@ cdef class SimpleCashFlow(CashFlow):
     def __str__(self):
         return 'Simple Cash Flow: %f, %s' % (self.amount,
                                              self.date)
-                                             
+                                     
+cdef object leg_items(vector[shared_ptr[_cf.CashFlow]] leg):
+    cdef int i
+    cdef shared_ptr[_cf.CashFlow] _thiscf
+    cdef date.Date _thisdate
+    cdef int size = leg.size()
+    
+    itemlist = []
+    for i from 0 <= i < size:
+        _thiscf = leg.at(i)
+        _thisdate = date.Date(_thiscf.get().date().serialNumber())
+        
+        itemlist.append( (_thiscf.get().amount(), 
+                          pydate_from_qldate(_thisdate)
+                          ) 
+                        )
+        
+    return itemlist
 
 cdef class SimpleLeg:
 
@@ -67,6 +88,10 @@ cdef class SimpleLeg:
         self._thisptr = NULL
 
     def __init__(self, leg):
+        '''Takes as input a list of (amount, Date) tuples.
+        
+        '''
+        #TODO: make so that it handles pydate as well as QL Dates.
         cdef shared_ptr[_cf.CashFlow] *_thiscf
         cdef date.Date testDate
         cdef _date.Date _testDate
@@ -99,16 +124,10 @@ cdef class SimpleLeg:
             
     property items:
         def __get__(self):
-            cdef int i
-            cdef shared_ptr[_cf.CashFlow] _thiscf
+            '''Return Leg as (amount, date) list
             
-            itemlist = []
-            for i from 0 <= i < self.size:
-                _thiscf = self._thisptr.get().at(i)
-                
-                itemlist.append((_thiscf.get().amount(),
-                                 date.Date(_thiscf.get().date().serialNumber()))
-                                 )
-                
-            return itemlist
+            '''
+            cdef vector[shared_ptr[_cf.CashFlow]] leg = \
+                                        deref(self._thisptr.get())
+            return leg_items(leg)
             

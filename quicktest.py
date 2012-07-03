@@ -3,6 +3,8 @@ from pybg import Annual
 import pybg.curves as curves
 from pybg.curvetypes import USDLiborCurve, EURiborCurve
 
+from pybg.fixedfloatswap import USDLiborSwap, FixedPayer, FixedReceiver
+
 from pybg.ql import get_eval_date, set_eval_date
 
 import pybg.ql as ql
@@ -31,3 +33,4 @@ rh = curves.RateHelperCurve(EURiborCurve("6M", Annual))
 
 rh.update(depos, futures, swaps, evaldate)
 
+swp = USDLiborSwap("3M", rh.referenceDate, date(2014, 9, 22), .0515, FixedPayer)

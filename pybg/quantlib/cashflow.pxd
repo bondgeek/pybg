@@ -14,4 +14,4 @@ cdef class SimpleCashFlow(CashFlow):
 cdef class SimpleLeg:
     cdef shared_ptr[vector[shared_ptr[_cf.CashFlow]]] *_thisptr
     
-    
+cdef object leg_items(vector[shared_ptr[_cf.CashFlow]] leg)

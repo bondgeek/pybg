@@ -69,7 +69,9 @@ namespace bondgeek {
 		virtual void setEngine(CurveBase &crv, 
 							   Real &a, 
 							   Real &sigma,
-							   bool lognormal=true) ;		
+							   bool lognormal=true) ;	
+        //Inspectors
+        SwapPayType payerType(void) { return _payerType; }
 		
 	};
 

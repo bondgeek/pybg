@@ -51,7 +51,7 @@ cdef class CurveBase:
         if self._thisptr is not NULL:
             del self._thisptr
             
-    def __init__(self):
+    def __init__(self, CurveBase curvebase):
         raise ValueError(
             'This is an abstract class.'
         )
@@ -67,7 +67,7 @@ cdef class RateHelperCurve:
     def __dealloc__(self):
         if self._thisptr is not NULL:
             del self._thisptr
-
+            
     def __init__(self, CurveBase curvebase):
         
         cdef _curves.CurveBase *_crvbase

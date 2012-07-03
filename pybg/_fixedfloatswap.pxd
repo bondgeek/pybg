@@ -19,8 +19,10 @@ from pybg.quantlib.time._daycounter cimport DayCounter as DayCounter
 
 from pybg.quantlib.indexes._ibor_index cimport IborIndex
 
-cimport pybg.quantlib.termstructures.yields._flat_forward as _ff
+from pybg.quantlib._cashflow cimport Leg
 
+cimport pybg.quantlib.termstructures.yields._flat_forward as _ff
+cimport pybg._curves as _curves
 
 cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
 
@@ -47,6 +49,26 @@ cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
             BusinessDayConvention floatingLegConvention,
             Calendar calendar
             ) except +  
+        
+        void setEngine(_curves.CurveBase crv)
+        
+        #Inspectors 
+        SwapPayType payerType()
+        Real        nominal()
+        Rate        fixedRate()
+        Spread      spread()
+        Leg         fixedLeg()
+        Leg         floatingLeg()
+        
+        #Results
+        Real 	fixedLegBPS() 
+        Real 	fixedLegNPV() 
+        Rate 	fairRate()
+        Real 	floatingLegBPS()
+        Real 	floatingLegNPV()
+        Spread 	fairSpread()
+            
+            
 
 cdef extern from 'bg/swaptype.hpp' namespace 'bondgeek':
     

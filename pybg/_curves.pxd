@@ -29,6 +29,7 @@ cdef extern from 'bg/curvebase.hpp' namespace 'bondgeek':
     cdef cppclass CurveBase:
         CurveBase() except +        
 
+
 cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
     
     ctypedef map[string, Rate] CurveMap
