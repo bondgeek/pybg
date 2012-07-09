@@ -1,9 +1,9 @@
 # distutils: language = c++
 # distutils: libraries = QuantLib
 
-include 'quantlib/types.pxi'
+include '../quantlib/types.pxi'
 
-cimport _fixedfloatswap
+cimport pybg.instruments._fixedfloatswap as _fixedfloatswap
 
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
@@ -13,6 +13,8 @@ from cython.operator cimport dereference as deref
 from pybg.quantlib.handle cimport shared_ptr
 
 cimport pybg.quantlib.indexes._libor as _libor
+cimport pybg.quantlib.indexes._euribor as _euribor
+
 from pybg.quantlib.time._period cimport Frequency as _Frequency
 from pybg.quantlib.time._calendar cimport Calendar as _Calendar
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
@@ -28,15 +30,17 @@ from pybg.quantlib.time.api import *
 
 cimport pybg.quantlib._cashflow as _cashflow
 cimport pybg.quantlib.cashflow as cashflow
+
 cimport pybg.curves as curves
 cimport pybg._curves as _curves
 
 cdef public enum SwapPayType:
     FixedPayer    = _fixedfloatswap.FixedPayer
     FixedReceiver = _fixedfloatswap.FixedReceiver
-    
 
-cdef class USDLiborSwap:
+
+
+cdef class LiborSwap:
     def __cinit__(self):
         self._thisptr = NULL
 
@@ -50,49 +54,23 @@ cdef class USDLiborSwap:
             object maturity, 
             Rate fixedRate, 
             SwapPayType payerType,
-            Spread floating_spread=0.0,
-            Real notional=1000000.0,
+            Spread floating_spread,
+            Real notional,
             # Fixed Leg
-            fixedLegFrequency=Semiannual,
-            DayCounter fixedLegDayCounter=Thirty360(EUROPEAN),
-            fixedLegConvention=ModifiedFollowing,
+            fixedLegFrequency,
+            DayCounter fixedLegDayCounter,
+            fixedLegConvention,
             # floating leg 
-            floatingLegFrequency=Quarterly,
-            DayCounter floatingLegDayCounter=Actual360(),
-            floatingLegConvention=ModifiedFollowing
+            floatingLegFrequency,
+            DayCounter floatingLegDayCounter,
+            floatingLegConvention
             ):
         """Enter tenor as '3M'
         
         """
 
-        cdef _fixedfloatswap.SwapType[ _libor.USDLibor] *swptype = \
-            new _fixedfloatswap.SwapType[ _libor.USDLibor](
-                <_Frequency>fixedLegFrequency,
-                deref(fixedLegDayCounter._thisptr),
-                <_BusinessDayConvention>fixedLegConvention,
-                <_Frequency>floatingLegFrequency,
-                deref(floatingLegDayCounter._thisptr),
-                <_BusinessDayConvention>floatingLegConvention,
-                _Calendar.TARGET()
-                )
+        print("Abstract Base Class")
         
-        self._thisptr = new shared_ptr[_fixedfloatswap.FixedFloatSwap]( \
-            deref(swptype).create(
-                _qldate_from_pydate(settle),
-                _qldate_from_pydate(maturity),
-                fixedRate,
-                payerType,
-                floating_spread,
-                notional
-                )
-            )
-    
-    def setEngine(self, curves.RateHelperCurve crv):
-        cdef _curves.RateHelperCurve _crv
-        
-        _crv = deref(crv._thisptr.get())
-        
-        self._thisptr.get().setEngine(_crv)
         
         
     # Inspectors
@@ -160,12 +138,22 @@ cdef class USDLiborSwap:
             return result        
     
     #Results
+    #    Real   NPV()
     #    Real 	fixedLegBPS() 
     #    Real 	fixedLegNPV() 
     #    Rate 	fairRate()
     #    Real 	floatingLegBPS()
     #    Real 	floatingLegNPV()
     #    Spread 	fairSpread()
+    property NPV:
+        def __get__(self):
+            cdef Real result 
+            
+            result = self._thisptr.get().NPV()
+            
+            return result
+
+            
     property fixedLegBPS:
         def __get__(self):
             cdef Real result 
@@ -213,3 +201,100 @@ cdef class USDLiborSwap:
             result = self._thisptr.get().floatingLegNPV()
             
             return result
+
+cdef class USDLiborSwap(LiborSwap):
+    def __init__(self,
+            tenor,
+            object settle, 
+            object maturity, 
+            Rate fixedRate, 
+            SwapPayType payerType,
+            Spread floating_spread=0.0,
+            Real notional=1000000.0,
+            # Fixed Leg
+            fixedLegFrequency=Semiannual,
+            DayCounter fixedLegDayCounter=Thirty360(EUROPEAN),
+            fixedLegConvention=ModifiedFollowing,
+            # floating leg 
+            floatingLegFrequency=Quarterly,
+            DayCounter floatingLegDayCounter=Actual360(),
+            floatingLegConvention=ModifiedFollowing
+            ):
+            
+        self._swaptype = \
+            new _fixedfloatswap.SwapType[ _libor.USDLibor ](
+                <_Frequency>fixedLegFrequency,
+                deref(fixedLegDayCounter._thisptr),
+                <_BusinessDayConvention>fixedLegConvention,
+                <_Frequency>floatingLegFrequency,
+                deref(floatingLegDayCounter._thisptr),
+                <_BusinessDayConvention>floatingLegConvention,
+                _Calendar.TARGET()
+                )
+                
+        self._thisptr = new shared_ptr[_fixedfloatswap.FixedFloatSwap]( \
+            deref(self._swaptype).create(
+                _qldate_from_pydate(settle),
+                _qldate_from_pydate(maturity),
+                fixedRate,
+                payerType,
+                floating_spread,
+                notional
+                )
+            )     
+    def setEngine(self, curves.RateHelperCurve crv):
+        cdef _curves.RateHelperCurve _crv
+        
+        _crv = deref(crv._thisptr.get())
+        
+        deref(self._swaptype).linkIndex(_crv)
+        self._thisptr.get().setEngine(_crv)
+                          
+cdef class EuriborSwap(LiborSwap):    
+    def __init__(self,
+            tenor,
+            object settle, 
+            object maturity, 
+            Rate fixedRate, 
+            SwapPayType payerType,
+            Spread floating_spread=0.0,
+            Real notional=1000000.0,
+            # Fixed Leg
+            fixedLegFrequency=Annual,
+            DayCounter fixedLegDayCounter=Thirty360(EUROPEAN),
+            fixedLegConvention=ModifiedFollowing,
+            # floating leg 
+            floatingLegFrequency=Semiannual,
+            DayCounter floatingLegDayCounter=Actual360(),
+            floatingLegConvention=ModifiedFollowing
+            ):
+            
+        self._swaptype = \
+            new _fixedfloatswap.SwapType[ _euribor.Euribor ](
+                <_Frequency>fixedLegFrequency,
+                deref(fixedLegDayCounter._thisptr),
+                <_BusinessDayConvention>fixedLegConvention,
+                <_Frequency>floatingLegFrequency,
+                deref(floatingLegDayCounter._thisptr),
+                <_BusinessDayConvention>floatingLegConvention,
+                _Calendar.TARGET()
+                )
+                
+        self._thisptr = new shared_ptr[_fixedfloatswap.FixedFloatSwap]( \
+            deref(self._swaptype).create(
+                _qldate_from_pydate(settle),
+                _qldate_from_pydate(maturity),
+                fixedRate,
+                payerType,
+                floating_spread,
+                notional
+                )
+            )
+
+    def setEngine(self, curves.RateHelperCurve crv):
+        cdef _curves.RateHelperCurve _crv
+        
+        _crv = deref(crv._thisptr.get())
+        
+        deref(self._swaptype).linkIndex(_crv)
+        self._thisptr.get().setEngine(_crv)

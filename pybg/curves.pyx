@@ -91,6 +91,8 @@ cdef class RateHelperCurve:
         cdef _curves.CurveMap   futcurve
         cdef _curves.CurveMap   swapcurve
         
+        #TODO: validate curve inputs
+        #      check that tenors/future dates don't overlap
         if depos:
             depocurve = curveMap_from_dict(depos)
 

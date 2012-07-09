@@ -15,13 +15,17 @@ extension_paths  = [
  ('pybg.curves', ['pybg/curves.pyx', 
                   'bg/curvebase.cpp',
                   'bg/curves/ratehelpercurve.cpp']),
+                  
  ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx']),
  ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx']),
  
  ('pybg.indexbase', ['pybg/indexbase.pyx']),
   
- ('pybg.fixedfloatswap', ['pybg/fixedfloatswap.pyx',
-                          'bg/instruments/fixedfloatswap.cpp']),
+ ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx',
+                                      'bg/instruments/fixedfloatswap.cpp']),
+ 
+ ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx',
+                                  'bg/instruments/bulletbond.cpp']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),

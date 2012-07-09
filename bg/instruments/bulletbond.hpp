@@ -48,10 +48,10 @@ namespace bondgeek {
                    );
         
         double toPrice();
-        double toPrice(const Rate &);
+        double toPrice(Rate bondyield);
         
         double toYield();
-        double toYield(const Rate &);
+        double toYield(Real bondprice);
 		
 		virtual void setEngine(CurveBase &crv) ;
 		virtual void setEngine(CurveBase &crv, 

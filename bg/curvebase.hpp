@@ -90,7 +90,7 @@ namespace bondgeek {
         _swFloatingLegIndex(swFloatingLegIndex) 
 		{}
         
-        // inspectors
+        // Inspectors
         Calendar						calendar() { return _calendar; }
         Date                            curvedate(void) {return _todaysDate;}
         Integer							fixingDays() { return _fixingDays;}
@@ -112,7 +112,7 @@ namespace bondgeek {
         
 		virtual void build_termstructure(void) {}    
 		
-        // Inspectors for Term Structures
+        // Term Structures
 		boost::shared_ptr<YieldTermStructure>	yieldTermStructurePtr() const { return _yieldTermStructure;}
 		RelinkableHandle<YieldTermStructure>	discountingTermStructure() const { return _discountingTermStructure; }
 		RelinkableHandle<YieldTermStructure>	forecastingTermStructure() const { return _forecastingTermStructure; }

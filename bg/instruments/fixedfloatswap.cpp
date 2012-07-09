@@ -85,9 +85,11 @@ namespace bondgeek {
     
 	void FixedFloatSwap::setEngine(CurveBase &crv)  
 	{
-		boost::shared_ptr<PricingEngine> swapEngine = createPriceEngine<DiscountingSwapEngine>(
-																							   crv.discountingTermStructure()
-																							   );
+        typedef boost::shared_ptr<PricingEngine> PrcEnginePtr;
+        
+		PrcEnginePtr swapEngine = createPriceEngine<DiscountingSwapEngine>( \
+                                                crv.discountingTermStructure()
+                                                );
 		
 		setPricingEngine(swapEngine);
 	}

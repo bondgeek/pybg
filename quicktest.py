@@ -1,9 +1,9 @@
-from pybg import Annual
+from pybg import Annual, Semiannual
 
 import pybg.curves as curves
 from pybg.curvetypes import USDLiborCurve, EURiborCurve
 
-from pybg.fixedfloatswap import USDLiborSwap, FixedPayer, FixedReceiver
+from pybg.instruments.fixedfloatswap import USDLiborSwap, FixedPayer, FixedReceiver, EuriborSwap
 
 from pybg.ql import get_eval_date, set_eval_date
 
@@ -25,12 +25,18 @@ depos = dict(zip(
 (.0382, 0.0372)
 ))
 swaps = dict(zip(
-("2y", "3y", "5y", "10Y", "15Y"),
-(0.037125, 0.0398, 0.0443, 0.05165, 0.055175)
+("3y", "5y", "10Y", "15Y"),
+(0.0398, 0.0443, 0.05165, 0.055175)
 ))
 
 rh = curves.RateHelperCurve(EURiborCurve("6M", Annual))
 
 rh.update(depos, futures, swaps, evaldate)
 
-swp = USDLiborSwap("3M", rh.referenceDate, date(2014, 9, 22), .0515, FixedPayer)
+print("\nTest curve: \ndate: %s" % rh.referenceDate)
+
+df = rh.discount(10.0)
+print("\nTest curve: \ndiscount: %s" % df)
+
+swp = USDLiborSwap("6M", rh.referenceDate, date(2009, 9, 22), .04, FixedPayer)
+swp2 = EuriborSwap("6M", rh.referenceDate, date(2009, 9, 22), .04, FixedPayer)

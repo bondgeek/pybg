@@ -67,5 +67,32 @@ namespace bondgeek {
 	{
 		setEngine(crv);
 	}
+    
+    double BulletBond::toPrice()
+    {
+        return this->cleanPrice();
+    }
+    double BulletBond::toPrice(Rate bondyield)
+    {
+        return this->cleanPrice(bondyield, 
+                          this->dayCounter(), 
+                          Compounded, 
+                          this->frequency());
+    }
+    
+    double BulletBond::toYield()
+    {
+        return this->yield(this->cleanPrice(), 
+                           this->dayCounter(), 
+                           Compounded, 
+                           this->frequency());
+    }
+    double BulletBond::toYield(Real bondprice)
+    {
+        return this->yield(bondprice, 
+                          this->dayCounter(), 
+                          Compounded, 
+                          this->frequency());
+    }
 	
 }

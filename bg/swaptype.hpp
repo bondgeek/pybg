@@ -59,6 +59,11 @@ namespace bondgeek {
 			_indexBase = IndexBase<T>(floatingLegFrequency);
 		}
         
+        void linkIndex(CurveBase &crv) 
+        {
+            this->linkIndexTo( crv.yieldTermStructurePtr() );
+        }
+        
 		void linkIndexTo(const boost::shared_ptr<YieldTermStructure> &yieldTermStructurePtr) {
 			_indexBase.linkTo(yieldTermStructurePtr);
 		}

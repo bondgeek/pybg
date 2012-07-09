@@ -1,0 +1,30 @@
+# distutils: language = c++
+# distutils: libraries = QuantLib
+
+from pybg.quantlib.handle cimport shared_ptr
+
+cimport pybg._indexbase
+cimport pybg.quantlib.indexes._libor as _libor
+cimport pybg.quantlib.indexes._euribor as _euribor
+
+cimport pybg.instruments._fixedfloatswap as _fixedfloatswap
+
+cdef class LiborSwap:
+    '''Libor Swap factory
+    
+    Uses c++ SwapType
+    '''
+    
+    cdef shared_ptr[_fixedfloatswap.FixedFloatSwap]* _thisptr
+
+cdef class USDLiborSwap(LiborSwap):
+    '''USD Libor Swap
+    
+    '''
+    cdef _fixedfloatswap.SwapType[ _libor.USDLibor]* _swaptype
+    
+cdef class EuriborSwap(LiborSwap):
+    '''USD Libor Swap
+    
+    '''
+    cdef _fixedfloatswap.SwapType[ _euribor.Euribor]* _swaptype

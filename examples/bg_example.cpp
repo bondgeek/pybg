@@ -204,17 +204,16 @@ int main ()
 								   TARGET()
 								   );
 	
-	cout << "link" << endl;
-	euriborswaps.linkIndexTo(acurve.yieldTermStructurePtr());
-	
 	cout << "create" << endl;
 	boost::shared_ptr<FixedFloatSwap> qswp2 = euriborswaps.create(settlementDate,
 																  maturity,
 																  fixedRate);
 	
 	cout << "pricing" << endl;
-	qswp2->setPricingEngine(swapEngine);
-
+	qswp2->setEngine(acurve);
+    
+	cout << "link" << endl;
+	euriborswaps.linkIndex(acurve);
 	
 	cout << std::setprecision(2) << std::setw(12) << std::fixed <<
     "NPV : " << qswp2->NPV() << 

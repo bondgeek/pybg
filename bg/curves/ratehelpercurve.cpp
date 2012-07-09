@@ -32,7 +32,7 @@ namespace bondgeek
                                                                  int forwardPeriod
                                                                  ) 
 	{
-		boost::shared_ptr<Quote> _quote(new SimpleQuote(quote));
+        boost::shared_ptr<Quote> _quote(new SimpleQuote(quote));
 		return newRateHelper(tnr, _quote, rhtype, forwardPeriod);
 	}
 	
@@ -70,7 +70,6 @@ namespace bondgeek
 				break;
             
             case FUT:
-
                 for (int i=0; i<forwardPeriod; i++) 
                     forwardDate = IMM::nextDate(forwardDate);
                 

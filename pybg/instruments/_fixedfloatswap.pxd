@@ -1,14 +1,9 @@
 # distutils: language = c++
 # distutils: libraries = QuantLib
 
-include 'quantlib/types.pxi'
+include '../quantlib/types.pxi'
 
 from cython.operator cimport dereference as deref
-
-from libcpp cimport bool
-from libcpp.vector cimport vector
-from libcpp.map cimport map
-from libcpp.string cimport string
 
 from pybg.quantlib.handle cimport shared_ptr
 from pybg.quantlib.time._date cimport Date as _QLDate
@@ -61,6 +56,7 @@ cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
         Leg         floatingLeg()
         
         #Results
+        Real    NPV()
         Real 	fixedLegBPS() 
         Real 	fixedLegNPV() 
         Rate 	fairRate()
@@ -84,6 +80,8 @@ cdef extern from 'bg/swaptype.hpp' namespace 'bondgeek':
             Calendar calendar
             ) except +
             
+        
+        void linkIndex( _curves.CurveBase crv )
         void linkIndexTo(shared_ptr[_ff.YieldTermStructure])
         
         shared_ptr[FixedFloatSwap] create(
@@ -94,5 +92,6 @@ cdef extern from 'bg/swaptype.hpp' namespace 'bondgeek':
             Spread floating_spread,
             Real notional
             )
-            
+        
+        
             

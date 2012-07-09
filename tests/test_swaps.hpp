@@ -25,6 +25,11 @@ namespace QuantLib {
 struct SwapTests {
 	Calendar calendar;
 	Date todaysDate;
+    
+    CurveMap depocurve, depocurve2;
+    CurveMap futscurve;
+    CurveMap swapcurve;
+    
 	RateHelperCurve acurve;
     RateHelperCurve *bcurve;
     RateHelperCurve *ccurve;
@@ -36,11 +41,26 @@ struct SwapTests {
 		Settings::instance().evaluationDate() = todaysDate;
 		BOOST_TEST_MESSAGE("\nSwap tests");
 		
+        string futtenors[] = {"ED1", "ED2", "ED3", "ED4", "ED5", "ED6", "ED7", "ED8"};
+        double futspots[] = {96.2875, 96.7875, 96.9875, 96.6875, 96.4875, 96.3875, 96.2875, 96.0875};
 		string depotenors[] = {"1W", "1M", "3M", "6M", "9M", "1y"};
 		double depospots[] = {.0382, 0.0372, 0.0363, 0.0353, 0.0348, 0.0345};
 		string swaptenors[] = {"2y", "3y", "5y", "10Y", "15Y"};
 		double swapspots[] = {0.037125, 0.0398, 0.0443, 0.05165, 0.055175};
 		
+        for (int i=0; i<2; i++) 
+            depocurve2[depotenors[i]] = depospots[i];
+
+        for (int i=0; i<6; i++) 
+            depocurve[depotenors[i]] = depospots[i];
+        
+        for (int i=0; i<6; i++) 
+            futscurve[futtenors[i]] = futspots[i];
+        
+        for (int i=0; i<5; i++) 
+            swapcurve[swaptenors[i]] = swapspots[i];
+        
+        
 		acurve = CurveFactory::instance().ratehelperCurve("EURANN_6M", 
                                                           todaysDate, 
                                                           depotenors, depospots, 6,
@@ -64,6 +84,23 @@ struct SwapTests {
 
 BOOST_FIXTURE_TEST_SUITE( curvetest, SwapTests )
 
+BOOST_AUTO_TEST_CASE( swap_value2)
+{
+
+    RateHelperCurve rhcurve( EURiborCurve("6M", Annual) );
+    
+        
+    rhcurve.update(depocurve2, futscurve, swapcurve);
+    
+    BOOST_TEST_MESSAGE("Test equivalence of forecastingTermStructure and discountingTermStructure");
+	Real d1 = rhcurve.discountingTermStructure().currentLink()->discount(10.0);
+	Real d2 = rhcurve.forecastingTermStructure().currentLink()->discount(10.0);
+	Real d3 = rhcurve.discountingTermStructure().currentLink()->discount(0.0);
+    BOOST_CHECK(abs(d1-d2) < 0.001);
+    BOOST_CHECK(d3 > d1);
+	
+    
+}
 
 BOOST_AUTO_TEST_CASE( evaluation_date )
 {			
@@ -140,5 +177,6 @@ BOOST_AUTO_TEST_CASE( swap_value )
 	BOOST_CHECK( abs(p2-p1) < .0001 );	
 	
 }
+
 
 BOOST_AUTO_TEST_SUITE_END()
