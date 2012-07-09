@@ -24,7 +24,7 @@ namespace bondgeek {
                   2,
                   Actual360(),
                   Annual,
-                  ModifiedFollowing,
+                  Unadjusted,
                   Thirty360(Thirty360::European),
                   ActualActual(ActualActual::ISDA)
                   )
@@ -36,11 +36,12 @@ namespace bondgeek {
                   2,
                   Actual360(),
                   fixedFrequency,
-                  ModifiedFollowing,
+                  Unadjusted,
                   Thirty360(Thirty360::European),
                   ActualActual(ActualActual::ISDA)
                   )
-        {}
+        {
+        }
     };
     
 }

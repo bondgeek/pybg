@@ -15,7 +15,7 @@
 #include <bg/repository.hpp>
 
 #include <bg/indexbase.hpp>
-#include <bg/curves/ratehelpercurve.hpp>
+#include <bg/curves/curves.hpp>
 
 #include <bg/instruments/bulletbond.hpp>
 #include <bg/instruments/callbond.hpp>

@@ -13,26 +13,9 @@ namespace bondgeek
 {    
     void CurveFactory::init_curvebases(void) {
         init_curvebases("default", CurveBase());
-        init_curvebases("EURANN_6M", CurveBase(boost::shared_ptr<IborIndex>(new Euribor6M),
-                                               TARGET(),
-                                               2,
-                                               Actual360(),
-                                               Annual,
-                                               Unadjusted,
-                                               Thirty360(Thirty360::European),
-                                               ActualActual(ActualActual::ISDA)
-											   ) 
-						);
-        init_curvebases("USDSEMI_QTR", CurveBase(boost::shared_ptr<IborIndex>(new USDLibor(Period(3,Months))),
-                                                 TARGET(),
-                                                 2,
-                                                 Actual360(),
-                                                 Semiannual,
-                                                 ModifiedFollowing,
-                                                 Thirty360(Thirty360::European),
-                                                 ActualActual(ActualActual::ISDA)
-												 ) 
-						);
+        init_curvebases("EURANN_6M", EURiborCurve("6M"));
+                        
+        init_curvebases("USDSEMI_QTR", USDLiborCurve("3M", Semiannual));
     }
     
     void CurveFactory::init_curvebases(std::string key, CurveBase crvtype) {
@@ -58,6 +41,7 @@ namespace bondgeek
     {
         CurveMap depocurve;
         CurveMap swapcurve;
+        
         RateHelperCurve rhcurve( curveType(key) );
         
         for (int i=0; i<depocount; i++) 

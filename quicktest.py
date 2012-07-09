@@ -25,8 +25,8 @@ depotenors, depospots = (
     (.0382, 0.0372, 0.0363, 0.0353, 0.0348, 0.0345)
 )
 swaptenors, swapspots = (
-    ("3y", "5y", "10Y", "15Y"),
-    (0.0398, 0.0443, 0.05165, 0.055175)
+    ("2y", "3y", "5y", "10Y", "15Y"),
+    (0.037125, 0.0398, 0.0443, 0.05165, 0.055175)
 )
 
 futures = dict(zip(futtenors, futspots))
@@ -48,10 +48,19 @@ swp2 = EuriborSwap("6M", rh.referenceDate, date(2009, 9, 22), .04, FixedPayer)
 
 swp2.setEngine(rh)
 
-fxNPV = 0.0
+print("\nSwap\nNPV: %s | fx: %s | fl: %s" % (swp2.NPV, swp2.fixedLegNPV, swp2.floatingLegNPV))
+print("Fixed Leg")
+cfNPV = 0.0
 for amt, dt in swp2.fixedLeg:
-    fxDF = rh.discount(dt)
-    fxNPV += fxDF*amt
-    print("cf: %10s %12.2f %11.8f %12.3f" % (dt, amt, fxDF, fxNPV))
+    cfDF = rh.discount(dt)
+    cfNPV += cfDF*amt
+    print("cf: %10s %12.2f %11.8f %12.3f" % (dt, amt, cfDF, cfNPV))
+
+print("Floating Leg")
+cfNPV = 0.0
+for amt, dt in swp2.floatingLeg:
+    cfDF = rh.discount(dt)
+    cfNPV += cfDF*amt
+    print("cf: %10s %12.2f %11.8f %12.3f" % (dt, amt, cfDF, cfNPV))
 
     

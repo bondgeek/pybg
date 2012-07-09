@@ -48,7 +48,8 @@ int main ()
                                                                       swaptenors, swapspots, 5);
     
 	cout << "quote:  " << acurve.tenorquote("10Y") << endl;
-
+    
+    cout << "test tenors\n" << Period(6, Months) << " | " << Tenor("6M") << endl;
     /*********************
      * SWAPS TO BE PRICED *
      **********************/
@@ -192,7 +193,7 @@ int main ()
 	
 	cout << std::setprecision(2) << std::setw(12) << std::fixed <<
     "fx NPV : " << qswp.fixedLegNPV() << 
-    "   | fx NPV : " << qswp.floatingLegNPV() << endl; 
+    "   | fl NPV : " << qswp.floatingLegNPV() << endl; 
 	
     cout << "Inspect Legs" << endl << endl;
     Leg fixedLeg = qswp.fixedLeg();
@@ -200,25 +201,43 @@ int main ()
     
     cout << "Fixed: " << endl;
     Leg::iterator fxIt;
-    int fxCount =0;
+    int cfCount =0;
     Date cfDate;
-    double fxAmt;
-    double fxDF;
-    double fxNPV = 0.0;
+    double cfAmt;
+    double cfDF;
+    double cfNPV = 0.0;
     for (fxIt=fixedLeg.begin(); fxIt < fixedLeg.end(); fxIt++) {
         cfDate = (*fxIt)->date();
-        fxAmt = (*fxIt)->amount();
-        fxDF = acurve.discount((*fxIt)->date());
-        fxNPV += fxAmt*fxDF;
+        cfAmt = (*fxIt)->amount();
+        cfDF = acurve.discount((*fxIt)->date());
+        cfNPV += cfAmt*cfDF;
         
-        cout << fxCount++ << ") " 
-             << cfDate << " | "
-             << fxAmt << " | " 
-             << std::setprecision(6) << fxDF << " | " 
-             << std::setprecision(2) << fxNPV
-             << endl;
+        cout << cfCount++ << ") " 
+        << std::setw(24) << cfDate << " | "  << std::setw(12) 
+        << cfAmt << " | " 
+        << std::setprecision(6) << cfDF << " | " 
+        << std::setprecision(2) << cfNPV
+        << endl;
     }
 
+    cout << "Floating: " << endl;
+    Leg::iterator flIt;
+    cfCount =0;
+    cfNPV = 0.0;
+    for (flIt=floatingLeg.begin(); flIt < floatingLeg.end(); flIt++) {
+        cfDate = (*flIt)->date();
+        cfAmt = (*flIt)->amount();
+        cfDF = acurve.discount((*flIt)->date());
+        cfNPV += cfAmt*cfDF;
+        
+        cout << cfCount++ << ") " 
+        << std::setw(24) << cfDate << " | "  << std::setw(12) 
+        << cfAmt << " | " 
+        << std::setprecision(6) << cfDF << " | " 
+        << std::setprecision(2) << cfNPV
+        << endl;
+    }
+    
 	cout << "swp2 " << endl;
 	
 	SwapType<Euribor> euriborswaps(Annual,

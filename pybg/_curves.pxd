@@ -37,7 +37,13 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
     cdef cppclass RateHelperCurve(CurveBase):
         RateHelperCurve() except +
         RateHelperCurve(CurveBase crvtype) except +
-                    
+        
+        void add_depos(CurveMap crv)
+        void add_swaps(CurveMap crv)
+        void add_futs(CurveMap crv)
+        
+        void build_termstructure()
+        
         void update(CurveMap &depocurve,
                     CurveMap &futcurve,
                     CurveMap &swapcurve,
