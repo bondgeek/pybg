@@ -164,6 +164,7 @@ int main ()
 	
 	cout << "\n\nSwap to compare to first swap " << endl;
 	cout << "Qswap" << endl;
+    cout << "mty: " << maturity << " | cpn: " << io::rate(fixedRate) << endl;
 	EuriborBase euribor(6, Months);
 	
 	FixedFloatSwap qswp(settlementDate,
@@ -193,6 +194,31 @@ int main ()
     "fx NPV : " << qswp.fixedLegNPV() << 
     "   | fx NPV : " << qswp.floatingLegNPV() << endl; 
 	
+    cout << "Inspect Legs" << endl << endl;
+    Leg fixedLeg = qswp.fixedLeg();
+    Leg floatingLeg = qswp.floatingLeg();
+    
+    cout << "Fixed: " << endl;
+    Leg::iterator fxIt;
+    int fxCount =0;
+    Date cfDate;
+    double fxAmt;
+    double fxDF;
+    double fxNPV = 0.0;
+    for (fxIt=fixedLeg.begin(); fxIt < fixedLeg.end(); fxIt++) {
+        cfDate = (*fxIt)->date();
+        fxAmt = (*fxIt)->amount();
+        fxDF = acurve.discount((*fxIt)->date());
+        fxNPV += fxAmt*fxDF;
+        
+        cout << fxCount++ << ") " 
+             << cfDate << " | "
+             << fxAmt << " | " 
+             << std::setprecision(6) << fxDF << " | " 
+             << std::setprecision(2) << fxNPV
+             << endl;
+    }
+
 	cout << "swp2 " << endl;
 	
 	SwapType<Euribor> euriborswaps(Annual,

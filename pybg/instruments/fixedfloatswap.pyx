@@ -262,7 +262,7 @@ cdef class EuriborSwap(LiborSwap):
             # Fixed Leg
             fixedLegFrequency=Annual,
             DayCounter fixedLegDayCounter=Thirty360(EUROPEAN),
-            fixedLegConvention=ModifiedFollowing,
+            fixedLegConvention=Unadjusted,
             # floating leg 
             floatingLegFrequency=Semiannual,
             DayCounter floatingLegDayCounter=Actual360(),
