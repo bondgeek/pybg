@@ -26,6 +26,9 @@ extension_paths  = [
  
  ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx',
                                   'bg/instruments/bulletbond.cpp']),
+
+ ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx',
+                                  'bg/instruments/callbond.cpp']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),

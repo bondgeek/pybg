@@ -61,22 +61,4 @@ for amt, dt in swp2.floatingLeg:
     cfNPV += cfDF*amt
     print("cf: %10s %12.2f %11.8f %12.3f" % (dt, amt, cfDF, cfNPV))
 
-
-#BONDS
-import pybg.instruments.bulletbond as B
-bb = B.BulletBond(.045, date(2017, 5, 15), date(2003, 5, 15), B.UnitedStates(B.GOVERNMENTBOND))
-bb.setEngine(rh)
-prc = bb.toPrice()
-yld = bb.toYield(prc)
-
-import pybg.instruments.callbond as C
-cb = C.CallBond(.045, 
-                 date(2017, 5, 15), 
-                 date(2016, 5, 15), 100., 
-                 date(2003, 5, 15), 
-                 B.UnitedStates(B.GOVERNMENTBOND))
-
-cb.oasEngine(rh, 0., .2017, True)
-
-prc_cb = cb.oasValue(0.0, .2017)
-
+    

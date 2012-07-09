@@ -10,8 +10,6 @@
 #define INDEXBASE_H
 
 #include <ql/quantlib.hpp>
-
-// #include <bg/repository.hpp>
 #include <bg/date_utilities.hpp>
 
 #include <map>

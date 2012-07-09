@@ -129,13 +129,14 @@ namespace bondgeek {
                           Real &a, 
                           Real &sigma,
                           const Real &spread=0.0,
-                          bool lognormal=true) ;
+                          bool lognormal=true);
         void    oasEngine(Real &a, 
                           Real &sigma,
                           const Real &spread=0.0,
                           bool lognormal=true);
         
 		void setSpread(const Real &spread);
+        Real getSpread(void);
         
 		// OAS Functions
 		// Functions to price bond off oas engine, given spread and vol

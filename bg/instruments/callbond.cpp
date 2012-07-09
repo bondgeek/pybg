@@ -201,6 +201,14 @@ namespace bondgeek {
 		
 		_curveSpread->setValue(spread);
 	}
+
+    Real CallBond::getSpread()
+	{
+		if (!_curveSpread->isValid() )
+			return 0.0;
+		
+		return _curveSpread->value();
+	}
 	
 	// OAS Functions
 	Real CallBond::oasValue(const Real &spread)

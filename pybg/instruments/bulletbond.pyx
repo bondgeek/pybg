@@ -3,6 +3,8 @@
 
 include '../quantlib/types.pxi'
 
+from libcpp cimport bool
+
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
 
@@ -14,7 +16,12 @@ from pybg.quantlib.time._calendar cimport Calendar as _Calendar
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 
+cimport pybg._curves as _curves
+cimport pybg.curves as curves
+
 from pybg.quantlib.time.daycounter cimport DayCounter
+from pybg.quantlib.time.calendar cimport Calendar
+
 from pybg.quantlib.time.daycounters.thirty360 import (
         Thirty360, EUROBONDBASIS, EUROPEAN
 )
@@ -25,7 +32,6 @@ from pybg.quantlib.time.calendars.united_states import (
         UnitedStates, GOVERNMENTBOND, NYSE, SETTLEMENT, NERC
 )
 
-from pybg.quantlib.time.calendar cimport Calendar
 from pybg.quantlib.time.calendar import (
     Following, ModifiedFollowing, Unadjusted
 )
@@ -34,9 +40,6 @@ from pybg.quantlib.time.date import (
     Annual, Semiannual, Quarterly, Monthly, Weekly, Daily
 )
 
-cimport pybg.curves as curves
-cimport pybg._curves as _curves
-    
 
 cdef class BulletBond:
     def __cinit__(self):

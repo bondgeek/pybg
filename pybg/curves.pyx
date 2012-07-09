@@ -82,6 +82,27 @@ cdef class RateHelperCurve:
                 new _curves.RateHelperCurve()
                 )
 
+    def add_helpers(self, rh_type, curvemap):
+        cdef _curves.CurveMap   _curvemap
+        
+        _curvemap = curveMap_from_dict(curvemap)
+        
+        if rh_type == DEPO:
+            self._thisptr.get().add_depos(_curvemap)
+        elif rh_type == FUT:
+            self._thisptr.get().add_futs(_curvemap)
+        elif rh_type == SWAP: 
+            self._thisptr.get().add_swaps(_curvemap)
+        else:
+            raise ValueError, "Type: %s invalid ratehelper" % rh_type
+    
+    def build(self, evaldate=None, fixingdays=-1):
+        if not evaldate:
+            evaldate = date.today()
+        
+        set_eval_date(evaldate)
+        evaldate = get_eval_date()
+        
     def update(self, depos=None, futures=None, swaps=None, evaldate=None, fixingdays=-1):
 
         MSG_ARGS = "RateHelperCurve.update must have at least one curve"

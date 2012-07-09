@@ -9,6 +9,8 @@ cimport pybg.quantlib.indexes._euribor as _euribor
 
 cimport pybg.instruments._fixedfloatswap as _fixedfloatswap
 
+from pybg.quantlib.indexes._ibor_index cimport IborIndex
+
 cdef class LiborSwap:
     '''Libor Swap factory
     

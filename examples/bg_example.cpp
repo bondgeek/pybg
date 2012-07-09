@@ -288,7 +288,10 @@ int main ()
 	
     cout << "\n\nBonds" << endl;
     
-	boost::shared_ptr<BulletBond> bond1(new BulletBond(.045, Date(15, May, 2017), Date(15, May, 2003)));
+	boost::shared_ptr<BulletBond> bond1(new BulletBond(.045, 
+                                                       Date(15, May, 2017), 
+                                                       Date(15, May, 2003))
+                                        );
     
     cout << "mty: " << bond1->maturityDate() << endl;
     cout << "stl: " << bond1->settlementDate() << endl;

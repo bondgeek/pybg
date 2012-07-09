@@ -139,12 +139,12 @@ cdef class LiborSwap:
     
     #Results
     #    Real   NPV()
-    #    Real 	fixedLegBPS() 
-    #    Real 	fixedLegNPV() 
-    #    Rate 	fairRate()
-    #    Real 	floatingLegBPS()
-    #    Real 	floatingLegNPV()
-    #    Spread 	fairSpread()
+    #    Real   fixedLegBPS() 
+    #    Real   fixedLegNPV() 
+    #    Rate   fairRate()
+    #    Real   floatingLegBPS()
+    #    Real   floatingLegNPV()
+    #    Spread fairSpread()
     property NPV:
         def __get__(self):
             cdef Real result 
@@ -220,7 +220,7 @@ cdef class USDLiborSwap(LiborSwap):
             DayCounter floatingLegDayCounter=Actual360(),
             floatingLegConvention=ModifiedFollowing
             ):
-            
+                    
         self._swaptype = \
             new _fixedfloatswap.SwapType[ _libor.USDLibor ](
                 <_Frequency>fixedLegFrequency,
@@ -249,7 +249,8 @@ cdef class USDLiborSwap(LiborSwap):
         
         deref(self._swaptype).linkIndex(_crv)
         self._thisptr.get().setEngine(_crv)
-                          
+              
+                                      
 cdef class EuriborSwap(LiborSwap):    
     def __init__(self,
             tenor,
