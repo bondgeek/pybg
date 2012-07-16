@@ -42,4 +42,6 @@ pybg/quantlib/time/calendars/*.cpp
 pybg/quantlib/math/*.h
 pybg/quantlib/math/*.cpp
 
+# logfiles
+*.log
 

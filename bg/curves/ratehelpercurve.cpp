@@ -120,7 +120,7 @@ namespace bondgeek
 	
 	void RateHelperCurve::build_termstructure(void) 
 	{
-		double tolerance = 1.0e-15;
+		double tolerance = 1.0e-12;
         
 		if (_todaysDate == Date()) 
 			_todaysDate = Settings::instance().evaluationDate();

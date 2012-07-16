@@ -68,6 +68,7 @@ bb = B.BulletBond(.045, date(2017, 5, 15), date(2003, 5, 15), B.UnitedStates(B.G
 bb.setEngine(rh)
 prc = bb.toPrice()
 yld = bb.toYield(prc)
+print("Bullet bond value: {0:.3f}, {1:.3%}".format(prc, yld))
 
 import pybg.instruments.callbond as C
 cb = C.CallBond(.045, 
@@ -79,4 +80,7 @@ cb = C.CallBond(.045,
 cb.oasEngine(rh, 0., .2017, True)
 
 prc_cb = cb.oasValue(0.0, .2017)
+
+print("Call bond value: {0:.3f}".format(prc_cb))
+
 

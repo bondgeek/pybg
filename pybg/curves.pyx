@@ -176,7 +176,7 @@ cdef class RateHelperCurve:
                 yrs = <double>ref
             except:
                 yrs = 0.0
-                
+            
             discfactor = self._thisptr.get().discount(yrs, True)
         
         return discfactor

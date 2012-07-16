@@ -128,6 +128,12 @@ cdef class CallBond:
                   Real sigma,
                   Real spread=0.0,
                   int  lognormal=True):
+        '''set price engine for oas calcs
+        
+        lognormal:  True, uses BlackKarasinski
+                    False, uses Hull-White
+        
+        '''
         cdef _curves.RateHelperCurve _crv
         
         _crv = deref(crv._thisptr.get())
@@ -139,6 +145,9 @@ cdef class CallBond:
                  Real sigma, 
                  Real a=0.0,
                  int  lognormal=True):
+        '''Calculates bond value from option adjusted spread
+        
+        '''
         cdef Real value
         value = self._thisptr.get().oasValue(spread, sigma, a, <bool>lognormal)
         
