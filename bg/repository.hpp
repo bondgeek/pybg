@@ -41,6 +41,6 @@ namespace bondgeek {
         
         const T& operator[](K key) { return get_item(key); }
     };
-    	
+        
 }
 #endif

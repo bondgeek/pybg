@@ -65,15 +65,15 @@ namespace bondgeek {
 
         VanillaSwap::Type paytype(SwapPayType paytype);
         
-		virtual void setEngine(CurveBase &crv) ;
-		virtual void setEngine(CurveBase &crv, 
-							   Real &a, 
-							   Real &sigma,
-							   bool lognormal=true) ;	
+        virtual void setEngine(CurveBase &crv) ;
+        virtual void setEngine(CurveBase &crv, 
+                               Real &a, 
+                               Real &sigma,
+                               bool lognormal=true) ;    
         //Inspectors
         SwapPayType payerType(void) { return _payerType; }
-		
-	};
+        
+    };
 
 }
 #endif

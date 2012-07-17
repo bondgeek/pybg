@@ -16,35 +16,35 @@ namespace bondgeek {
     
     // Rate Helper Types
     enum RHType {DEPO, FRA, FUT, SWAP};
-	
-	class RateHelperCurve : public CurveBase {
-	protected:
-		RHelperList _rateHelpers;
-		
-		map< string, boost::shared_ptr<SimpleQuote> > _quotes;
-		
-	public:
-		RateHelperCurve() {}
-		RateHelperCurve(CurveBase crvtype) { update_parms(crvtype); }
-		
-		boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr, 
+    
+    class RateHelperCurve : public CurveBase {
+    protected:
+        RHelperList _rateHelpers;
+        
+        map< string, boost::shared_ptr<SimpleQuote> > _quotes;
+        
+    public:
+        RateHelperCurve() {}
+        RateHelperCurve(CurveBase crvtype) { update_parms(crvtype); }
+        
+        boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr, 
                                                     const Rate &quote,
                                                     const RHType &rhtype,
                                                     int forwardPeriod=0);
-		
-		boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr,
+        
+        boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr,
                                                     const boost::shared_ptr<Quote> &_quote, 
                                                     const RHType &rhtype,
                                                     int forwardPeriod=0);
-		
-		void add_ratehelpers(CurveMap, RHType); 
-		
-		void add_depos(CurveMap crv) { add_ratehelpers(crv, DEPO); }
-		void add_swaps(CurveMap crv) { add_ratehelpers(crv, SWAP); }
+        
+        void add_ratehelpers(CurveMap, RHType); 
+        
+        void add_depos(CurveMap crv) { add_ratehelpers(crv, DEPO); }
+        void add_swaps(CurveMap crv) { add_ratehelpers(crv, SWAP); }
         void add_futs(CurveMap crv) { add_ratehelpers(crv, FUT); }
-		
-		virtual void build_termstructure(void);
-		
+        
+        virtual void build_termstructure(void);
+        
         void update(Date todaysDate,
                     std::string depotenors[],
                     double depospots[],
@@ -65,7 +65,7 @@ namespace bondgeek {
         // Inspectors
         Real tenorquote(string key);
 
-	};
+    };
 
 }
 

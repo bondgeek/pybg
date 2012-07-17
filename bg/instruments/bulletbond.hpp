@@ -16,35 +16,35 @@
 using namespace QuantLib;
 
 namespace bondgeek {
-	
+    
     class BulletBond : public BGInstrument, public FixedRateBond {
     protected:
-		// Bond type definitions
-		Calendar                _calendar;
-		Natural                 _settlementDays;
-		Frequency               _frequency; 
-		DayCounter              _daycounter; 
+        // Bond type definitions
+        Calendar                _calendar;
+        Natural                 _settlementDays;
+        Frequency               _frequency; 
+        DayCounter              _daycounter; 
         Real                    _redemption;
         Real                    _faceamount;
-		BusinessDayConvention   _accrualConvention;
-		BusinessDayConvention   _paymentConvention; 
-		
+        BusinessDayConvention   _accrualConvention;
+        BusinessDayConvention   _paymentConvention; 
+        
         Rate _coupon;
-		Date _maturity;        
-		Date _issue_date;
+        Date _maturity;        
+        Date _issue_date;
         
     public:
         BulletBond(const Rate &coupon,
                    const Date &maturity,
                    const Date &issue_date = Date(),
-				   Calendar calendar = UnitedStates(UnitedStates::GovernmentBond),
-				   Natural settlementDays = 3,
-				   DayCounter daycounter = ActualActual(ActualActual::Bond),
-				   Frequency frequency = Semiannual,
-				   Real redemption = 100.0,
-				   Real faceamount = 100.0,
-				   BusinessDayConvention accrualConvention = Unadjusted,
-				   BusinessDayConvention paymentConvention = Unadjusted
+                   Calendar calendar = UnitedStates(UnitedStates::GovernmentBond),
+                   Natural settlementDays = 3,
+                   DayCounter daycounter = ActualActual(ActualActual::Bond),
+                   Frequency frequency = Semiannual,
+                   Real redemption = 100.0,
+                   Real faceamount = 100.0,
+                   BusinessDayConvention accrualConvention = Unadjusted,
+                   BusinessDayConvention paymentConvention = Unadjusted
                    );
         
         double toPrice();
@@ -52,14 +52,14 @@ namespace bondgeek {
         
         double toYield();
         double toYield(Real bondprice);
-		
-		virtual void setEngine(CurveBase &crv) ;
-		virtual void setEngine(CurveBase &crv, 
-							   Real &a, 
-							   Real &sigma,
-							   bool lognormal=true) ;
-		
+        
+        virtual void setEngine(CurveBase &crv) ;
+        virtual void setEngine(CurveBase &crv, 
+                               Real &a, 
+                               Real &sigma,
+                               bool lognormal=true) ;
+        
     };
-		
+        
 }
 #endif

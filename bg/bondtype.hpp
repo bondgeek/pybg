@@ -15,30 +15,30 @@
 
 using namespace QuantLib;
 
-namespace bondgeek {	
-	
-	// TODO: Not a Model element, should probably be in python-based Controller 
-	class BondType {
+namespace bondgeek {    
+    
+    // TODO: Not a Model element, should probably be in python-based Controller 
+    class BondType {
     protected:
-		Calendar                _calendar;
-		Natural                 _settlementDays;
-		Frequency               _frequency; 
-		DayCounter              _daycounter; 
+        Calendar                _calendar;
+        Natural                 _settlementDays;
+        Frequency               _frequency; 
+        DayCounter              _daycounter; 
         Real                    _redemption;
         Real                    _faceamount;
-		BusinessDayConvention   _accrualConvention;
-		BusinessDayConvention   _paymentConvention; 
-		
-	public:
+        BusinessDayConvention   _accrualConvention;
+        BusinessDayConvention   _paymentConvention; 
+        
+    public:
         BondType(Calendar calendar = UnitedStates(UnitedStates::GovernmentBond),
-				 Natural settlementDays = 3,
-				 DayCounter daycounter = ActualActual(ActualActual::Bond),
-				 Frequency frequency = Semiannual,
-				 Real redemption = 100.0,
-				 Real faceamount = 100.0,
-				 BusinessDayConvention accrualConvention = Unadjusted,
-				 BusinessDayConvention paymentConvention = Unadjusted
-				 ) :
+                 Natural settlementDays = 3,
+                 DayCounter daycounter = ActualActual(ActualActual::Bond),
+                 Frequency frequency = Semiannual,
+                 Real redemption = 100.0,
+                 Real faceamount = 100.0,
+                 BusinessDayConvention accrualConvention = Unadjusted,
+                 BusinessDayConvention paymentConvention = Unadjusted
+                 ) :
         _calendar(calendar),
         _settlementDays(settlementDays),
         _daycounter(daycounter),
@@ -48,26 +48,26 @@ namespace bondgeek {
         _accrualConvention(accrualConvention),
         _paymentConvention(paymentConvention)
         {}
-		
-		boost::shared_ptr<BulletBond> createBullet(const Rate &coupon, 
-												   const Date &maturity, 
-												   const Date &issue_date = Date()
-												   )
-		{
-			boost::shared_ptr<BulletBond> bnd(new BulletBond(coupon,
-															 maturity,
-															 issue_date,
-															 _calendar,
-															 _settlementDays,
-															 _daycounter,
-															 _frequency,
-															 _redemption,
-															 _faceamount,
-															 _accrualConvention,
-															 _paymentConvention));
-			return bnd;
-		}
-	};
+        
+        boost::shared_ptr<BulletBond> createBullet(const Rate &coupon, 
+                                                   const Date &maturity, 
+                                                   const Date &issue_date = Date()
+                                                   )
+        {
+            boost::shared_ptr<BulletBond> bnd(new BulletBond(coupon,
+                                                             maturity,
+                                                             issue_date,
+                                                             _calendar,
+                                                             _settlementDays,
+                                                             _daycounter,
+                                                             _frequency,
+                                                             _redemption,
+                                                             _faceamount,
+                                                             _accrualConvention,
+                                                             _paymentConvention));
+            return bnd;
+        }
+    };
 
 }
 #endif

@@ -10,23 +10,23 @@
 #include <bg/curvebase.hpp>
 
 namespace bondgeek 
-{	
-	void CurveBase::build(const Date &todaysDate, const int &fixingDays) 
-	{
-		if (fixingDays >= 0) 
+{    
+    void CurveBase::build(const Date &todaysDate, const int &fixingDays) 
+    {
+        if (fixingDays >= 0) 
             _fixingDays = fixingDays;
-		
-		if (_todaysDate == Date()) 
-			_todaysDate = Settings::instance().evaluationDate();
+        
+        if (_todaysDate == Date()) 
+            _todaysDate = Settings::instance().evaluationDate();
         else {
             Date date_ref = this->_calendar.adjust(todaysDate);
             _todaysDate = date_ref;
         }
 
-		Settings::instance().evaluationDate() = _todaysDate;
-		
-		build();
-	}
+        Settings::instance().evaluationDate() = _todaysDate;
+        
+        build();
+    }
     
     boost::shared_ptr<YieldTermStructure>   CurveBase::spreadedTermStructurePtr(const Handle<Quote>& spread,
                                                                                 Compounding comp,

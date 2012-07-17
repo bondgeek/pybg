@@ -61,7 +61,7 @@
 		CB4D02011594B7470002568B /* bondgeek.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondgeek.hpp; sourceTree = "<group>"; };
 		CB4D02021594B7470002568B /* bondtype.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondtype.hpp; sourceTree = "<group>"; };
 		CB4D02031594B7470002568B /* curvebase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = curvebase.cpp; sourceTree = "<group>"; };
-		CB4D02041594B7470002568B /* curvebase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = curvebase.hpp; sourceTree = "<group>"; };
+		CB4D02041594B7470002568B /* curvebase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.h; path = curvebase.hpp; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		CB4D02051594B7470002568B /* curvefactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = curvefactory.cpp; sourceTree = "<group>"; };
 		CB4D02061594B7470002568B /* curvefactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = curvefactory.hpp; sourceTree = "<group>"; };
 		CB4D02081594B7470002568B /* ratehelpercurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ratehelpercurve.cpp; sourceTree = "<group>"; };

@@ -57,8 +57,8 @@ namespace bondgeek {
     
     // Date interfaces
     Date QDate(Date);
-	Date QDate(int);
-	Date QDate(string);
+    Date QDate(int);
+    Date QDate(string);
     
     // Period, Quote interfaces
     Period Tenor(string);
@@ -74,7 +74,7 @@ namespace bondgeek {
                              Date date_ref=Date(),
                              bool mainCycle=true
                              );
-	
+    
     // Settings
     Date get_evaluation_date();
     void set_evaluation_date(Date& cob_date);

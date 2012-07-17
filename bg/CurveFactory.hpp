@@ -25,7 +25,7 @@
 
 namespace bondgeek {
     
-	// TODO: Not a Model element, should probably be in python-based Controller 
+    // TODO: Not a Model element, should probably be in python-based Controller 
     class CurveFactory : public QuantLib::Singleton<CurveFactory> {
         friend class QuantLib::Singleton<CurveFactory>;
         
@@ -41,7 +41,7 @@ namespace bondgeek {
         void init_curvebases(std::string key, CurveBase crvtype);
         
         const CurveBase& curveType(const std::string &key) {return _curveTypes[key];}
-		
+        
         // Curve creation 
         RateHelperCurve ratehelperCurve(std::string key);        
         RateHelperCurve ratehelperCurve(std::string key, 
