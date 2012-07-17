@@ -56,6 +56,8 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
         _QLDate     referenceDate()
         _QLDate     maxDate()
         Calendar    calendar()
+        Calendar    fixingCalendar()
+        
         Integer     fixingDays() 
         
         Real        tenorquote(string key)        

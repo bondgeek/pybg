@@ -38,6 +38,16 @@
 		CB378E5B1594C6FD00C91A4E /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
 		CB378E5C1594C6FD00C91A4E /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
 		CB378E5F1594C73A00C91A4E /* callbond_example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D025F1594B7470002568B /* callbond_example.cpp */; };
+		CCB1E5C715B5800E00F738BB /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
+		CCB1E5C815B5803300F738BB /* libboost_regex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01F81594B6510002568B /* libboost_regex.dylib */; };
+		CCB1E5CA15B5807C00F738BB /* curvetest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCB1E5C915B5807C00F738BB /* curvetest.cpp */; };
+		CCB1E5CB15B5808A00F738BB /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
+		CCB1E5CC15B5808A00F738BB /* callbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02121594B7470002568B /* callbond.cpp */; };
+		CCB1E5CD15B5808A00F738BB /* fixedfloatswap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02141594B7470002568B /* fixedfloatswap.cpp */; };
+		CCB1E5CE15B5808A00F738BB /* curvebase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02031594B7470002568B /* curvebase.cpp */; };
+		CCB1E5CF15B5808A00F738BB /* curvefactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02051594B7470002568B /* curvefactory.cpp */; };
+		CCB1E5D015B5808A00F738BB /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
+		CCB1E5D115B5808A00F738BB /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -210,6 +220,8 @@
 		CC9FB86515A7A1390083E005 /* _bulletbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _bulletbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC9FB86815A7A1630083E005 /* bulletbond.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bulletbond.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC9FB86B15A7A1890083E005 /* bulletbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bulletbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CCB1E5C215B57FE300F738BB /* curvetest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = curvetest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCB1E5C915B5807C00F738BB /* curvetest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = curvetest.cpp; sourceTree = "<group>"; };
 		CCE4EC1415B35ED100F2B646 /* curvetest.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = curvetest.py; sourceTree = "<group>"; };
 		CCE4EC3A15B36D7100F2B646 /* curvetest2.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = curvetest2.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -240,6 +252,15 @@
 			files = (
 				CB378D8A1594BC6100C91A4E /* libboost_regex.dylib in Frameworks */,
 				CB378D8B1594BC6100C91A4E /* libQuantLib.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCB1E5C015B57FE300F738BB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CCB1E5C815B5803300F738BB /* libboost_regex.dylib in Frameworks */,
+				CCB1E5C715B5800E00F738BB /* libQuantLib.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +301,7 @@
 				CB4D02B71594B8A50002568B /* pybg */,
 				CB378E121594C27300C91A4E /* bg_test_suite */,
 				CB378E4F1594C6E100C91A4E /* callbond_example */,
+				CCB1E5C215B57FE300F738BB /* curvetest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -350,6 +372,7 @@
 				CB4D025E1594B7470002568B /* CallableBonds.cpp */,
 				CB4D025F1594B7470002568B /* callbond_example.cpp */,
 				CB4D02601594B7470002568B /* bg_example.cpp */,
+				CCB1E5C915B5807C00F738BB /* curvetest.cpp */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -651,6 +674,22 @@
 			productReference = CB4D02B71594B8A50002568B /* pybg */;
 			productType = "com.apple.product-type.tool";
 		};
+		CCB1E5C115B57FE300F738BB /* curvetest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CCB1E5C615B5800E00F738BB /* Build configuration list for PBXNativeTarget "curvetest" */;
+			buildPhases = (
+				CCB1E5BF15B57FE300F738BB /* Sources */,
+				CCB1E5C015B57FE300F738BB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = curvetest;
+			productName = curvetest;
+			productReference = CCB1E5C215B57FE300F738BB /* curvetest */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -676,6 +715,7 @@
 				CB4D02B61594B8A50002568B /* bg_example */,
 				CB378E111594C27300C91A4E /* bg_test_suite */,
 				CB378E4E1594C6E100C91A4E /* callbond_example */,
+				CCB1E5C115B57FE300F738BB /* curvetest */,
 			);
 		};
 /* End PBXProject section */
@@ -723,6 +763,21 @@
 				CB378D861594BC5700C91A4E /* ratehelpercurve.cpp in Sources */,
 				CB378D871594BC5700C91A4E /* date_utilities.cpp in Sources */,
 				CB378D821594BC0E00C91A4E /* bg_example.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCB1E5BF15B57FE300F738BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CCB1E5CB15B5808A00F738BB /* bulletbond.cpp in Sources */,
+				CCB1E5CC15B5808A00F738BB /* callbond.cpp in Sources */,
+				CCB1E5CD15B5808A00F738BB /* fixedfloatswap.cpp in Sources */,
+				CCB1E5CE15B5808A00F738BB /* curvebase.cpp in Sources */,
+				CCB1E5CF15B5808A00F738BB /* curvefactory.cpp in Sources */,
+				CCB1E5D015B5808A00F738BB /* ratehelpercurve.cpp in Sources */,
+				CCB1E5D115B5808A00F738BB /* date_utilities.cpp in Sources */,
+				CCB1E5CA15B5807C00F738BB /* curvetest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -857,6 +912,36 @@
 			};
 			name = Release;
 		};
+		CCB1E5C415B57FE300F738BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = curvetest;
+			};
+			name = Debug;
+		};
+		CCB1E5C515B57FE300F738BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = curvetest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -892,6 +977,15 @@
 			buildConfigurations = (
 				CB4D02B91594B8A60002568B /* Debug */,
 				CB4D02BA1594B8A60002568B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CCB1E5C615B5800E00F738BB /* Build configuration list for PBXNativeTarget "curvetest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCB1E5C415B57FE300F738BB /* Debug */,
+				CCB1E5C515B57FE300F738BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -92,6 +92,7 @@ namespace bondgeek {
         
         // Inspectors
         Calendar						calendar() { return _calendar; }
+        Calendar                        fixingCalendar() { return _swFloatingLegIndex->fixingCalendar(); }
         Date                            curvedate(void) {return _todaysDate;}
         Integer							fixingDays() { return _fixingDays;}
         DayCounter						depositDayCounter() { return _depositDayCounter; }

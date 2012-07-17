@@ -26,7 +26,8 @@ int main ()
 	cout << "QuantLib Version #: " << QL_VERSION << endl ;    
 		
     Calendar calendar = TARGET();
-    Date todaysDate = TARGET().adjust( Date(20, September, 2004) );
+//    Date todaysDate = TARGET().adjust( Date(20, September, 2004) );
+    Date todaysDate = TARGET().adjust( Date(28, May, 2012) );
 	
     Settings::instance().evaluationDate() = todaysDate;
 	
@@ -50,6 +51,8 @@ int main ()
 	cout << "quote:  " << acurve.tenorquote("10Y") << endl;
     
     cout << "test tenors\n" << Period(6, Months) << " | " << Tenor("6M") << endl;
+    cout << "fixing calendar: " << acurve.fixingCalendar() << endl;
+    
     /*********************
      * SWAPS TO BE PRICED *
      **********************/
