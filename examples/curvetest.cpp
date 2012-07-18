@@ -78,39 +78,30 @@ int main ()
     crv_usdlibor = new RateHelperCurve(TestLiborCurve("3M"));
     
     Calendar crvFixCal = crv_usdlibor->fixingCalendar();
-    cout << "fixing calendar: " << crvFixCal << endl;
+    cout << "\nFixing calendar: " << crvFixCal << endl;
+
     
-    cout << "Range of dates " << endl;
+    crv_usdlibor->update(todaysDate, 
+                         depotenors, depospots, 6,
+                         swaptenors, swapspots, 5);	
+    
+    cout << "\nRun curve tests " << endl;
     Date testDate = todaysDate;
     for (int i=0; i < 90; i++) 
     {
         cout << testDate << " >> " ;
-        testDate = crvFixCal.adjust(testDate, ModifiedFollowing);
-        cout << testDate << endl ;
-        
-        testDate = crvFixCal.advance(testDate, -1, Days, Unadjusted);
-    }
-        
-    cout << "Reset date and run curve tests " << endl;
-    testDate = todaysDate;
-    for (int i=0; i < 90; i++) 
-    {
-        cout << testDate << " >> " ;
-        testDate = crvFixCal.adjust(testDate, ModifiedFollowing);
-        cout << testDate << " | " ;
-        
-        crv_usdlibor->update(testDate, 
-                             depotenors, depospots, 6,
-                             swaptenors, swapspots, 5);	
+        Settings::instance().evaluationDate() = testDate;
         
         Date   refDate = crv_usdlibor->referenceDate();
         cout << "curve ref date: " << refDate << " | "; 
         
-        
         double df = crv_usdlibor->discount(10.0);
-        cout << "discount(10.): " << df << endl;
+        cout << "discount(10.): " << df << " Date OK" << endl << endl;
         
+        // You have to use fixingCalendar
+        // TODO: CurveBase::advanceCurveDate
         testDate = crvFixCal.advance(testDate, -1, Days, Unadjusted);
+        
     }
     
 }

@@ -19,7 +19,9 @@ namespace bondgeek
         if (_todaysDate == Date()) 
             _todaysDate = Settings::instance().evaluationDate();
         else {
-            Date date_ref = this->_calendar.adjust(todaysDate);
+            // Date date_ref = this->_calendar.adjust(todaysDate);
+            // Use fixing calendar to avoid problems
+            Date date_ref = this->fixingCalendar().adjust(todaysDate);
             _todaysDate = date_ref;
         }
 
@@ -46,15 +48,13 @@ namespace bondgeek
     
     Real CurveBase::discount(double years, bool extrapolate)
     { 
-        Real df = this->discountingTermStructure().currentLink()->discount(years,
-                                                                           extrapolate);
+        Real df = this->_yieldTermStructure->discount(years, extrapolate);
         return df; 
     }
     
     Real CurveBase::discount(const Date &date, bool extrapolate)
     { 
-        Real df = this->discountingTermStructure().currentLink()->discount(date,
-                                                                           extrapolate);
+        Real df = this->_yieldTermStructure->discount(date, extrapolate);
         return df; 
     }
 

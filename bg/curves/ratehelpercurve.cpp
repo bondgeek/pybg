@@ -125,14 +125,9 @@ namespace bondgeek
         if (_todaysDate == Date()) 
             _todaysDate = Settings::instance().evaluationDate();
         
-        Date crvRefDate = this->fixingCalendar().advance(_todaysDate, 
-                                                         _fixingDays, 
-                                                         Days, 
-                                                         _swFloatingLegIndex->businessDayConvention()); 
-        
         boost::shared_ptr<YieldTermStructure> ts(
-                                                 new PiecewiseYieldCurve<Discount,LogLinear>(
-                                                                                             crvRefDate,
+                                                 new PiecewiseYieldCurve<Discount,LogLinear>(_fixingDays,
+                                                                                             this->fixingCalendar(), 
                                                                                              _rateHelpers,
                                                                                              _termStructureDayCounter,
                                                                                              tolerance) 
