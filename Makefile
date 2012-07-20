@@ -8,7 +8,10 @@ clean:
 	
 build_ext:   
 	python setup.py build_ext --inplace
-    
+
+build_win:
+	python setup_win.py build_ext --inplace
+	
 test:
 	nosetests -v pybg/tests
 	

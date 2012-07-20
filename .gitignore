@@ -22,6 +22,8 @@ swig/example/example.py
 swig/example/example_wrap.c
 # system files / osx noise
 .DS_Store
+# windows / visual studio noise
+*.idb
 #
 # cython intermediate products
 pybg/*.h
