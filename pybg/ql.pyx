@@ -1,5 +1,5 @@
-# distutils: language = c++
-# distutils: libraries = QuantLib
+# 
+#  
 
 import datetime  
 
