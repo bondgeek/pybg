@@ -11,13 +11,15 @@
 
 namespace bondgeek 
 {    
-    Date CurveBase::setEvalDate(const Date &todays_date, const int &fixing_days) 
+    Date CurveBase::setEvalDate(Date todays_date, const int &fixing_days) 
     {
         if (fixing_days >= 0) 
             _fixingDays = fixing_days;
         
-        if (_todaysDate == Date()) 
+        if (todays_date == Date()) 
+        {
             _todaysDate = Settings::instance().evaluationDate();
+        }
         else {
             // Date date_ref = this->_calendar.adjust(todaysDate);
             // Use fixing calendar to avoid problems

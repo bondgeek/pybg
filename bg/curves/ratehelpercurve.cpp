@@ -192,14 +192,14 @@ namespace bondgeek
         }
         else 
         {
+            cout << "\nIN UPDATE, NOT BUILDING\n" ;
+            
             if (!depocurve.empty()) 
                 this->updateCurve(depocurve);
             if (!futcurve.empty())
                 this->updateCurve(futcurve);
             if (!swapcurve.empty())
                 this->updateCurve(swapcurve);
-            
-            cout << "\nIN UPDATE, NOT BUILDING\n" ;
         }
 
     }
@@ -217,6 +217,7 @@ namespace bondgeek
         // if not fail, because something else should be done.
         boost::shared_ptr<SimpleQuote> newValue;
         
+        cout << "in setTenorQuote " << key << endl;
         if (this->_quotes[key]->isValid() )
         {
             newValue =  boost::dynamic_pointer_cast<SimpleQuote>(this->_quotes[key]);
@@ -230,10 +231,11 @@ namespace bondgeek
     bool RateHelperCurve::updateCurve(CurveMap crv)
     {
         CurveMap::iterator it;
-        bool               isValid;
         
+        cout << "here we go" << endl;
         for ( it=crv.begin() ; it != crv.end(); it++ )
         {
+            cout << "key: " << (*it).first << " value: " << (*it).second << endl;
             if ( !setTenorQuote((*it).first, (*it).second) ) 
             {
                 // You can't add tenors via this function
