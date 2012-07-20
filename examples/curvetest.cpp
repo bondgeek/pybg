@@ -81,9 +81,10 @@ int main ()
     cout << "\nFixing calendar: " << crvFixCal << endl;
 
     
-    crv_usdlibor->update(todaysDate, 
-                         depotenors, depospots, 6,
-                         swaptenors, swapspots, 5);	
+    crv_usdlibor->update(depotenors, depospots, 6,
+                         swaptenors, swapspots, 5,
+                         todaysDate
+                         );	
     
     cout << "\nRun curve tests " << endl;
     Date testDate = todaysDate;

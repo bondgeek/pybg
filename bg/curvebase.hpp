@@ -105,10 +105,11 @@ namespace bondgeek {
         
         boost::shared_ptr<IborIndex>    floatingLegIndex() { return _swFloatingLegIndex; }
         
-        // Each curve type will define its own buid_termstructure, which should assume that
-        // the global date is set via Settings.
+        // Each curve type will define its own buid_termstructure, 
+        // which should assume that the global date is set via Settings.
         // Setting the date is handled in the base class
-        void build(const Date &todaysDate, const int &fixingDays=-1);
+        Date setEvalDate(const Date &todays_date, const int &fixing_days=-1);
+        void build(const Date &todays_date, const int &fixing_days=-1);
         void build(void) { build_termstructure(); }
         
         virtual void build_termstructure(void) {}    

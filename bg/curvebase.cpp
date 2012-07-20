@@ -11,21 +11,29 @@
 
 namespace bondgeek 
 {    
-    void CurveBase::build(const Date &todaysDate, const int &fixingDays) 
+    Date CurveBase::setEvalDate(const Date &todays_date, const int &fixing_days) 
     {
-        if (fixingDays >= 0) 
-            _fixingDays = fixingDays;
+        if (fixing_days >= 0) 
+            _fixingDays = fixing_days;
         
         if (_todaysDate == Date()) 
             _todaysDate = Settings::instance().evaluationDate();
         else {
             // Date date_ref = this->_calendar.adjust(todaysDate);
             // Use fixing calendar to avoid problems
-            Date date_ref = this->fixingCalendar().adjust(todaysDate);
+            Date date_ref = this->fixingCalendar().adjust(todays_date);
             _todaysDate = date_ref;
         }
-
+        
         Settings::instance().evaluationDate() = _todaysDate;
+        
+        return _todaysDate;
+    }
+    
+    void CurveBase::build(const Date &todays_date, const int &fixing_days) 
+    {
+        
+        this->setEvalDate(todays_date, fixing_days);
         
         build();
     }

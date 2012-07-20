@@ -33,6 +33,7 @@ namespace bondgeek
                                                                  ) 
     {
         boost::shared_ptr<Quote> _quote(new SimpleQuote(quote));
+        
         return newRateHelper(tnr, _quote, rhtype, forwardPeriod);
     }
     
@@ -108,10 +109,11 @@ namespace bondgeek
                     tnr = Tenor((*it).first);
                     break;
             }
-                    
+            
+            // keep track of quotes so they can be changed in setTenorQuote
             quote = boost::shared_ptr<SimpleQuote>(new SimpleQuote((*it).second));
             
-            _quotes[(*it).first ] = quote;
+            _quotes[ (*it).first ] = quote;
             
             _rateHelpers.push_back(newRateHelper(tnr, quote, type, forwardPeriod));
         }
@@ -140,13 +142,13 @@ namespace bondgeek
         _yieldTermStructure = ts;
     }
     
-    void RateHelperCurve::update(Date todaysDate,
-                                 std::string depotenors[],
+    void RateHelperCurve::update(std::string depotenors[],
                                  double depospots[],
                                  int depocount,                          
                                  std::string swaptenors[],
                                  double swapspots[],
                                  int swapcount,
+                                 Date todaysDate,
                                  int fixingDays) 
     {
         CurveMap depocurve;
@@ -170,8 +172,8 @@ namespace bondgeek
     void RateHelperCurve::update(CurveMap depocurve,
                                  CurveMap futcurve,
                                  CurveMap swapcurve,
-                                 Date     todaysDate,
-                                 int      fixingDays) 
+                                 Date     todays_date,
+                                 int      fixing_days) 
     {   
         if (!depocurve.empty()) 
             this->add_depos(depocurve);
@@ -180,7 +182,16 @@ namespace bondgeek
         if (!swapcurve.empty())
             this->add_swaps(swapcurve);
         
-        this->build(todaysDate, fixingDays);
+        this->setEvalDate(todays_date, fixing_days) ;        
+        if (this->yieldTermStructurePtr() == NULL) 
+        {
+            this->build(_todaysDate, fixing_days);
+        }
+        else 
+        {
+            cout << "\nIN UPDATE, NOT BUILDING\n" ;
+        }
+
     }
 
     // Inspectors
@@ -189,4 +200,20 @@ namespace bondgeek
         return this->_quotes.count(key) > 0 ? this->_quotes[key]->value() : 0.0;
     }
     
+    // Setters
+    bool RateHelperCurve::setTenorQuote(string key, Real quoteValue)
+    {
+        // if key exists, that means there is a ratehelper, so update the quote
+        // if not fail, because something else should be done.
+        boost::shared_ptr<SimpleQuote> newValue;
+        
+        if (this->_quotes[key]->isValid() )
+        {
+            newValue =  boost::dynamic_pointer_cast<SimpleQuote>(this->_quotes[key]);
+            newValue->setValue(quoteValue);
+            return true;
+        }
+        
+        return false;
+    }
 }

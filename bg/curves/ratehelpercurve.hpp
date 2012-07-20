@@ -45,25 +45,28 @@ namespace bondgeek {
         
         virtual void build_termstructure(void);
         
-        void update(Date todaysDate,
-                    std::string depotenors[],
+        void update(std::string depotenors[],
                     double depospots[],
                     int depocount,                          
                     std::string swaptenors[],
                     double swapspots[],
                     int swapcount,
-                    int fixingDays = -1
+                    Date todays_date=Date(),
+                    int fixing_days = -1
                     );        
 
         void update(CurveMap depocurve=CurveMap(),
                     CurveMap futcurve=CurveMap(),
                     CurveMap swapcurve=CurveMap(),
-                    Date todaysDate=Date(),
-                    int fixingDays = -1
+                    Date todays_date=Date(),
+                    int fixing_days = -1
                     );
         
         // Inspectors
         Real tenorquote(string key);
+        
+        // Setters
+        bool setTenorQuote(string key, Real quoteValue);
 
     };
 

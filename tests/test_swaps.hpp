@@ -67,14 +67,16 @@ struct SwapTests {
                                                           swaptenors, swapspots, 5);
         
         bcurve = new RateHelperCurve(USDLiborCurve("3M"));
-        bcurve->update(todaysDate, 
-                       depotenors, depospots, 6,
-                       swaptenors, swapspots, 5);
+        bcurve->update(depotenors, depospots, 6,
+                       swaptenors, swapspots, 5,
+                       todaysDate
+                       );
         
         ccurve = new RateHelperCurve(USDLiborCurve("3M"));
-        ccurve->update(Date(21, January, 2012), 
-                       depotenors, depospots, 6,
-                       swaptenors, swapspots, 5);
+        ccurve->update(depotenors, depospots, 6,
+                       swaptenors, swapspots, 5,
+                       Date(21, January, 2012)
+                       );
         
         
         Settings::instance().evaluationDate() = todaysDate;
@@ -84,12 +86,13 @@ struct SwapTests {
 
 BOOST_FIXTURE_TEST_SUITE( curvetest, SwapTests )
 
-BOOST_AUTO_TEST_CASE( swap_value2)
+BOOST_AUTO_TEST_CASE( swap_value2 )
 {
 
     RateHelperCurve rhcurve( EURiborCurve("6M", Annual) );
     
-        
+    BOOST_TEST_MESSAGE("SWAP_VALUE2: BUILD TEST CURVE");
+    
     rhcurve.update(depocurve2, futscurve, swapcurve);
     
     BOOST_TEST_MESSAGE("Test equivalence of forecastingTermStructure and discountingTermStructure");
@@ -113,6 +116,10 @@ BOOST_AUTO_TEST_CASE( curve_values )
 {			
     BOOST_TEST_MESSAGE(">>EUR curve.discount(10Y): " << acurve.discount(10.0) );
     BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << bcurve->discount(10.0) );
+    
+    BOOST_TEST_MESSAGE(">>EUR curve.tenorquote(10Y): " << acurve.tenorquote("10Y") );
+    BOOST_TEST_MESSAGE(">>USD curve.tenorquote(10Y): " << bcurve->tenorquote("10Y") );
+    
     BOOST_CHECK(  acurve.tenorquote("10Y") ==  0.05165 );
     BOOST_CHECK(  bcurve->tenorquote("10Y") == 0.05165 );
     
@@ -127,11 +134,34 @@ BOOST_AUTO_TEST_CASE( curve_different_date )
     BOOST_TEST_MESSAGE(">>date: " << Settings::instance().evaluationDate() );
 	
     BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << ccurve->discount(10.0) );
+    BOOST_TEST_MESSAGE(">>USD curve.tenorquote(10Y): " << ccurve->tenorquote("10Y") );
     BOOST_CHECK(  ccurve->tenorquote("10Y") ==  0.05165 );
-    
     
     Settings::instance().evaluationDate() = today0;
     BOOST_CHECK( Settings::instance().evaluationDate() == todaysDate );
+}
+
+BOOST_AUTO_TEST_CASE( curve_change_quote )
+{	
+	double df0 = ccurve->discount(10.0);
+    BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << df0 );
+    BOOST_TEST_MESSAGE(">>USD curve.tenorquote(10Y): " << ccurve->tenorquote("10Y") );
+    BOOST_CHECK( ccurve->tenorquote("10Y") ==  0.05165 );
+    
+    ccurve->setTenorQuote("10Y", 0.0520);
+    double df1 = ccurve->discount(10.0);
+    BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << df1 );
+    BOOST_TEST_MESSAGE(">>USD curve.tenorquote(10Y): " << ccurve->tenorquote("10Y") );
+    BOOST_CHECK( ccurve->tenorquote("10Y") ==  0.052 );
+    BOOST_CHECK( df1 < df0);
+    
+    ccurve->setTenorQuote("10Y", 0.05165);
+    double df2 = ccurve->discount(10.0);
+    BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << df2 );
+    BOOST_TEST_MESSAGE(">>USD curve.tenorquote(10Y): " << ccurve->tenorquote("10Y") );
+    BOOST_CHECK( ccurve->tenorquote("10Y") ==  0.05165 );
+    BOOST_CHECK( abs(df2-df0) < 0.0000001 );
+    
 }
 
 BOOST_AUTO_TEST_CASE( swap_value )
