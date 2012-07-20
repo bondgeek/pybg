@@ -14,22 +14,15 @@ extension_paths  = [
  
  ]
  
- 
-print("\nCythonizing...\n")  
-print("Include Dirs: \n%s" % INCLUDE_DIRS)  
-print("Library Dirs: \n%s" % LIBRARY_DIRS)  
+print("\nCythonizing...\n")    
+
 collected_extensions = cythonize(
         [Extension(
                 extname, # name of extension
                 sources=extsources, #  our Cython source
-                include_dirs=INCLUDE_DIRS,
-                library_dirs=LIBRARY_DIRS,
-                define_macros = get_define_macros(),
-                extra_compile_args = get_extra_compile_args(),
-                extra_link_args = get_extra_link_args(),
-                pyrex_directives = CYTHON_DIRECTIVES,
-                libraries = ['QuantLib', 'boost_regex'], # libraries to link
-                language="c++") # causes Cython to create C++ source
+                language="c++",
+                **ext_args
+                ) # causes Cython to create C++ source
         for extname, extsources in extension_paths
         ]
         )
