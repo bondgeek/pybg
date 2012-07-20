@@ -96,13 +96,19 @@ namespace bondgeek
         CurveMap::iterator it;
         boost::shared_ptr<SimpleQuote> quote;
         Period tnr;
-        int forwardPeriod = 0;
+        int fwdPeriod = 0;
 
-        for ( it=crv.begin() ; it != crv.end(); it++ ){
-            switch (type) {
+        for ( it=crv.begin() ; it != crv.end(); it++ )
+        {
+            // keep track of quotes so they can be changed in setTenorQuote
+            quote = boost::shared_ptr<SimpleQuote>(new SimpleQuote((*it).second));
+            _quotes[ (*it).first ] = quote;
+            
+            switch (type) 
+            {
                 case FUT:
                     tnr = Tenor("3M");
-                    forwardPeriod = FuturesTenor((*it).first);
+                    fwdPeriod = FuturesTenor((*it).first);
                     break;
                     
                 default:
@@ -110,12 +116,9 @@ namespace bondgeek
                     break;
             }
             
-            // keep track of quotes so they can be changed in setTenorQuote
-            quote = boost::shared_ptr<SimpleQuote>(new SimpleQuote((*it).second));
+            _rateHelpers.push_back(newRateHelper(tnr, quote, type, fwdPeriod));
             
-            _quotes[ (*it).first ] = quote;
             
-            _rateHelpers.push_back(newRateHelper(tnr, quote, type, forwardPeriod));
         }
         
     }
@@ -174,21 +177,28 @@ namespace bondgeek
                                  CurveMap swapcurve,
                                  Date     todays_date,
                                  int      fixing_days) 
-    {   
-        if (!depocurve.empty()) 
-            this->add_depos(depocurve);
-        if (!futcurve.empty())
-            this->add_futs(futcurve);
-        if (!swapcurve.empty())
-            this->add_swaps(swapcurve);
-        
+    {  
         this->setEvalDate(todays_date, fixing_days) ;        
         if (this->yieldTermStructurePtr() == NULL) 
         {
+            if (!depocurve.empty()) 
+                this->add_depos(depocurve);
+            if (!futcurve.empty())
+                this->add_futs(futcurve);
+            if (!swapcurve.empty())
+                this->add_swaps(swapcurve);
+            
             this->build(_todaysDate, fixing_days);
         }
         else 
         {
+            if (!depocurve.empty()) 
+                this->updateCurve(depocurve);
+            if (!futcurve.empty())
+                this->updateCurve(futcurve);
+            if (!swapcurve.empty())
+                this->updateCurve(swapcurve);
+            
             cout << "\nIN UPDATE, NOT BUILDING\n" ;
         }
 
@@ -215,5 +225,23 @@ namespace bondgeek
         }
         
         return false;
+    }
+    
+    bool RateHelperCurve::updateCurve(CurveMap crv)
+    {
+        CurveMap::iterator it;
+        bool               isValid;
+        
+        for ( it=crv.begin() ; it != crv.end(); it++ )
+        {
+            if ( !setTenorQuote((*it).first, (*it).second) ) 
+            {
+                // You can't add tenors via this function
+                return false;
+            }
+        }
+        
+        // TODO:  We still don't know if we changed EVERY tenor
+        return true;
     }
 }

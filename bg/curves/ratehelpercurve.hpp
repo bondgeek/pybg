@@ -67,7 +67,8 @@ namespace bondgeek {
         
         // Setters
         bool setTenorQuote(string key, Real quoteValue);
-
+        bool updateCurve(CurveMap crv);
+        
     };
 
 }

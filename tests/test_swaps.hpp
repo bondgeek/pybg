@@ -105,6 +105,23 @@ BOOST_AUTO_TEST_CASE( swap_value2 )
     
 }
 
+BOOST_AUTO_TEST_CASE( swap_value3 )
+{
+    
+    BOOST_TEST_MESSAGE("SWAP_VALUE3: Update Curve");
+    
+    ccurve->update(depocurve2, futscurve, swapcurve);
+    
+    BOOST_TEST_MESSAGE("Test equivalence of forecastingTermStructure and discountingTermStructure");
+	Real d1 = ccurve->discountingTermStructure().currentLink()->discount(10.0);
+	Real d2 = ccurve->forecastingTermStructure().currentLink()->discount(10.0);
+	Real d3 = ccurve->discountingTermStructure().currentLink()->discount(0.0);
+    BOOST_CHECK(abs(d1-d2) < 0.001);
+    BOOST_CHECK(d3 > d1);
+	
+    
+}
+
 BOOST_AUTO_TEST_CASE( evaluation_date )
 {			
 	BOOST_TEST_MESSAGE(">>date: " << Settings::instance().evaluationDate() );
