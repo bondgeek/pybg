@@ -1,4 +1,6 @@
 # Lines starting with '#' are considered comments--in fact, they are comments.
+foo.*
+foo*.*
 # ignore compiled files
 *.pyc
 # ignore objects and archives
@@ -26,6 +28,7 @@ swig/example/example_wrap.c
 *.idb
 #
 # cython intermediate products
+*.pyd
 pybg/*.h
 pybg/*.cpp
 
@@ -44,6 +47,17 @@ pybg/quantlib/time/calendars/*.cpp
 pybg/quantlib/math/*.h
 pybg/quantlib/math/*.cpp
 
+<<<<<<< HEAD
 # logfiles
 *.log
 
+=======
+pybg/curvetypes/*.cpp
+pybg/curvetypes/*.h
+pybg/instruments/*.cpp
+pybg/instruments/*.h
+pybg/quantlib/indexes/*.cpp
+pybg/quantlib/indexes/*.h
+pybg/quantlib/termstructures/yields/*.cpp
+pybg/quantlib/termstructures/volatility/equityfx/*.cpp
+>>>>>>> origin/windows7

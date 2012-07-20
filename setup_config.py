@@ -61,7 +61,6 @@ if sys.platform == 'darwin':
                 )
     
 elif sys.platform == 'win32':
-    print("FORMATTING WIN32")
     INCLUDE_DIRS = [r"C:\Program Files (x86)\boost\boost_1_47", r"C:\QuantLib\QuantLib-1.2", '.']
     LIBRARY_DIRS = [r"C:\QuantLib\QuantLib-1.2\lib", r"C:\Program Files (x86)\boost\boost_1_47\lib"]
     ext_args = dict(
@@ -69,5 +68,6 @@ elif sys.platform == 'win32':
                 library_dirs=LIBRARY_DIRS,
                 define_macros = get_define_macros(),
                 extra_compile_args = get_extra_compile_args(),
-                extra_link_args = get_extra_link_args()
+                extra_link_args = get_extra_link_args(),
+                
                 )

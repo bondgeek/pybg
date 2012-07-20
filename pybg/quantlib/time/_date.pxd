@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: libraries = QuantLib
+# x distutils: libraries = QuantLib
 
 include '../types.pxi'
 
