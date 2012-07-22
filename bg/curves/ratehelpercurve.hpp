@@ -51,19 +51,18 @@ namespace bondgeek {
                     std::string swaptenors[],
                     double swapspots[],
                     int swapcount,
-                    Date todays_date=Date(),
-                    int fixing_days = -1
+                    Date todays_date=Date()
                     );        
 
         void update(CurveMap depocurve=CurveMap(),
                     CurveMap futcurve=CurveMap(),
                     CurveMap swapcurve=CurveMap(),
-                    Date todays_date=Date(),
-                    int fixing_days = -1
+                    Date todays_date=Date()
                     );
         
         // Inspectors
-        Real tenorquote(string key);
+        Real        tenorquote(string key);
+        CurveMap    curveQuotes(void);
         
         // Setters
         bool setTenorQuote(string key, Real quoteValue);

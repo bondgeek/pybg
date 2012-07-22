@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: libraries = QuantLib
+# not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include 'quantlib/types.pxi'
 
@@ -14,6 +14,7 @@ from pybg.quantlib.time._period cimport (
     Period as QlPeriod, 
     TimeUnit as QLTimeUnit
     )
+    
 from pybg.quantlib.time._calendar cimport BusinessDayConvention
 from pybg.quantlib.indexes._ibor_index cimport IborIndex as QLIborIndex
 

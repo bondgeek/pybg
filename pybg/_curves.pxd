@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: libraries = QuantLib
+# not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include 'quantlib/types.pxi'
 
@@ -12,9 +12,9 @@ from pybg.quantlib.handle cimport shared_ptr
 from pybg.quantlib.time._date cimport Date as _QLDate
 from pybg.quantlib.time._period cimport Frequency 
 from pybg.quantlib.time._calendar cimport Calendar
+from pybg.quantlib.time._period cimport TimeUnit
 
 from cython.operator cimport dereference as deref
-
 
 cdef extern from 'bg/curvebase.hpp' namespace 'bondgeek':
     cdef enum RHType: 
@@ -28,7 +28,18 @@ cdef extern from 'bg/curvebase.hpp' namespace 'bondgeek':
         
     cdef cppclass CurveBase:
         CurveBase() except +        
-        
+            
+        # Inspectors
+        _QLDate     curveDate() 
+        _QLDate     referenceDate()
+        _QLDate     maxDate()
+        Calendar    calendar()
+        Calendar    fixingCalendar()        
+        Integer     fixingDays() 
+
+        _QLDate     setCurveDate(_QLDate todays_date)
+        _QLDate     advanceCurveDate(int n, TimeUnit unit)
+        void        build()
 
 cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
     
@@ -46,22 +57,17 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
         
         void update(CurveMap &depocurve,
                     CurveMap &futcurve,
+                    CurveMap &swapcurve
+                    )
+        void update(CurveMap &depocurve,
+                    CurveMap &futcurve,
                     CurveMap &swapcurve,
-                    _QLDate todaysDate,
-                    int fixingDays
+                    _QLDate todaysDate
                     )
                     
-        # Inspectors
-        _QLDate     curvedate() 
-        _QLDate     referenceDate()
-        _QLDate     maxDate()
-        Calendar    calendar()
-        Calendar    fixingCalendar()
+        # curve values        
+        Real        tenorquote(string key)  
+        CurveMap    curveQuotes()
         
-        Integer     fixingDays() 
-        
-        Real        tenorquote(string key)        
         Real        discount(double years, bool extrapolate)
         Real        discount(_QLDate dfdate, bool extrapolate)
-
-        

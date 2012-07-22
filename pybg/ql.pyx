@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: libraries = QuantLib
+# not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 import datetime  
 

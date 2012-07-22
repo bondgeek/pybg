@@ -30,9 +30,7 @@ protected:
 public:
     TestLiborCurve():
     CurveBase(boost::shared_ptr<IborIndex>(new USDLibor(Period(3,Months))),
-              UnitedKingdom(UnitedKingdom::Exchange),
               2,
-              Actual360(),
               Semiannual,
               ModifiedFollowing,
               Thirty360(Thirty360::European),
@@ -42,9 +40,7 @@ public:
     
     TestLiborCurve(string tenor, Frequency fixedFrequency=Semiannual):
     CurveBase(boost::shared_ptr<IborIndex>(new USDLibor( Tenor(tenor) )),
-              UnitedKingdom(UnitedKingdom::Exchange),
               2,
-              Actual360(),
               fixedFrequency,
               ModifiedFollowing,
               Thirty360(Thirty360::European),
@@ -75,12 +71,8 @@ int main ()
     double swapspots[] = {0.037125, 0.0398, 0.0443, 0.05165, 0.055175};
     
     RateHelperCurve *crv_usdlibor;
-    crv_usdlibor = new RateHelperCurve(TestLiborCurve("3M"));
-    
-    Calendar crvFixCal = crv_usdlibor->fixingCalendar();
-    cout << "\nFixing calendar: " << crvFixCal << endl;
-
-    
+    crv_usdlibor = new RateHelperCurve(USDLiborCurve("3M"));
+        
     crv_usdlibor->update(depotenors, depospots, 6,
                          swaptenors, swapspots, 5,
                          todaysDate
@@ -92,17 +84,39 @@ int main ()
     {
         cout << testDate << " >> " ;
         Settings::instance().evaluationDate() = testDate;
-        
-        Date   refDate = crv_usdlibor->referenceDate();
-        cout << "curve ref date: " << refDate << " | "; 
+
+        cout << "curve ref date: " << crv_usdlibor->referenceDate() << " | "; 
         
         double df = crv_usdlibor->discount(10.0);
-        cout << "discount(10.): " << df << " Date OK" << endl << endl;
+        cout << "discount(10.): " << df << " Date OK" << endl;
         
-        // You have to use fixingCalendar
-        // TODO: CurveBase::advanceCurveDate
-        testDate = crvFixCal.advance(testDate, -1, Days, Unadjusted);
+        testDate = crv_usdlibor->advanceCurveDate(-1, Days);
         
+    }
+    
+    cout << "\nReset and \nRun all dates " << endl;
+    testDate = todaysDate;
+    for (int i=0; i < 90; i++) 
+    {
+        crv_usdlibor->setCurveDate(testDate);
+        cout << testDate << " >> " ;
+
+        cout << crv_usdlibor->curveDate() << " | ";
+        cout << "curve ref date: " << crv_usdlibor->referenceDate() << " | "; 
+        
+        double df = crv_usdlibor->discount(10.0);
+        cout << "discount(10.): " << df << " Date OK" << endl ;
+
+        testDate = TARGET().advance(testDate, -1, Days);
+        
+    }
+    
+    CurveMap crv_quotes = crv_usdlibor->curveQuotes();
+    CurveMap::iterator it;
+    cout <<"\n\nCurve " << endl;
+    for (it = crv_quotes.begin(); it != crv_quotes.end(); it++)
+    {
+        cout << (*it).first << ": " << (*it).second << endl;
     }
     
 }

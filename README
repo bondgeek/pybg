@@ -1,56 +1,23 @@
-# pybg
-# sample run
-import pybg
+pybg -- bondgeek's fixed income python libraries
+================================================
 
-pybg.set_eval_date()
-pybg.set_eval_date( date(1960,8,9) )
+pybg is a set of wrappers and extensions to QuantLib.  It is inspired by,
+and borrows freely from Enthought's PyQL Cython wrappers for QuantLib.
 
-pybg.get_eval_date()  // Settings::instance().evaluationDate();
 
-pybg.set_curvetype('curve_id', CurveBase(calendar.TARGET,     // TARGET(),
-                                         settledays,          // =2,
-                                         daycount.act360,     // Actual360(),
-                                         ibor.USDLibor('3M'), // boost::shared_ptr<IborIndex>(new USDLibor(Period(3,Months))),
-                                         frequency.semi,      // Semiannual,
-                                         bdConvention.modifiedFollowing,          // ModifiedFollowing,
-                                         daycount.thirty360(thirty360.European),  // Thirty360(Thirty360::European),
-                                         daycount.actAct(actAct.ISDA)             // ActualActual(ActualActual::ISDA)
-                                        )
-                   ) // Loads curvetype into Repository under 'id'
+Build Info
+==========
+    make build_ext
+    make test
 
-mycrv = pybg.create_curve('curve_id', depocurve, swapcurve) 
-/* RateHelperCurve mycrv = CurveFactory::instance().ratehelperCurve("USDSEMI_QTR", 
-																	  today, 
-																	  depotenors, 
-																	  depospots, 
-                                                                      6,
-																	  swaptenors,																	  
-                                                                      swapspots,
-                                                                      7);
-                                                                      */
 
-callbnd = pybg.CallBond(coupon, 
-					 maturity, 
-					 callDate, 
-					 callPrice, 
-					 dated, 
-					 bondCalendar,  
-					 settlementDays,
-					 bondDayCounter,
-					 frequency,
-					 frequency,
-					 redemption,
-					 faceAmount,
-					 accrualConvention,
-					 paymentConvention)
-					 
-lognorm = True // use Black Karasinski, false = Hull White
+License Info:
+    QuantLib: http://quantlib.org/reference/license.html
+    pyql:   https://github.com/enthought/pyql/blob/master/LICENSE.txt
+    pybg:   MIT License, Copyright (c) 2012 BG Research LLC
 
-callbnd.oasEngine(acurve, mean_reversion, sigma, oas_spread, lognorm)
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-prc = callbnd.cleanPrice()
-prc = callbnd.oasValue(oas_spread)
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-oas_spread = callbnd.oas(prc, sigma, mean_reversion, lognorm)
-sigma = callbnd.oasImpliedVol(prc, oas_spread, mean_reversion, lognorm)
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

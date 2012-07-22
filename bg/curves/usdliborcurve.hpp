@@ -20,9 +20,7 @@ namespace bondgeek {
     public:
         USDLiborCurve():
         CurveBase(boost::shared_ptr<IborIndex>(new USDLibor(Period(3,Months))),
-                  TARGET(),
                   2,
-                  Actual360(),
                   Semiannual,
                   ModifiedFollowing,
                   Thirty360(Thirty360::European),
@@ -32,9 +30,7 @@ namespace bondgeek {
         
         USDLiborCurve(string tenor, Frequency fixedFrequency=Semiannual):
         CurveBase(boost::shared_ptr<IborIndex>(new USDLibor( Tenor(tenor) )),
-                  TARGET(),
                   2,
-                  Actual360(),
                   fixedFrequency,
                   ModifiedFollowing,
                   Thirty360(Thirty360::European),

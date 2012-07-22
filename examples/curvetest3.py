@@ -24,6 +24,9 @@ dt0 = date(2012, 7, 4)
 pybg.ql.set_eval_date(dt0)
 
 logfile = "curvetest3.log"
+with open(logfile, 'w'):
+    pass
+    
 logging.basicConfig(level=logging.INFO, filename=logfile)
 
 logging.info("Date: {:%m/%d/%Y}".format(dt0))
@@ -31,25 +34,23 @@ logging.info("Date: {:%m/%d/%Y}".format(dt0))
 print("Number of dates: {}".format(len(ussw.keys)))
 print("Log file: {}".format(logfile))
 
-uk_calendar = UnitedKingdom(SETTLEMENT)
+
+rh = curves.RateHelperCurve(USDLiborCurve("3M"))
 
 n = 0
 for dt in ussw.keys:
-    
-    dt1 = uk_calendar.adjust(Date.from_datetime(dt))
     
     try:    
         depos = dict([(h, .05) for h in depohdr])
 
         swaps = dict([(h, .05) for h in swaphdr])
 
-        rh = curves.RateHelperCurve(USDLiborCurve("3M"))
-        rh.update(depos, {}, swaps, dt1)
+        rh.update(depos, {}, swaps, dt)
         
         outstr = "{:3g}){} | {}: {:.5f}, {:.5f}, "
         sys.stdout.write(outstr.format(n,
                             dt,
-                            dt1,
+                            rh.curveDate,
                             rh.tenorquote("3M"),
                             rh.tenorquote("2Y")
                             )
@@ -68,4 +69,5 @@ for dt in ussw.keys:
             print h, ussw[dt][h]
             logging.warning("{}, {}".format(h, ussw[dt][h]))
     
+        raise
     n += 1

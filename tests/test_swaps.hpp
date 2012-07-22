@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE( curve_different_date )
     Date today0 = Settings::instance().evaluationDate();
     
     BOOST_TEST_MESSAGE("\nCheck under different date:" );
-    Settings::instance().evaluationDate() = ccurve->curvedate();
+    Settings::instance().evaluationDate() = ccurve->curveDate();
     BOOST_TEST_MESSAGE(">>date: " << Settings::instance().evaluationDate() );
 	
     BOOST_TEST_MESSAGE(">>USD curve.discount(10Y): " << ccurve->discount(10.0) );

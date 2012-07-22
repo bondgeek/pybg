@@ -1,14 +1,16 @@
-# distutils: language = c++
-# distutils: libraries = QuantLib
 '''
 Tenor class
 
 @author: Bart Mosley
 @copyright: BG Research LLC, 2011
+@modified: July 2012 to replace SWIG Quantlib bindings with pyQL Cython code.
+
 '''
 from datetime import date 
 
 import pybg.quantlib.time.date as qldate
+
+from pybg.enums import TimeUnits
 
 from pybg.quantlib.time.api import *
 
@@ -16,10 +18,10 @@ from pybg.ql import pydate_from_qldate, qldate_from_pydate
 
 
 class Tenor(object):
-    _tenorUnits = {'D': Days,
-                   'W': Weeks, 
-                   'M': Months, 
-                   'Y': Years}
+    _tenorUnits = {'D': TimeUnits.Days,
+                   'W': TimeUnits.Weeks, 
+                   'M': TimeUnits.Months, 
+                   'Y': TimeUnits.Years}
     _tenorLength = {'D': 365,
                    'W': 52, 
                    'M': 12, 

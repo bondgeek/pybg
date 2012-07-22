@@ -25,20 +25,32 @@ namespace bondgeek {
     typedef vector< boost::shared_ptr<RateHelper> > RHelperList;
     
     class CurveBase {
+    /* A curve is specified by a set of market instruments.
+       Those instruments may include:
+        -fixed rate bonds 
+        -fixed/floating swaps
+        -deposit rates
+        -futures on those deposit rates
+     
+        It is assumed that the market conventions for all fixed rate instruments,
+        including swaps, are all consistent for a single curve--as well as for
+        all deposit rate instruments.  The conventions may vary between the fixed rate
+        instruments and the deposit instruments.
+     
+     */
     protected:
-        Date        _todaysDate;
-        Date        _settlementDate;
-        Calendar    _calendar;
-        Integer     _fixingDays;
+        Calendar                _calendar;
+        Integer                 _fixingDays;
+        BusinessDayConvention   _businessDayConvention; 
+            
+        // fixed rate instrument (bond or swap) parameters
+        Frequency                       _fixedInstrumentFrequency;
+        BusinessDayConvention           _fixedInstrumentConvention;
+        DayCounter                      _fixedInstrumentDayCounter;
         
-        // Rate Helper parameters
-        DayCounter  _depositDayCounter;
         
-        // swap parameters
-        // TODO:  should be in sub-class?
-        Frequency                       _swFixedLegFrequency;
-        BusinessDayConvention           _swFixedLegConvention;
-        DayCounter                      _swFixedLegDayCounter;
+        // Deposit instrument parameters
+        DayCounter                      _depositDayCounter;
         boost::shared_ptr<IborIndex>    _swFloatingLegIndex;
         
         // Term Structure 
@@ -54,11 +66,12 @@ namespace bondgeek {
             _calendar = crvtype._calendar;
             _fixingDays = crvtype._fixingDays;
             _depositDayCounter = crvtype._depositDayCounter;
+            _businessDayConvention = crvtype._businessDayConvention;
             
-            // swap parameters
-            _swFixedLegFrequency     = crvtype._swFixedLegFrequency;
-            _swFixedLegConvention    = crvtype._swFixedLegConvention;
-            _swFixedLegDayCounter    = crvtype._swFixedLegDayCounter;
+            // fixed rate instrument (bond or swap) parameters
+            _fixedInstrumentFrequency     = crvtype._fixedInstrumentFrequency;
+            _fixedInstrumentConvention    = crvtype._fixedInstrumentConvention;
+            _fixedInstrumentDayCounter    = crvtype._fixedInstrumentDayCounter;
 
             _swFloatingLegIndex      = crvtype._swFloatingLegIndex;
             
@@ -71,34 +84,56 @@ namespace bondgeek {
     public:
         CurveBase() {}
         CurveBase(boost::shared_ptr<IborIndex> swFloatingLegIndex,
-                  Calendar calendar=TARGET(),
+                  Integer fixingDays=2,
+                  Frequency fixedRateFrequency=Annual,
+                  BusinessDayConvention fixedInstrumentConvention=Unadjusted, 
+                  DayCounter fixedInstrumentDayCounter=Thirty360(Thirty360::European), 
+                  DayCounter termStructureDayCounter=ActualActual(ActualActual::ISDA)
+                  ) :
+        _fixingDays(fixingDays),
+        _fixedRateFrequency(fixedRateFrequency),
+        _fixedInstrumentFrequency(fixedRateFrequency),
+        _fixedInstrumentConvention(fixedInstrumentConvention),
+        _fixedInstrumentDayCounter(fixedInstrumentDayCounter),
+        _termStructureDayCounter(termStructureDayCounter),
+        _swFloatingLegIndex(swFloatingLegIndex) 
+        {
+            // For a swap curve, the you need to use the floating index
+            // calendar to avoid segmentation faults on bad dates.
+            // TODO:  this should be fixed in QuantLib's IborIndex Class
+            _calendar = _swFloatingLegIndex->fixingCalendar();
+            _businessDayConvention = _swFloatingLegIndex->businessDayConvention();
+            _depositDayCounter=_swFloatingLegIndex->dayCounter();
+        }
+        
+        CurveBase(Calendar calendar,
                   Integer fixingDays=2,                  
                   DayCounter depositDayCounter=Actual360(),
                   Frequency fixedRateFrequency=Annual,
-                  BusinessDayConvention swFixedLegConvention=Unadjusted, 
-                  DayCounter swFixedLegDayCounter=Thirty360(Thirty360::European), 
+                  BusinessDayConvention fixedInstrumentConvention=Unadjusted, 
+                  DayCounter fixedInstrumentDayCounter=Thirty360(Thirty360::European), 
                   DayCounter termStructureDayCounter=ActualActual(ActualActual::ISDA)
                   ) :
         _calendar(calendar),
         _fixingDays(fixingDays),
         _depositDayCounter(depositDayCounter),
         _fixedRateFrequency(fixedRateFrequency),
-        _swFixedLegFrequency(fixedRateFrequency),
-        _swFixedLegConvention(swFixedLegConvention),
-        _swFixedLegDayCounter(swFixedLegDayCounter),
-        _termStructureDayCounter(termStructureDayCounter),
-        _swFloatingLegIndex(swFloatingLegIndex) 
-        {}
+        _fixedInstrumentFrequency(fixedRateFrequency),
+        _fixedInstrumentConvention(fixedInstrumentConvention),
+        _fixedInstrumentDayCounter(fixedInstrumentDayCounter),
+        _termStructureDayCounter(termStructureDayCounter)
+        {
+            _businessDayConvention = _fixedInstrumentConvention;
+        }
         
         // Inspectors
+        Date                            curveDate(void);
         Calendar                        calendar() { return _calendar; }
-        Calendar                        fixingCalendar() { return _swFloatingLegIndex->fixingCalendar(); }
-        Date                            curvedate(void) {return _todaysDate;}
         Integer                         fixingDays() { return _fixingDays;}
         DayCounter                      depositDayCounter() { return _depositDayCounter; }
-        Frequency                       fixedLegFrequency() { return _swFixedLegFrequency; }
-        BusinessDayConvention           fixedLegConvention() { return _swFixedLegConvention; }
-        DayCounter                      fixedLegDayCounter() { return _swFixedLegDayCounter; }
+        Frequency                       fixedLegFrequency() { return _fixedInstrumentFrequency; }
+        BusinessDayConvention           fixedLegConvention() { return _fixedInstrumentConvention; }
+        DayCounter                      fixedLegDayCounter() { return _fixedInstrumentDayCounter; }
         DayCounter                      termStructureDayCounter() { return _termStructureDayCounter; }
         Date                            referenceDate() { return this->discountingTermStructure().currentLink()->referenceDate(); }
         Date                            maxDate()  { return this->discountingTermStructure().currentLink()->maxDate(); }
@@ -108,8 +143,10 @@ namespace bondgeek {
         // Each curve type will define its own buid_termstructure, 
         // which should assume that the global date is set via Settings.
         // Setting the date is handled in the base class
-        Date setEvalDate(Date todays_date, const int &fixing_days=-1);
-        void build(const Date &todays_date, const int &fixing_days=-1);
+        Date setCurveDate(Date todays_date=Date());
+        Date advanceCurveDate(int n, TimeUnit unit);
+        
+        void build(const Date &todays_date);
         void build(void) { build_termstructure(); }
         
         virtual void build_termstructure(void) {}    

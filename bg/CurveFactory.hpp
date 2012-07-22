@@ -51,8 +51,8 @@ namespace bondgeek {
                                         int depocount,
                                         std::string swaptenors[],
                                         double swapspots[],
-                                        int swapcount,
-                                        int fixingDays = -1);        
+                                        int swapcount
+                                        );        
     };
 
 }

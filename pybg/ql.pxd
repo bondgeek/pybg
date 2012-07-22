@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: libraries = QuantLib
+# not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate

@@ -20,9 +20,7 @@ namespace bondgeek {
     public:
         EURiborCurve():
         CurveBase(boost::shared_ptr<IborIndex>(new Euribor(Period(6, Months))),
-                  TARGET(),
                   2,
-                  Actual360(),
                   Annual,
                   Unadjusted,
                   Thirty360(Thirty360::European),
@@ -32,9 +30,7 @@ namespace bondgeek {
         
         EURiborCurve(string tenor, Frequency fixedFrequency=Annual):
         CurveBase(boost::shared_ptr<IborIndex>(new Euribor( Tenor(tenor) )),
-                  TARGET(),
                   2,
-                  Actual360(),
                   fixedFrequency,
                   Unadjusted,
                   Thirty360(Thirty360::European),

@@ -1,23 +1,25 @@
 # distutils: language = c++
-# distutils: libraries = QuantLib
+# not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include 'quantlib/types.pxi'
 
 from libcpp.map cimport map
 from libcpp.string cimport string
 
-from cython.operator cimport dereference as deref
+from cython.operator cimport dereference as deref, preincrement as inc
 
 cimport _curves
 cimport pybg.quantlib.time._date as _qldate
+cimport pybg.quantlib.time._period as _qlperiod
 cimport pybg.quantlib.time.date as qldate
 
 from pybg.quantlib.handle cimport shared_ptr
-
 from pybg.quantlib.time.api import *
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 from pybg.ql import get_eval_date, set_eval_date
+
+from pybg.enums import TimeUnits
 
 from datetime import date 
 
@@ -39,6 +41,17 @@ cdef _curves.CurveMap curveMap_from_dict(pycurve):
         curve[<string>tnr] = value
     return curve 
 
+cdef object dict_from_CurveMap(_curves.CurveMap crv):
+    cdef map[string, Rate].iterator iter 
+    
+    pycurve = {}
+    iter = crv.begin()
+    while iter != crv.end():
+        pycurve[deref(iter).first.c_str()] = deref(iter).second
+        inc(iter)
+        
+    return pycurve
+    
 
 cdef class CurveBase:
     """Rate Helper Curve
@@ -95,15 +108,8 @@ cdef class RateHelperCurve:
             self._thisptr.get().add_swaps(_curvemap)
         else:
             raise ValueError, "Type: %s invalid ratehelper" % rh_type
-    
-    def build(self, evaldate=None, fixingdays=-1):
-        if not evaldate:
-            evaldate = date.today()
-        
-        set_eval_date(evaldate)
-        evaldate = get_eval_date()
-        
-    def update(self, depos=None, futures=None, swaps=None, evaldate=None, fixingdays=-1):
+            
+    def update(self, depos=None, futures=None, swaps=None, evaldate=None):
 
         MSG_ARGS = "RateHelperCurve.update must have at least one curve"
         assert any((depos, futures, swaps)), MSG_ARGS
@@ -123,23 +129,53 @@ cdef class RateHelperCurve:
         if swaps:
             swapcurve = curveMap_from_dict(swaps)
 
-        if not evaldate:
-            evaldate = date.today()
+        if evaldate:
+            self.curveDate = evaldate
         
-        set_eval_date(evaldate)
-        evaldate = get_eval_date()
-        
-        cdef _qldate.Date date_ref  = _qldate_from_pydate(evaldate)
-        
-        self._thisptr.get().update(depocurve, futcurve, swapcurve, date_ref,  fixingdays)
+        self._thisptr.get().update(depocurve, futcurve, swapcurve)
         
         return self.referenceDate
 
+    def validateNewCurve(self, depos=None, futures=None, swaps=None):
+        new_crv = {}
+        new_crv.update(swaps)
+        new_crv.update(futures)
+        new_crv.update(depos)
+        
+        prv_crv = self.curveQuotes
+        if prv_crv and all([new_crv.get(h, None) for h in prv_crv]):
+            isValid = True
+        
+        else:
+            isValid = False
+        
+        return isValid
+
+    def advanceCurveDate(self, int ndays, timeunit=None):
+        
+        if not timeunit:
+            timeunit = TimeUnits.Days
+            
+        cdef int _ndays = int(ndays)
+        
+        self._thisptr.get().advanceCurveDate(int(ndays), 
+                                             <_qlperiod.TimeUnit> timeunit)
+        
     property curveDate:
         def __get__(self):
-            cdef _qldate.Date _refdate = self._thisptr.get().curvedate()
+            cdef _qldate.Date _refdate = self._thisptr.get().curveDate()
             return _pydate_from_qldate(_refdate)
-    
+        
+        def __set__(self, curve_date):
+            cdef _qldate.Date _refdate
+            
+            try:
+                _refdate = _qldate_from_pydate(curve_date)
+            except:
+                _refdate = _qldate_from_pydate(date.today())
+            
+            self._thisptr.get().setCurveDate(_refdate)
+                
     property referenceDate:
         def __get__(self):
             cdef _qldate.Date _refdate = self._thisptr.get().referenceDate()
@@ -155,6 +191,13 @@ cdef class RateHelperCurve:
             cdef int fixdays_ref = self._thisptr.get().fixingDays()
             return fixdays_ref
     
+    property curveQuotes:
+        def __get__(self):
+            cdef _curves.CurveMap crv = self._thisptr.get().curveQuotes()
+            
+            pycrv = dict_from_CurveMap(crv)
+            return pycrv
+            
     # Curve functions
     def tenorquote(self, key):
         key = key.upper()

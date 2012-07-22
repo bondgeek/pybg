@@ -10,32 +10,46 @@
 #include <bg/curvebase.hpp>
 
 namespace bondgeek 
-{    
-    Date CurveBase::setEvalDate(Date todays_date, const int &fixing_days) 
+{   
+    Date CurveBase::curveDate()
     {
-        if (fixing_days >= 0) 
-            _fixingDays = fixing_days;
+        return Settings::instance().evaluationDate();
+    }
+    
+    Date CurveBase::setCurveDate(Date todays_date) 
+    {
+        Date date_ref;
         
         if (todays_date == Date()) 
         {
-            _todaysDate = Settings::instance().evaluationDate();
+            date_ref = Settings::instance().evaluationDate();
         }
         else {
-            // Date date_ref = this->_calendar.adjust(todaysDate);
             // Use fixing calendar to avoid problems
-            Date date_ref = this->fixingCalendar().adjust(todays_date);
-            _todaysDate = date_ref;
+            date_ref = this->calendar().adjust(todays_date);
+            
+            Settings::instance().evaluationDate() = date_ref;
         }
         
-        Settings::instance().evaluationDate() = _todaysDate;
-        
-        return _todaysDate;
+        return date_ref;
     }
     
-    void CurveBase::build(const Date &todays_date, const int &fixing_days) 
+    Date CurveBase::advanceCurveDate(int n, TimeUnit unit)
+    {
+        Calendar cal = this->calendar();
+        BusinessDayConvention bdconv = _swFloatingLegIndex->businessDayConvention();
+        
+        Date date_ref = Settings::instance().evaluationDate();
+        
+        date_ref = cal.advance(date_ref, n, unit, bdconv);
+        
+        return this->setCurveDate(date_ref);
+    }
+    
+    void CurveBase::build(const Date &todays_date) 
     {
         
-        this->setEvalDate(todays_date, fixing_days);
+        this->setCurveDate(todays_date);
         
         build();
     }

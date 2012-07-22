@@ -63,9 +63,9 @@ namespace bondgeek
                                                                         Handle<Quote>(_quote), 
                                                                         tnr,
                                                                         _calendar, 
-                                                                        _swFixedLegFrequency,
-                                                                        _swFixedLegConvention, 
-                                                                        _swFixedLegDayCounter,
+                                                                        _fixedInstrumentFrequency,
+                                                                        _fixedInstrumentConvention, 
+                                                                        _fixedInstrumentDayCounter,
                                                                         _swFloatingLegIndex)
                                                      );
                 break;
@@ -127,17 +127,15 @@ namespace bondgeek
     {
         double tolerance = 1.0e-12;
         
-        if (_todaysDate == Date()) 
-            _todaysDate = Settings::instance().evaluationDate();
+        Settings::instance().evaluationDate();
         
         boost::shared_ptr<YieldTermStructure> ts(
                                                  new PiecewiseYieldCurve<Discount,LogLinear>(_fixingDays,
-                                                                                             this->fixingCalendar(), 
+                                                                                             this->calendar(), 
                                                                                              _rateHelpers,
                                                                                              _termStructureDayCounter,
                                                                                              tolerance) 
                                                  );
-        _settlementDate = ts->referenceDate();
         
         _forecastingTermStructure.linkTo(ts);
         _discountingTermStructure.linkTo(ts);
@@ -151,8 +149,8 @@ namespace bondgeek
                                  std::string swaptenors[],
                                  double swapspots[],
                                  int swapcount,
-                                 Date todaysDate,
-                                 int fixingDays) 
+                                 Date todaysDate
+                                 ) 
     {
         CurveMap depocurve;
         CurveMap swapcurve;
@@ -167,18 +165,17 @@ namespace bondgeek
         this->update(depocurve,
                      futcurve,
                      swapcurve,
-                     todaysDate,
-                     fixingDays);
+                     todaysDate);
         
     }
         
     void RateHelperCurve::update(CurveMap depocurve,
                                  CurveMap futcurve,
                                  CurveMap swapcurve,
-                                 Date     todays_date,
-                                 int      fixing_days) 
+                                 Date     todays_date) 
     {  
-        this->setEvalDate(todays_date, fixing_days) ;        
+        this->setCurveDate(todays_date) ;  
+        
         if (this->yieldTermStructurePtr() == NULL) 
         {
             if (!depocurve.empty()) 
@@ -188,12 +185,10 @@ namespace bondgeek
             if (!swapcurve.empty())
                 this->add_swaps(swapcurve);
             
-            this->build(_todaysDate, fixing_days);
+            this->build();
         }
         else 
         {
-            cout << "\nIN UPDATE, NOT BUILDING\n" ;
-            
             if (!depocurve.empty()) 
                 this->updateCurve(depocurve);
             if (!futcurve.empty())
@@ -210,6 +205,20 @@ namespace bondgeek
         return this->_quotes.count(key) > 0 ? this->_quotes[key]->value() : 0.0;
     }
     
+    CurveMap RateHelperCurve::curveQuotes()
+    {
+        string key;
+        CurveMap crv;
+        map< string, boost::shared_ptr<SimpleQuote> >::iterator it;
+        
+        for (it=this->_quotes.begin(); it != this->_quotes.end(); it++)
+        {
+            crv[(*it).first] = (*it).second->value();
+        }
+        
+        return crv;
+    }
+    
     // Setters
     bool RateHelperCurve::setTenorQuote(string key, Real quoteValue)
     {
@@ -217,8 +226,7 @@ namespace bondgeek
         // if not fail, because something else should be done.
         boost::shared_ptr<SimpleQuote> newValue;
         
-        cout << "in setTenorQuote " << key << endl;
-        if (this->_quotes[key]->isValid() )
+        if ( this->_quotes.count(key) > 0 )
         {
             newValue =  boost::dynamic_pointer_cast<SimpleQuote>(this->_quotes[key]);
             newValue->setValue(quoteValue);
@@ -231,19 +239,16 @@ namespace bondgeek
     bool RateHelperCurve::updateCurve(CurveMap crv)
     {
         CurveMap::iterator it;
+        bool all_good = true;
         
-        cout << "here we go" << endl;
         for ( it=crv.begin() ; it != crv.end(); it++ )
-        {
-            cout << "key: " << (*it).first << " value: " << (*it).second << endl;
             if ( !setTenorQuote((*it).first, (*it).second) ) 
             {
                 // You can't add tenors via this function
-                return false;
+                all_good = false;
             }
-        }
         
         // TODO:  We still don't know if we changed EVERY tenor
-        return true;
+        return all_good;
     }
 }

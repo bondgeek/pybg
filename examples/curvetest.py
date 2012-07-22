@@ -2,24 +2,12 @@ import pybg.ql
 import pybg.curves as curves
 from pybg.curvetypes import USDLiborCurve
 
-#from alprion.db.curvesdb.history import curves_history
 
 from datetime import date
 
-#ussw = curves_history['USSW']
-#ussw.keys.sort(reverse=True)
-
-#dt0 = ussw.keys[0]
-
-#depohdr = ussw.hdr[1:7]
-#swaphdr = ussw.hdr[7:]
-
-#depos = dict([(h, ussw[dt0][h]/100.0) for h in depohdr])
-#swaps = dict([(h, ussw[dt0][h]/100.0) for h in swaphdr])
-
 dt0 = date(2012, 7, 11)
 depos = {
-#'12M': 0.010695000000000001,
+'12M': 0.010695000000000001,
  '1D': 0.00169,
  '1M': 0.0024875,
  '1W': 0.001996,

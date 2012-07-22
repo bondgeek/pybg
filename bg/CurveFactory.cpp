@@ -36,8 +36,8 @@ namespace bondgeek
                                                   int depocount,                          
                                                   std::string swaptenors[],
                                                   double swapspots[],
-                                                  int swapcount,
-                                                  int fixingDays) 
+                                                  int swapcount
+                                                  ) 
     {
         CurveMap depocurve;
         CurveMap swapcurve;
@@ -53,7 +53,7 @@ namespace bondgeek
         rhcurve.add_depos(depocurve);
         rhcurve.add_swaps(swapcurve);
         
-        rhcurve.build(todaysDate, fixingDays);
+        rhcurve.build(todaysDate);
         
         return rhcurve;
     }
