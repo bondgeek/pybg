@@ -47,9 +47,11 @@ pybg/quantlib/time/calendars/*.cpp
 pybg/quantlib/math/*.h
 pybg/quantlib/math/*.cpp
 
+<<<<<<< HEAD
 # logfiles
 *.log
 
+=======
 pybg/curvetypes/*.cpp
 pybg/curvetypes/*.h
 pybg/instruments/*.cpp
@@ -58,3 +60,4 @@ pybg/quantlib/indexes/*.cpp
 pybg/quantlib/indexes/*.h
 pybg/quantlib/termstructures/yields/*.cpp
 pybg/quantlib/termstructures/volatility/equityfx/*.cpp
+>>>>>>> origin/windows7
