@@ -1,5 +1,5 @@
 # distutils: language = c++
-# not using distutils for libraries, Visual Studio auto-linking doesn't like
+# x distutils: libraries = QuantLib
 
 include '../types.pxi'
 
