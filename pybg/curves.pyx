@@ -56,23 +56,6 @@ cdef object dict_from_CurveMap(_curves.CurveMap crv):
         inc(iter)
         
     return pycurve
-    
-
-cdef class ObjectCalendar(pybg.quantlib.time.calendar.Calendar):
-    def __cinit__(self):
-        self._thisptr = NULL
-
-    def __dealloc__(self):
-        if self._thisptr is not NULL:
-            del self._thisptr
-            
-    def __init__(self, RateHelperCurve curveObject):
-        cdef pybg.quantlib.time._calendar.Calendar thiscal
-        
-        thiscal  = curveObject._thisptr.get().calendar()
-        
-        self._thisptr = &thiscal
-        
             
 cdef class CurveBase:
     """Rate Helper Curve

@@ -34,3 +34,4 @@ class DateGeneration(object):
 class SwapPayType(object):
     from pybg.instruments.fixedfloatswap import FixedPayer, FixedReceiver
 
+# TODO:  add Calendars class, which will be a lookup table for 
