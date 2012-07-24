@@ -1,10 +1,13 @@
-import pybg.ql 
+import pybg.ql as ql
 import pybg.curves as curves
 from pybg.curvetypes import USDLiborCurve
 
 from pybg.quantlib.time.calendars.united_kingdom import UnitedKingdom, SETTLEMENT
 from pybg.quantlib.time.calendar import TARGET 
 from pybg.quantlib.time.date import Date
+
+from pybg.instruments.fixedfloatswap import USDLiborSwap
+from pybg.enums import TimeUnits, SwapPayType
 
 from alprion.db.curvesdb.history import curves_history
 
@@ -27,7 +30,7 @@ logging.basicConfig(level=logging.INFO, filename=logfile)
 rh = curves.RateHelperCurve(USDLiborCurve("3M"))
 
 n = 0
-for dt in ussw.keys:
+for dt in ussw.keys[:1000]:
     
     logging.info("Date: {:%m/%d/%Y}".format(dt))
 
@@ -46,19 +49,33 @@ for dt in ussw.keys:
             
         rh.update(depos, {}, swaps, dt)
                 
-        outstr = "{:3g}){} | {}: {:.5f}, {:.5f}, "
+        outstr = "{:3g}){} | {}: {:.5f}, "
         sys.stdout.write(outstr.format(n,
                             dt,
                             rh.curveDate,
-                            rh.tenorquote("3M"),
                             rh.tenorquote("10Y")
                             )
                         )
                         
         sys.stdout.write("{}, ".format(rh.referenceDate))
-        sys.stdout.write("{:.5f}\n".format(rh.discount(10.)))
+        sys.stdout.write("{:.5f} | ".format(rh.discount(10.)))
         
-          
+        mty = TARGET().advance(ql.qldate_from_pydate(rh.referenceDate), 
+                               10, 
+                               TimeUnits.Years)
+                               
+        cpn = rh.tenorquote("10Y")
+        swp = USDLiborSwap("3M", 
+                           rh.referenceDate, 
+                           mty, 
+                           cpn, 
+                           SwapPayType.FixedPayer)
+
+        swp.setEngine(rh)
+        
+        outstr = "pay: {:.3f}% mty: {} {:.5f}\n"
+        sys.stdout.write(outstr.format(cpn*100., mty, swp.NPV))
+        
     except:
         logging.info("Error for {:%Y/%m/%d}".format(dt))
         print("Error for {:%Y/%m/%d}".format(dt))

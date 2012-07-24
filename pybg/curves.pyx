@@ -7,6 +7,7 @@ from libcpp.map cimport map
 from libcpp.string cimport string
 
 from cython.operator cimport dereference as deref, preincrement as inc
+from cython.operator cimport address
 
 cimport _curves
 cimport pybg.quantlib.time._date as _qldate
@@ -14,11 +15,15 @@ cimport pybg.quantlib.time._period as _qlperiod
 cimport pybg.quantlib.time.date as qldate
 
 from pybg.quantlib.handle cimport shared_ptr
-from pybg.quantlib.time.api import *
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
+
 from pybg.ql import get_eval_date, set_eval_date
 
+cimport pybg.quantlib.time._calendar
+cimport pybg.quantlib.time.calendar  
+
+from pybg.quantlib.time.api import *
 from pybg.enums import TimeUnits
 
 from datetime import date 
@@ -53,6 +58,22 @@ cdef object dict_from_CurveMap(_curves.CurveMap crv):
     return pycurve
     
 
+cdef class ObjectCalendar(pybg.quantlib.time.calendar.Calendar):
+    def __cinit__(self):
+        self._thisptr = NULL
+
+    def __dealloc__(self):
+        if self._thisptr is not NULL:
+            del self._thisptr
+            
+    def __init__(self, RateHelperCurve curveObject):
+        cdef pybg.quantlib.time._calendar.Calendar thiscal
+        
+        thiscal  = curveObject._thisptr.get().calendar()
+        
+        self._thisptr = &thiscal
+        
+            
 cdef class CurveBase:
     """Rate Helper Curve
     

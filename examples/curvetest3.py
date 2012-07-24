@@ -34,7 +34,6 @@ logging.info("Date: {:%m/%d/%Y}".format(dt0))
 print("Number of dates: {}".format(len(ussw.keys)))
 print("Log file: {}".format(logfile))
 
-
 rh = curves.RateHelperCurve(USDLiborCurve("3M"))
 
 n = 0
