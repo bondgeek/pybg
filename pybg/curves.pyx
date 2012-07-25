@@ -20,11 +20,10 @@ from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 
 from pybg.ql import get_eval_date, set_eval_date
 
-cimport pybg.quantlib.time._calendar
-cimport pybg.quantlib.time.calendar  
+cimport pybg.quantlib.time._calendar as _calendar
 
 from pybg.quantlib.time.api import *
-from pybg.enums import TimeUnits
+from pybg.enums import TimeUnits, Calendars
 
 from datetime import date 
 
@@ -201,6 +200,14 @@ cdef class RateHelperCurve:
             
             pycrv = dict_from_CurveMap(crv)
             return pycrv
+    
+    property calendar:
+        def __get__(self):
+            cdef  _calendar.Calendar crv_cal = self._thisptr.get().calendar()
+            
+            cdef string cal_name = crv_cal.name()
+            
+            return Calendars().get(cal_name.c_str(), None)
             
     # Curve functions
     def tenorquote(self, key):
