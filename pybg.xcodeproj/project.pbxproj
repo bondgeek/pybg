@@ -223,6 +223,7 @@
 		CCA7170415BB59F5005ED72F /* enums.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = enums.py; sourceTree = "<group>"; };
 		CCB1E5C215B57FE300F738BB /* curvetest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = curvetest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCB1E5C915B5807C00F738BB /* curvetest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = curvetest.cpp; sourceTree = "<group>"; };
+		CCB49A6815C1601B00095439 /* datehandlers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = datehandlers.py; sourceTree = "<group>"; };
 		CCE4EC1415B35ED100F2B646 /* curvetest.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = curvetest.py; sourceTree = "<group>"; };
 		CCE4EC3A15B36D7100F2B646 /* curvetest2.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = curvetest2.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -393,6 +394,7 @@
 			children = (
 				CB4D026C1594B8350002568B /* __init__.py */,
 				CCA7170415BB59F5005ED72F /* enums.py */,
+				CCB49A6815C1601B00095439 /* datehandlers.py */,
 				CBCC4E0C15A1FE490097AC8B /* cusips.py */,
 				CB4D02701594B8350002568B /* ql.pxd */,
 				CB4D02711594B8350002568B /* ql.pyx */,
