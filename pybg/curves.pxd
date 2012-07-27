@@ -3,7 +3,7 @@
 
 from pybg.quantlib.handle cimport shared_ptr
 
-cimport _curves
+cimport pybg._curves as _curves
 
 # Base curve abstract class
 # Specific curve types, e.g. 'USDLiborCurve' should be sub-classed off this

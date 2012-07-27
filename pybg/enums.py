@@ -30,11 +30,9 @@ class Months(object):
 class DateGeneration(object):
     from pybg.quantlib.time.schedule import Backward, Forward
 
-
 class SwapPayType(object):
     from pybg.instruments.fixedfloatswap import FixedPayer, FixedReceiver
 
-# TODO:  add Calendars class, which will be a lookup table for 
 class Calendars(dict):
     from pybg.quantlib.time.calendar import TARGET
     from pybg.quantlib.time.calendars.null_calendar import NullCalendar

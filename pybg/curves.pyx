@@ -74,7 +74,7 @@ cdef class CurveBase:
             
                         
 cdef class RateHelperCurve:
-    """Rate Helper Curve
+    """Rate Helper Curve 
     
     """
     def __cinit__(self):

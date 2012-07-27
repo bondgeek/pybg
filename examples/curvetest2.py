@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.INFO, filename=logfile)
 rh = curves.RateHelperCurve(USDLiborCurve("3M"))
 
 n = 0
-for dt in ussw.keys[:1000]:
+for dt in ussw.keys[:100]:
     
     logging.info("Date: {:%m/%d/%Y}".format(dt))
 

@@ -39,7 +39,6 @@ cdef public enum SwapPayType:
     FixedReceiver = _fixedfloatswap.FixedReceiver
 
 
-
 cdef class LiborSwap:
     def __cinit__(self):
         self._thisptr = NULL
@@ -70,8 +69,6 @@ cdef class LiborSwap:
         """
 
         print("Abstract Base Class")
-        
-        
         
     # Inspectors
     #    SwapPayType payerType()
