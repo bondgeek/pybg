@@ -40,6 +40,8 @@ from pybg.quantlib.time.date import (
     Annual, Semiannual, Quarterly, Monthly, Weekly, Daily
 )
 
+cimport pybg.quantlib._cashflow as _cashflow
+cimport pybg.quantlib.cashflow as cashflow
 
 cdef class BulletBond:
     def __cinit__(self):
@@ -97,3 +99,15 @@ cdef class BulletBond:
             return self._thisptr.get().toYield(bondprice)
         else:
             return self._thisptr.get().toYield()
+            
+    property redemptions:
+        def __get__(self):
+            cdef _cashflow.Leg leg
+            cdef object result 
+            
+            leg = self._thisptr.get().redemptions()
+            
+            result = cashflow.leg_items(leg)
+            
+            return result 
+            

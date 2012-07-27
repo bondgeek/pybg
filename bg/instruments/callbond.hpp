@@ -12,6 +12,7 @@
 #include <ql/quantlib.hpp>
 #include <bg/indexbase.hpp>
 #include <bg/instruments/bginstrument.hpp>
+#include <bg/instruments/bulletbond.hpp>
 
 using namespace QuantLib;
 
@@ -25,6 +26,14 @@ namespace bondgeek {
                                                const Date &endDate, 
                                                const Real &callPrice=100.0,
                                                const Frequency &callFrequency=Annual
+                                               );
+    CallabilitySchedule createBondCallSchedule(const Date &firstCall,
+                                               const Real &callPrice,
+                                               const Date &parCall, 
+                                               const Date &endDate,
+                                               const Frequency &callFrequency=Annual,
+                                               const Real &faceAmount=100.0,
+                                               const DayCounter &dayCounter=Thirty360()
                                                );
     
     class CallBond : public BGInstrument, public CallableFixedRateBond 
@@ -84,6 +93,20 @@ namespace bondgeek {
     public:
         CallBond(const Rate &coupon,
                  const Date &maturity,
+                 const CallabilitySchedule &callSched=CallabilitySchedule(), 
+                 const Date &issue_date = Date(),
+                 Calendar calendar = UnitedStates(UnitedStates::GovernmentBond),
+                 Natural settlementDays = 3,
+                 DayCounter daycounter = ActualActual(ActualActual::Bond),
+                 Frequency payFrequency = Semiannual,
+                 Real redemption = 100.0,
+                 Real faceamount = 100.0,
+                 BusinessDayConvention accrualConvention = Unadjusted,
+                 BusinessDayConvention paymentConvention = Unadjusted
+                 );
+        //Fixed Call Price
+        CallBond(const Rate &coupon,
+                 const Date &maturity,
                  const Date &callDate,
                  const Real &callPrice, 
                  const Date &issue_date = Date(),
@@ -97,6 +120,26 @@ namespace bondgeek {
                  BusinessDayConvention accrualConvention = Unadjusted,
                  BusinessDayConvention paymentConvention = Unadjusted
                  );
+        
+        // Call Price declining to par (classic municipal bond call)
+        CallBond(const Rate &coupon,
+                 const Date &maturity,
+                 const Date &callDate,
+                 const Real &callPrice,
+                 const Date &parCallDate,
+                 const Date &issue_date = Date(),
+                 Calendar calendar = UnitedStates(UnitedStates::GovernmentBond),
+                 Natural settlementDays = 3,
+                 DayCounter daycounter = ActualActual(ActualActual::Bond),
+                 Frequency payFrequency = Semiannual,
+                 Frequency callFrequency = Semiannual,
+                 Real redemption = 100.0,
+                 Real faceamount = 100.0,
+                 BusinessDayConvention accrualConvention = Unadjusted,
+                 BusinessDayConvention paymentConvention = Unadjusted
+                 );
+        
+        // Non Call
         CallBond(const Rate &coupon,
                  const Date &maturity,
                  const Date &issue_date = Date(),
@@ -108,13 +151,24 @@ namespace bondgeek {
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
                  BusinessDayConvention paymentConvention = Unadjusted
-                 );
-        // Constructor for noncall bond
-        
+                 );        
         // Inspectors
         Real reversionParameter() {return _reversionParameter; }
         Real sigma() { return _sigma; }
         bool lognormal() { return _lognormal; } 
+        
+        DayCounter dayCounter() { return _daycounter; }
+        Frequency  frequency() { return _payfrequency; } 
+        
+        // Bond Math
+        double toPrice();
+        double toPrice(Rate bondyield);
+        
+        double toYield();
+        double toYield(Real bondprice);
+        
+        double toYTM();
+        double toYTM(Real bondprice);
         
         // Engines
         virtual void setEngine(CurveBase &crv) ;

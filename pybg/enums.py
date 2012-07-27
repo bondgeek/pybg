@@ -65,3 +65,18 @@ class Calendars(dict):
     def __init__(self, *args):
         dict.__init__(self, self._lookup)
         self.update(*args)
+        
+    @classmethod
+    def advance(cls, pydate, n, timeunit, calendar=None):
+        if not calendar:
+            calendar = cls.TARGET()
+        elif not hasattr(calendar, "advance"):
+            return None
+        
+        try:
+            return calendar.advance(pydate, n, timeunit)
+        except:
+            try:
+                return calendar().advance(pydate, n, timeunit)
+            except:
+                return None

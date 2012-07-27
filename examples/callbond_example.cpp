@@ -288,8 +288,8 @@ int main (int argc, char * const argv[])
                      faceAmount,
                      accrualConvention,
                      paymentConvention);
-    
-        cout << "Call Schedule" << endl;
+        
+    cout << "Call Schedule" << endl;
     CallabilitySchedule  callbndsched1 = callableBond.callability();
     CallabilitySchedule  callbndsched2 = callbnd.callability();
     
@@ -307,11 +307,40 @@ int main (int argc, char * const argv[])
         return 1;
     } 
     
-    cout << "OK " << endl;
-    
     callbnd.setPricingEngine(engine1);
     cout << "test value: " << callbnd.cleanPrice() << endl << endl;
     
+    cout << "\n\nMuni Sched " << endl;
+    CallabilitySchedule muniSched = createBondCallSchedule(Date(15, December, 2007),
+                                                           102.,
+                                                           Date(15, December, 2009),
+                                                           maturity
+                                                           );
+    
+    CallBond callbnd_sched(coupon,
+                           maturity,
+                           muniSched,
+                           dated, 
+                           bondCalendar, 
+                           settlementDays,
+                           bondDayCounter,
+                           frequency,
+                           redemption,
+                           faceAmount,
+                           accrualConvention,
+                           paymentConvention
+                           );
+    
+    vector< boost::shared_ptr<Callability> >::size_type sz_m = muniSched.size();
+    
+    for (int i=0; i<sz_m; i++) 
+    {
+        cout << muniSched[i]->date() << " | " << muniSched[i]->price().amount() << endl;
+    }
+    callbnd_sched.setPricingEngine(engine1);
+    cout << "test value: " << callbnd_sched.toPrice() << endl << endl;
+    
+
     //TODO: create vol/mean reversion matrix
     cout << "\nHull-White (normal) pricing " << endl;    
     Real sig[3] = {0.0, .01, .03};

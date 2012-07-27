@@ -9,6 +9,8 @@ from pybg.quantlib.time._calendar cimport Calendar
 from pybg.quantlib.time._calendar cimport BusinessDayConvention
 from pybg.quantlib.time._daycounter cimport DayCounter as DayCounter
 
+from pybg.quantlib._cashflow cimport Leg
+
 cimport pybg._curves as _curves
 
 cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
@@ -35,3 +37,6 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         
         double toYield()
         double toYield(Rate bondprice)
+        
+        # Inspectors
+        Leg redemptions()

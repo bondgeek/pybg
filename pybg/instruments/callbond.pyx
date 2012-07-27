@@ -40,7 +40,8 @@ from pybg.quantlib.time.date import (
     Annual, Semiannual, Quarterly, Monthly, Weekly, Daily
 )
 
-
+cimport pybg.quantlib._cashflow as _cashflow
+cimport pybg.quantlib.cashflow as cashflow
 
 cdef class CallBond:
     def __cinit__(self):
@@ -66,7 +67,6 @@ cdef class CallBond:
                  accrualConvention=Unadjusted,
                  paymentConvention=Unadjusted
                  ):
-        #cdef shared_ptr[_callbond.CallBond]* _thisptr
 
         self._thisptr = new shared_ptr[_callbond.CallBond]( \
             new _callbond.CallBond(
@@ -110,6 +110,18 @@ cdef class CallBond:
         def __get__(self):
             cdef bool value
             value = self._thisptr.get().lognormal()
+    
+                
+    property redemptions:
+        def __get__(self):
+            cdef _cashflow.Leg leg
+            cdef object result 
+            
+            leg = self._thisptr.get().redemptions()
+            
+            result = cashflow.leg_items(leg)
+            
+            return result 
     
     def setEngine(self, 
                   curves.RateHelperCurve crv,

@@ -18,7 +18,6 @@ namespace bondgeek {
                                                ) 
     // fixed call price
     // TODO:  input list of dates, prices
-    // TODO:  classic muni schedule, first premium date/price, first par date/price
     {
         CallabilitySchedule callSched;
         Calendar nullCalendar = NullCalendar();
@@ -39,6 +38,105 @@ namespace bondgeek {
         return callSched;
         
     }
+    
+    CallabilitySchedule createBondCallSchedule(const Date &firstCall,
+                                               const Real &callPrice,
+                                               const Date &parCall, 
+                                               const Date &endDate,
+                                               const Frequency &callFrequency,
+                                               const Real &faceAmount,
+                                               const DayCounter &dayCounter
+                                               ) 
+    // classic muni schedule, first premium date/price, first par date/price
+    {
+        CallabilitySchedule callSched;
+        Calendar nullCalendar = NullCalendar();
+        
+        QL_REQUIRE(firstCall <= parCall, "first call must be less than " << 
+                   " or equal par call");
+
+        Real dtp = 0.0;
+        int frequency = callFrequency;
+        
+        if (callPrice > faceAmount && parCall > firstCall) {
+            Real callyears = dayCounter.yearFraction(firstCall, parCall);
+            
+            dtp = (callPrice-faceAmount)/(frequency*callyears);
+            
+        }
+        
+        Date fdate(firstCall.serialNumber());
+        Real cPrice = callPrice;
+        while (ActualActual().dayCount(fdate, endDate) > 0) 
+        {
+            
+            Callability::Price callPx(cPrice, Callability::Price::Clean);
+            
+            callSched.push_back(boost::shared_ptr<Callability>(
+                                                               new Callability(callPx,
+                                                                               Callability::Call,
+                                                                               fdate)));
+            
+            fdate = nullCalendar.advance(fdate, Period(callFrequency), Unadjusted, false);
+            
+            if (fdate >= parCall) {
+                cPrice = faceAmount;
+            }
+            else {
+                cPrice -= dtp;
+            }
+        }
+        
+        return callSched;
+        
+    }
+    
+    // Constructors
+    // Call Schedule
+    CallBond::CallBond(const Rate &coupon,
+                       const Date &maturity,
+                       const CallabilitySchedule &callSched, 
+                       const Date &issue_date,
+                       Calendar calendar,
+                       Natural settlementDays,
+                       DayCounter daycounter,
+                       Frequency payFrequency,
+                       Real redemption,
+                       Real faceamount,
+                       BusinessDayConvention accrualConvention,
+                       BusinessDayConvention paymentConvention
+                       ) : 
+    _coupon(coupon),
+    _maturity(maturity),
+    _issue_date(issue_date),
+    _calendar(calendar),
+    _settlementDays(settlementDays),
+    _daycounter(daycounter),
+    _payfrequency(payFrequency),
+    _redemption(redemption),
+    _faceamount(faceamount),
+    _accrualConvention(accrualConvention),
+    _paymentConvention(paymentConvention),
+    CallableFixedRateBond(settlementDays, 
+                          faceamount, 
+                          Schedule(issue_date,
+                                   maturity, 
+                                   Period(payFrequency),
+                                   calendar,
+                                   accrualConvention, 
+                                   accrualConvention, 
+                                   DateGeneration::Backward, 
+                                   false),
+                          std::vector<Rate>(1, coupon),                              
+                          daycounter, 
+                          paymentConvention, 
+                          redemption, 
+                          issue_date, 
+                          callSched
+                          )
+    {}
+    
+    //Fixed Call Price
     
     CallBond::CallBond(const Rate &coupon,
                        const Date &maturity,
@@ -88,6 +186,59 @@ namespace bondgeek {
                           )
     {}
     
+    //Declining Call Schedule
+    CallBond::CallBond(const Rate &coupon,
+                       const Date &maturity,
+                       const Date &callDate,
+                       const Real &callPrice, 
+                       const Date &parCallDate,
+                       const Date &issue_date,
+                       Calendar calendar,
+                       Natural settlementDays,
+                       DayCounter daycounter,
+                       Frequency payFrequency,
+                       Frequency callFrequency,
+                       Real redemption,
+                       Real faceamount,
+                       BusinessDayConvention accrualConvention,
+                       BusinessDayConvention paymentConvention
+                       ) : 
+    _coupon(coupon),
+    _maturity(maturity),
+    _issue_date(issue_date),
+    _calendar(calendar),
+    _settlementDays(settlementDays),
+    _daycounter(daycounter),
+    _payfrequency(payFrequency),
+    _redemption(redemption),
+    _faceamount(faceamount),
+    _accrualConvention(accrualConvention),
+    _paymentConvention(paymentConvention),
+    CallableFixedRateBond(settlementDays, 
+                          faceamount, 
+                          Schedule(issue_date,
+                                   maturity, 
+                                   Period(payFrequency),
+                                   calendar,
+                                   accrualConvention, 
+                                   accrualConvention, 
+                                   DateGeneration::Backward, 
+                                   false),
+                          std::vector<Rate>(1, coupon),                              
+                          daycounter, 
+                          paymentConvention, 
+                          redemption, 
+                          issue_date, 
+                          createBondCallSchedule(callDate, 
+                                                 callPrice,
+                                                 parCallDate,
+                                                 maturity,  
+                                                 callFrequency,
+                                                 faceamount)
+                          )
+    {}
+    
+    // No Call Schedule, Non-Call
     CallBond::CallBond(const Rate &coupon,
                        const Date &maturity,
                        const Date &issue_date,
@@ -150,6 +301,65 @@ namespace bondgeek {
     {
         Real x = QL_EPSILON;
         setEngine(crv, x, x, true);
+    }
+    
+    // Bond Math Functions
+    
+    double CallBond::toPrice()
+    {
+        return this->cleanPrice();
+    }
+    double CallBond::toPrice(Rate bondyield)
+    {
+        
+        //TODO: this should be yield to Worst calculation
+        // iterate thru call schedule for all declining call prices
+        // (yield to worst date will be shortest date with the same price)
+        // to determine if lowest price based on yield
+        return this->cleanPrice(bondyield, 
+                                this->dayCounter(), 
+                                Compounded, 
+                                this->frequency());
+    }
+    
+    double CallBond::toYield()
+    {
+        //TODO: this should be yield to Worst
+        return this->yield(this->cleanPrice(), 
+                           this->dayCounter(), 
+                           Compounded, 
+                           this->frequency());
+    }
+    double CallBond::toYield(Real bondprice)
+    {
+        
+        //TODO: this should be yield to Worst
+        return this->yield(bondprice, 
+                           this->dayCounter(), 
+                           Compounded, 
+                           this->frequency());
+    }
+    
+    double CallBond::toYTM()
+    {
+        return this->toYTM(this->cleanPrice());
+    }
+    
+    double CallBond::toYTM(Real bondprice)
+    {        
+        BulletBond mtyBond(_coupon,
+                           _maturity,
+                           _issue_date,
+                           _calendar,
+                           _settlementDays,
+                           _daycounter,
+                           _payfrequency,
+                           _redemption,
+                           _faceamount,
+                           _accrualConvention,
+                           _paymentConvention);
+        
+        return mtyBond.toYield(bondprice);
     }
     
     // OAS Functions
