@@ -17,6 +17,7 @@ from pybg.quantlib.indexes._ibor_index cimport IborIndex
 from pybg.quantlib._cashflow cimport Leg
 
 cimport pybg.quantlib.termstructures.yields._flat_forward as _ff
+
 cimport pybg._curves as _curves
 
 cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':

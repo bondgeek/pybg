@@ -9,7 +9,7 @@ from libcpp.string cimport string
 from cython.operator cimport dereference as deref, preincrement as inc
 from cython.operator cimport address
 
-cimport pybg._curves as curves
+cimport pybg._curves as _curves
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time._period as _qlperiod
 cimport pybg.quantlib.time.date as qldate

@@ -3,7 +3,8 @@
 
 from pybg.quantlib.handle cimport shared_ptr
 
-cimport pybg._indexbase
+cimport pybg._curves as _curves
+cimport pybg._indexbase as _indexbase
 cimport pybg.quantlib.indexes._libor as _libor
 cimport pybg.quantlib.indexes._euribor as _euribor
 
