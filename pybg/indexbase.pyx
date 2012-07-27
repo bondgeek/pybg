@@ -16,7 +16,7 @@ from libcpp.string cimport string
 
 from pybg.quantlib.time._period cimport TimeUnit as QLTimeUnit
 
-cimport _indexbase
+cimport pybg._indexbase as _indexbase
 
 cdef class USDLiborIndex:
     def __cinit__(self):
