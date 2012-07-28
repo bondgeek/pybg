@@ -1,5 +1,5 @@
 /*
- *  bginstrument.hpp
+ *  InstrumentBase.hpp
  *  bondgeek
  *
  *  Created by Bart Mosley on 6/1/12.
@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef BGINSTRUMENT_H
-#define BGINSTRUMENT_H
+#ifndef INSTRUMENTBASE_H
+#define INSTRUMENTBASE_H
 
 #include <ql/quantlib.hpp>
 
@@ -19,9 +19,9 @@ using namespace QuantLib;
 namespace bondgeek 
 {
 
-    class BGInstrument {
+    class InstrumentBase {
     protected:
-        BGInstrument() {};
+        InstrumentBase() {};
         
     public:
         // virtual function 

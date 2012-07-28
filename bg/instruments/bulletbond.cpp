@@ -17,7 +17,7 @@ namespace bondgeek {
                            Calendar calendar,
                            Natural settlementDays,
                            DayCounter daycounter,
-                           Frequency frequency,
+                           Frequency payfrequency,
                            Real redemption,
                            Real faceamount,
                            BusinessDayConvention accrualConvention,
@@ -26,19 +26,19 @@ namespace bondgeek {
     _coupon(coupon),
     _maturity(maturity),
     _issue_date(issue_date),
-    _calendar(calendar),
-    _settlementDays(settlementDays),
-    _daycounter(daycounter),
-    _frequency(frequency),
-    _redemption(redemption),
-    _faceamount(faceamount),
-    _accrualConvention(accrualConvention),
-    _paymentConvention(paymentConvention),
+    BondBase(calendar,
+             settlementDays,
+             daycounter,
+             payfrequency,
+             redemption,
+             faceamount,
+             accrualConvention,
+             paymentConvention),
     FixedRateBond(settlementDays,
                   faceamount,
                   Schedule(issue_date,
                            maturity, 
-                           Period(frequency),
+                           Period(payfrequency),
                            calendar,
                            accrualConvention, 
                            accrualConvention, 
@@ -68,10 +68,6 @@ namespace bondgeek {
         setEngine(crv);
     }
     
-    double BulletBond::toPrice()
-    {
-        return this->cleanPrice();
-    }
     double BulletBond::toPrice(Rate bondyield)
     {
         return this->cleanPrice(bondyield, 
@@ -80,13 +76,6 @@ namespace bondgeek {
                           this->frequency());
     }
     
-    double BulletBond::toYield()
-    {
-        return this->yield(this->cleanPrice(), 
-                           this->dayCounter(), 
-                           Compounded, 
-                           this->frequency());
-    }
     double BulletBond::toYield(Real bondprice)
     {
         return this->yield(bondprice, 

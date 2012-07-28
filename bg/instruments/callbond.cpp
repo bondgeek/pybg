@@ -100,7 +100,7 @@ namespace bondgeek {
                        Calendar calendar,
                        Natural settlementDays,
                        DayCounter daycounter,
-                       Frequency payFrequency,
+                       Frequency payfrequency,
                        Real redemption,
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
@@ -109,19 +109,19 @@ namespace bondgeek {
     _coupon(coupon),
     _maturity(maturity),
     _issue_date(issue_date),
-    _calendar(calendar),
-    _settlementDays(settlementDays),
-    _daycounter(daycounter),
-    _payfrequency(payFrequency),
-    _redemption(redemption),
-    _faceamount(faceamount),
-    _accrualConvention(accrualConvention),
-    _paymentConvention(paymentConvention),
+    BondBase(calendar,
+             settlementDays,
+             daycounter,
+             payfrequency,
+             redemption,
+             faceamount,
+             accrualConvention,
+             paymentConvention),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
                                    maturity, 
-                                   Period(payFrequency),
+                                   Period(payfrequency),
                                    calendar,
                                    accrualConvention, 
                                    accrualConvention, 
@@ -137,7 +137,6 @@ namespace bondgeek {
     {}
     
     //Fixed Call Price
-    
     CallBond::CallBond(const Rate &coupon,
                        const Date &maturity,
                        const Date &callDate,
@@ -146,7 +145,7 @@ namespace bondgeek {
                        Calendar calendar,
                        Natural settlementDays,
                        DayCounter daycounter,
-                       Frequency payFrequency,
+                       Frequency payfrequency,
                        Frequency callFrequency,
                        Real redemption,
                        Real faceamount,
@@ -156,19 +155,19 @@ namespace bondgeek {
     _coupon(coupon),
     _maturity(maturity),
     _issue_date(issue_date),
-    _calendar(calendar),
-    _settlementDays(settlementDays),
-    _daycounter(daycounter),
-    _payfrequency(payFrequency),
-    _redemption(redemption),
-    _faceamount(faceamount),
-    _accrualConvention(accrualConvention),
-    _paymentConvention(paymentConvention),
+    BondBase(calendar,
+             settlementDays,
+             daycounter,
+             payfrequency,
+             redemption,
+             faceamount,
+             accrualConvention,
+             paymentConvention),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
                                    maturity, 
-                                   Period(payFrequency),
+                                   Period(payfrequency),
                                    calendar,
                                    accrualConvention, 
                                    accrualConvention, 
@@ -196,7 +195,7 @@ namespace bondgeek {
                        Calendar calendar,
                        Natural settlementDays,
                        DayCounter daycounter,
-                       Frequency payFrequency,
+                       Frequency payfrequency,
                        Frequency callFrequency,
                        Real redemption,
                        Real faceamount,
@@ -206,19 +205,19 @@ namespace bondgeek {
     _coupon(coupon),
     _maturity(maturity),
     _issue_date(issue_date),
-    _calendar(calendar),
-    _settlementDays(settlementDays),
-    _daycounter(daycounter),
-    _payfrequency(payFrequency),
-    _redemption(redemption),
-    _faceamount(faceamount),
-    _accrualConvention(accrualConvention),
-    _paymentConvention(paymentConvention),
+    BondBase(calendar,
+             settlementDays,
+             daycounter,
+             payfrequency,
+             redemption,
+             faceamount,
+             accrualConvention,
+             paymentConvention),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
                                    maturity, 
-                                   Period(payFrequency),
+                                   Period(payfrequency),
                                    calendar,
                                    accrualConvention, 
                                    accrualConvention, 
@@ -245,7 +244,7 @@ namespace bondgeek {
                        Calendar calendar,
                        Natural settlementDays,
                        DayCounter daycounter,
-                       Frequency payFrequency,
+                       Frequency payfrequency,
                        Real redemption,
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
@@ -254,19 +253,19 @@ namespace bondgeek {
     _coupon(coupon),
     _maturity(maturity),
     _issue_date(issue_date),
-    _calendar(calendar),
-    _settlementDays(settlementDays),
-    _daycounter(daycounter),
-    _payfrequency(payFrequency),
-    _redemption(redemption),
-    _faceamount(faceamount),
-    _accrualConvention(accrualConvention),
-    _paymentConvention(paymentConvention),
+    BondBase(calendar,
+             settlementDays,
+             daycounter,
+             payfrequency,
+             redemption,
+             faceamount,
+             accrualConvention,
+             paymentConvention),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
                                    maturity, 
-                                   Period(payFrequency),
+                                   Period(payfrequency),
                                    calendar,
                                    accrualConvention, 
                                    accrualConvention, 
@@ -303,7 +302,7 @@ namespace bondgeek {
         setEngine(crv, x, x, true);
     }
     
-    // Bond Math Functions
+    // Bond Math Functions  
     BulletBond CallBond::bullet()
     {
         BulletBond newbond(_coupon,
@@ -334,11 +333,6 @@ namespace bondgeek {
                            _accrualConvention,
                            _paymentConvention);
         return newbond;
-    }
-    
-    double CallBond::toPrice()
-    {
-        return this->cleanPrice();
     }
     
     double CallBond::toPrice(Rate bondyield)
@@ -383,12 +377,6 @@ namespace bondgeek {
         }
         
         return price;
-    }
-    
-    double CallBond::toYield()
-    {
-        Real prx = this->toPrice();
-        return this->toYield(prx);
     }
     
     double CallBond::toYield(Real bondprice)

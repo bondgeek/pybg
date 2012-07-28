@@ -13,9 +13,9 @@ from pybg.quantlib.time._daycounter cimport DayCounter as DayCounter
 
 cimport pybg._curves as _curves
 
-cdef extern from 'bg/instruments/bginstrument.hpp' namespace 'bondgeek':
+cdef extern from 'bg/instruments/instrumentbase.hpp' namespace 'bondgeek':
 
-    cdef cppclass BGInstrument:
+    cdef cppclass InstrumentBase:
         # Engines
         void setEngine(_curves.CurveBase crv) 
         void setEngine(_curves.CurveBase crv, 

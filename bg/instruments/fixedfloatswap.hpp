@@ -10,7 +10,7 @@
 #define FIXEDFLOATSWAP_H
 
 #include <ql/quantlib.hpp>
-#include <bg/instruments/bginstrument.hpp>
+#include <bg/instruments/instrumentbase.hpp>
 #include <bg/indexbase.hpp>
 
 namespace bondgeek {
@@ -20,7 +20,7 @@ namespace bondgeek {
         FixedPayer = 1 
         };
 
-    class FixedFloatSwap : public BGInstrument, public VanillaSwap {
+    class FixedFloatSwap : public InstrumentBase, public VanillaSwap {
     protected:
         SwapPayType             _payerType;
         Rate                    _fixedRate; // = 0.04;

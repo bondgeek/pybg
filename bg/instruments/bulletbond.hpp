@@ -11,24 +11,15 @@
 
 #include <ql/quantlib.hpp>
 #include <bg/indexbase.hpp>
-#include <bg/instruments/bginstrument.hpp>
+#include <bg/instruments/instrumentbase.hpp>
+#include <bg/instruments/bondbase.hpp>
 
 using namespace QuantLib;
 
 namespace bondgeek {
     
-    class BulletBond : public BGInstrument, public FixedRateBond {
+    class BulletBond : public BondBase, public FixedRateBond {
     protected:
-        // Bond type definitions
-        Calendar                _calendar;
-        Natural                 _settlementDays;
-        Frequency               _frequency; 
-        DayCounter              _daycounter; 
-        Real                    _redemption;
-        Real                    _faceamount;
-        BusinessDayConvention   _accrualConvention;
-        BusinessDayConvention   _paymentConvention; 
-        
         Rate _coupon;
         Date _maturity;        
         Date _issue_date;
@@ -40,18 +31,17 @@ namespace bondgeek {
                    Calendar calendar = UnitedStates(UnitedStates::GovernmentBond),
                    Natural settlementDays = 3,
                    DayCounter daycounter = ActualActual(ActualActual::Bond),
-                   Frequency frequency = Semiannual,
+                   Frequency payfrequency = Semiannual,
                    Real redemption = 100.0,
                    Real faceamount = 100.0,
                    BusinessDayConvention accrualConvention = Unadjusted,
                    BusinessDayConvention paymentConvention = Unadjusted
                    );
         
-        double toPrice();
-        double toPrice(Rate bondyield);
-        
-        double toYield();
-        double toYield(Real bondprice);
+        virtual double toPrice(void);
+        virtual double toPrice(Rate bondyield);
+        virtual double toYield(Real bondprice);
+        virtual double toYield() {return toYield(toPrice()); };
         
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
@@ -60,6 +50,12 @@ namespace bondgeek {
                                bool lognormal=true) ;
         
     };
-        
+ 
+    // Inline functions
+    inline double BulletBond::toPrice()
+    {
+        return this->cleanPrice();
+    }
+    
 }
 #endif

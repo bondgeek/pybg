@@ -11,7 +11,7 @@
 
 #include <ql/quantlib.hpp>
 #include <bg/indexbase.hpp>
-#include <bg/instruments/bginstrument.hpp>
+#include <bg/instruments/bondbase.hpp>
 #include <bg/instruments/bulletbond.hpp>
 
 #include <algorithm>
@@ -38,18 +38,9 @@ namespace bondgeek {
                                                const DayCounter &dayCounter=Thirty360()
                                                );
     
-    class CallBond : public BGInstrument, public CallableFixedRateBond 
+    class CallBond : public BondBase, public CallableFixedRateBond 
     {
     protected:
-        // Bond type definitions
-        Calendar                _calendar;
-        Natural                 _settlementDays;
-        Frequency               _payfrequency;
-        DayCounter              _daycounter; 
-        Real                    _redemption;
-        Real                    _faceamount;
-        BusinessDayConvention   _accrualConvention;
-        BusinessDayConvention   _paymentConvention; 
         
         Rate _coupon;
         Date _maturity;
@@ -162,15 +153,14 @@ namespace bondgeek {
         Real sigma() { return _sigma; }
         bool lognormal() { return _lognormal; } 
         
-        DayCounter dayCounter() { return _daycounter; }
-        Frequency  frequency() { return _payfrequency; } 
+        DayCounter dayCounter() { return get_dayCounter(); }
+        Frequency  frequency() { return get_frequency(); } 
         
         // Bond Math
-        double toPrice();
-        double toPrice(Rate bondyield);
-        
-        double toYield();
-        double toYield(Real bondprice);
+        virtual double toPrice();
+        virtual double toPrice(Rate bondyield);
+        virtual double toYield(Real bondprice);
+        virtual double toYield() {return toYield(toPrice()); };
         
         double toYTM();
         double toYTM(Real bondprice);
@@ -262,6 +252,12 @@ namespace bondgeek {
             
         }
     };
+    
+    // Inline functions
+    inline double CallBond::toPrice()
+    {
+        return this->cleanPrice();
+    }
     
 }
 #endif
