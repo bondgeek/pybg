@@ -14,6 +14,8 @@
 #include <bg/instruments/bginstrument.hpp>
 #include <bg/instruments/bulletbond.hpp>
 
+#include <algorithm>
+
 using namespace QuantLib;
 
 namespace bondgeek {
@@ -54,6 +56,9 @@ namespace bondgeek {
         Date _callDate;
         Real _callPrice;
         Date _issue_date;
+        
+        // Yield to Worst Calcs
+        int _ytwFeature;
         
         // OAS Calcs
         RelinkableHandle<YieldTermStructure> _spreadedTermStructure;
@@ -169,6 +174,11 @@ namespace bondgeek {
         
         double toYTM();
         double toYTM(Real bondprice);
+        double ytmToPrice(Real bondyield);
+        
+        // Create BulletBond for maturity or redemption feature
+        BulletBond bullet(void);
+        BulletBond bullet(Date &redemptionDate, Real &redemptionPrice);
         
         // Engines
         virtual void setEngine(CurveBase &crv) ;

@@ -304,50 +304,9 @@ namespace bondgeek {
     }
     
     // Bond Math Functions
-    
-    double CallBond::toPrice()
+    BulletBond CallBond::bullet()
     {
-        return this->cleanPrice();
-    }
-    double CallBond::toPrice(Rate bondyield)
-    {
-        
-        //TODO: this should be yield to Worst calculation
-        // iterate thru call schedule for all declining call prices
-        // (yield to worst date will be shortest date with the same price)
-        // to determine if lowest price based on yield
-        return this->cleanPrice(bondyield, 
-                                this->dayCounter(), 
-                                Compounded, 
-                                this->frequency());
-    }
-    
-    double CallBond::toYield()
-    {
-        //TODO: this should be yield to Worst
-        return this->yield(this->cleanPrice(), 
-                           this->dayCounter(), 
-                           Compounded, 
-                           this->frequency());
-    }
-    double CallBond::toYield(Real bondprice)
-    {
-        
-        //TODO: this should be yield to Worst
-        return this->yield(bondprice, 
-                           this->dayCounter(), 
-                           Compounded, 
-                           this->frequency());
-    }
-    
-    double CallBond::toYTM()
-    {
-        return this->toYTM(this->cleanPrice());
-    }
-    
-    double CallBond::toYTM(Real bondprice)
-    {        
-        BulletBond mtyBond(_coupon,
+        BulletBond newbond(_coupon,
                            _maturity,
                            _issue_date,
                            _calendar,
@@ -358,8 +317,138 @@ namespace bondgeek {
                            _faceamount,
                            _accrualConvention,
                            _paymentConvention);
+        return newbond;
+    }
+    
+    BulletBond CallBond::bullet(Date &redemptionDate, Real &redemptionPrice)
+    {
+        BulletBond newbond(_coupon,
+                           redemptionDate,
+                           _issue_date,
+                           _calendar,
+                           _settlementDays,
+                           _daycounter,
+                           _payfrequency,
+                           redemptionPrice,
+                           _faceamount,
+                           _accrualConvention,
+                           _paymentConvention);
+        return newbond;
+    }
+    
+    double CallBond::toPrice()
+    {
+        return this->cleanPrice();
+    }
+    
+    double CallBond::toPrice(Rate bondyield)
+    {
+        // iterate thru call schedule for all declining call prices
+        // (yield to worst date will be shortest date with the same price)
+        // to determine if lowest price based on yield
+        
+        CallabilitySchedule  calls = this->callability();
+        vector< boost::shared_ptr<Callability> >::size_type sz = calls.size();
+        
+        Real price = this->ytmToPrice(bondyield);
+        _ytwFeature = -1;
+        
+        Real newPrice;
+        
+        Date callDate;
+        Real prvCallPx = 0.0;
+        Real newCallPx;
+        
+        if (price > _faceamount) 
+        {
+            for (int i = 0; i < sz; i++) 
+            {
+                newCallPx = calls[i]->price().amount();
+                if (newCallPx < prvCallPx) {
+                    
+                    callDate = calls[i]->date();
+                    BulletBond callbond = bullet(callDate, 
+                                                 newCallPx
+                                                 );
+                    
+                    newPrice = callbond.toPrice(bondyield);
+                    if (newPrice < price)
+                    {
+                        price = newPrice;
+                        _ytwFeature = i;
+                    }
+                }
+                
+            }
+        }
+        
+        return price;
+    }
+    
+    double CallBond::toYield()
+    {
+        Real prx = this->toPrice();
+        return this->toYield(prx);
+    }
+    
+    double CallBond::toYield(Real bondprice)
+    {
+        CallabilitySchedule  calls = this->callability();
+        vector< boost::shared_ptr<Callability> >::size_type sz = calls.size();
+        
+        Real ytw = this->toYTM(bondprice);
+        _ytwFeature = -1;
+        
+        Real newYield;
+        
+        Date callDate;
+        Real prvCallPx = 0.0;
+        Real newCallPx;
+        
+        if (bondprice > _faceamount) 
+        {
+            for (int i = 0; i < sz; i++) 
+            {
+                newCallPx = calls[i]->price().amount();
+                
+                if (newCallPx < prvCallPx) 
+                {
+                    callDate = calls[i]->date();
+                    BulletBond callbond = bullet(callDate, 
+                                                 newCallPx
+                                                 );
+                    
+                    newYield = callbond.toYield(bondprice);
+                    if (newYield < ytw)
+                    {
+                        ytw = newYield;
+                        _ytwFeature = i;
+                    }
+                }
+                
+            }
+        }
+        
+        return ytw;
+    }
+    
+    double CallBond::toYTM()
+    {
+        return this->toYTM(this->cleanPrice());
+    }
+    
+    double CallBond::toYTM(Real bondprice)
+    {        
+        BulletBond mtyBond = bullet();
         
         return mtyBond.toYield(bondprice);
+    }
+    
+    double CallBond::ytmToPrice(Real bondyield)
+    {        
+        BulletBond mtyBond = bullet();
+        
+        return mtyBond.toPrice(bondyield);
     }
     
     // OAS Functions

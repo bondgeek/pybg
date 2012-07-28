@@ -118,7 +118,9 @@ int main (int argc, char * const argv[])
     Date maturity = Date(15,September,2012);
     Natural settlementDays = 3;  // Bloomberg OAS1 settle is Oct 19, 2007
     Calendar bondCalendar = UnitedStates(UnitedStates::GovernmentBond);
-    Real coupon = .0465;
+    
+    //Real coupon = .0465;
+    Real coupon = .06;
     Frequency frequency = Quarterly;
     Real redemption = 100.0;
     Real faceAmount = 100.0;
@@ -292,9 +294,16 @@ int main (int argc, char * const argv[])
     cout << "Call Schedule" << endl;
     CallabilitySchedule  callbndsched1 = callableBond.callability();
     CallabilitySchedule  callbndsched2 = callbnd.callability();
+    CallabilitySchedule  callbndsched3 = noncallbond.callability();
     
     vector< boost::shared_ptr<Callability> >::size_type sz1 = callbndsched1.size();
     vector< boost::shared_ptr<Callability> >::size_type sz2 = callbndsched2.size();
+    vector< boost::shared_ptr<Callability> >::size_type sz3 = callbndsched3.size();
+    
+    cout << "Call sizes: " << endl <<
+    "1) " << sz1 << endl <<
+    "2) " << sz2 << endl <<
+    "3) " << sz3 << endl;
     
     if (sz1 != sz2) {
         cout << "\nCall schedules not equal!!! " << sz1 << " vs " << sz2 << endl;
@@ -308,7 +317,11 @@ int main (int argc, char * const argv[])
     } 
     
     callbnd.setPricingEngine(engine1);
+    noncallbond.setPricingEngine(engine1);
+    bulletbond.setPricingEngine(engine1);
     cout << "test value: " << callbnd.cleanPrice() << endl << endl;
+    cout << "test value (noncall): " << noncallbond.cleanPrice() << endl << endl;
+    cout << "test value (bullet): " << bulletbond.cleanPrice() << endl << endl;
     
     cout << "\n\nMuni Sched " << endl;
     CallabilitySchedule muniSched = createBondCallSchedule(Date(15, December, 2007),
@@ -338,9 +351,11 @@ int main (int argc, char * const argv[])
         cout << muniSched[i]->date() << " | " << muniSched[i]->price().amount() << endl;
     }
     callbnd_sched.setPricingEngine(engine1);
-    cout << "test value: " << callbnd_sched.toPrice() << endl << endl;
+    cout << "test value: " << callbnd_sched.toPrice() << endl;
+    cout << "yield to worst: " << callbnd_sched.toYield() << endl;
+    cout << "price from ytw: " << callbnd_sched.toPrice(callbnd_sched.toYield()) <<
+    endl << endl;
     
-
     //TODO: create vol/mean reversion matrix
     cout << "\nHull-White (normal) pricing " << endl;    
     Real sig[3] = {0.0, .01, .03};
