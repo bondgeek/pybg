@@ -9,7 +9,7 @@ from Cython.Build import cythonize
 
 from setup_config import *
 
-extension_paths  = [
+extension_paths_win  = [
  ('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
  
  ('pybg.curves', ['pybg/curves.pyx', 

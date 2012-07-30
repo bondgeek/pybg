@@ -10,7 +10,7 @@ from Cython.Build import cythonize
 from setup_config import *
 
 print("\nCythonizing...\n")    
-collected_extensions = cythonize(
+collected_extensions0 = """cythonize(
         [Extension(
                 extname, # name of extension
                 sources=extsources, #  our Cython source
@@ -20,8 +20,18 @@ collected_extensions = cythonize(
                 language="c++") # causes Cython to create C++ source
         for extname, extsources in extension_paths
         ]
-        )
+        )"""
 
+collected_extensions = cythonize(
+        [Extension(
+                extname,                # name of extension
+                sources=extsources,     #  our Cython source
+                language="c++",         # causes Cython to create C++ source
+                **ext_args
+                ) 
+        for extname, extsources in extension_paths
+        ]
+        )
 extensions = collected_extensions
 print("\nAll the extensions are gathered:")
 for ext in extensions:
