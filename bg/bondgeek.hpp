@@ -24,8 +24,4 @@
 #include <bg/swaptype.hpp>
 #include <bg/bondtype.hpp>
 
-#include <bg/curvefactory.hpp>
-
-namespace bondgeek {
-}
 #endif

@@ -22,7 +22,6 @@ collected_extensions = cythonize(
         ]
         )
 
-
 extensions = collected_extensions
 print("\nAll the extensions are gathered:")
 for ext in extensions:

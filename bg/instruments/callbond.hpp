@@ -155,6 +155,7 @@ namespace bondgeek {
         
         DayCounter dayCounter() { return get_dayCounter(); }
         Frequency  frequency() { return get_frequency(); } 
+        int ytwFeature() { return _ytwFeature; }
         
         // Bond Math
         virtual double toPrice();

@@ -123,6 +123,52 @@ cdef class CallBond:
             
             return result 
     
+    property ytwFeature:
+        def __get__(self):
+            cdef int n 
+            
+            n = self._thisptr.get().ytwFeature()
+            return n
+        
+    # Bond Math
+    def toPrice(self, Rate bondyield=None):
+        cdef double prx
+        
+        if not bondyield:
+            prx = self._thisptr.get().toPrice()
+        else:
+            prx = self._thisptr.get().toPrice(bondyield)
+        
+        return prx 
+        
+    def toYield(self, Real bondprice=None):
+        cdef double yld
+        
+        if not bondprice:
+            yld = self._thisptr.get().toYield()
+        else:
+            yld = self._thisptr.get().toYield(bondprice)
+        
+        return yld
+         
+    def toYTM(self, Real bondprice=None):
+        cdef double yld
+        
+        if not bondprice:
+            yld = self._thisptr.get().toYTM()
+        else:
+            yld = self._thisptr.get().toYTM(bondprice)
+        
+        return yld
+    
+    def ytmToPrice(self, Real bondyield):
+        cdef double prx
+        
+        prx = self._thisptr.get().ytmToPrice(bondyield)
+
+        return prx 
+         
+         
     def setEngine(self, 
                   curves.RateHelperCurve crv,
                   Real                   a,
@@ -134,6 +180,7 @@ cdef class CallBond:
         
         self._thisptr.get().setEngine(_crv, a, sigma, <bool>lognormal)
         
+
     def oasEngine(self,
                   curves.RateHelperCurve crv,
                   Real a,
@@ -151,6 +198,7 @@ cdef class CallBond:
         _crv = deref(crv._thisptr.get())
         
         self._thisptr.get().oasEngine(_crv, a, sigma, spread, <bool>lognormal)
+
 
     def oasValue(self, 
                  Real spread, 

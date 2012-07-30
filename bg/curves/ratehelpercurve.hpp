@@ -16,7 +16,7 @@ namespace bondgeek {
     
     // Rate Helper Types
     enum RHType {DEPO, FRA, FUT, SWAP};
-    
+
     class RateHelperCurve : public CurveBase {
     protected:
         RHelperList _rateHelpers;

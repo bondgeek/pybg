@@ -43,15 +43,15 @@ int main ()
     double swapspots[] = {0.037125, 0.0398, 0.0443, 0.05165, 0.055175};
     
     cout << "test sc1" << endl;
-    RateHelperCurve acurve = CurveFactory::instance().ratehelperCurve("EURANN_6M", 
-                                                                      todaysDate, 
-                                                                      depotenors, depospots, 6, 
-                                                                      swaptenors, swapspots, 5);
+    RateHelperCurve acurve = RateHelperCurve(EURiborCurve("6M"));
+    acurve.update(depotenors, depospots, 6, 
+                  swaptenors, swapspots, 5,
+                  todaysDate);
     
     cout << "quote:  " << acurve.tenorquote("10Y") << endl;
     
     cout << "test tenors\n" << Period(6, Months) << " | " << Tenor("6M") << endl;
-    cout << "fixing calendar: " << acurve.fixingCalendar() << endl;
+    cout << "fixing calendar: " << acurve.calendar() << endl;
     
     /*********************
      * SWAPS TO BE PRICED *

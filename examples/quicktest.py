@@ -63,19 +63,27 @@ for amt, dt in swp2.floatingLeg:
 
 
 #BONDS
+import pybg.enums as enums
+uscal = enums.Calendars.UnitedStates(enums.Calendars.GOVERNMENTBOND)
+
 import pybg.instruments.bulletbond as B
-bb = B.BulletBond(.045, date(2017, 5, 15), date(2003, 5, 15), B.UnitedStates(B.GOVERNMENTBOND))
+
+bb = B.BulletBond(.045, date(2017, 5, 15), date(2003, 5, 15), uscal)
 bb.setEngine(rh)
+
 prc = bb.toPrice()
 yld = bb.toYield(prc)
 print("Bullet bond value: {0:.3f}, {1:.3%}".format(prc, yld))
 
+print("\n\nCallable")
 import pybg.instruments.callbond as C
+
 cb = C.CallBond(.045, 
                  date(2017, 5, 15), 
                  date(2016, 5, 15), 100., 
                  date(2003, 5, 15), 
-                 B.UnitedStates(B.GOVERNMENTBOND))
+                 uscal
+                 )
 
 cb.oasEngine(rh, 0., .2017, True)
 

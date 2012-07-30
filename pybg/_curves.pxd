@@ -13,6 +13,8 @@ from pybg.quantlib.time._date cimport Date as _QLDate
 from pybg.quantlib.time._period cimport Frequency 
 from pybg.quantlib.time._calendar cimport Calendar
 from pybg.quantlib.time._period cimport TimeUnit
+from pybg.quantlib.time._calendar cimport BusinessDayConvention
+from pybg.quantlib.time._daycounter cimport DayCounter as DayCounter
 
 from cython.operator cimport dereference as deref
 
@@ -28,7 +30,15 @@ cdef extern from 'bg/curvebase.hpp' namespace 'bondgeek':
         
     cdef cppclass CurveBase:
         CurveBase() except +        
-            
+        CurveBase(Calendar              calendar,
+                  Integer               fixingDays,                  
+                  DayCounter            depositDayCounter,
+                  Frequency             fixedRateFrequency,
+                  BusinessDayConvention fixedInstrumentConvention, 
+                  DayCounter            fixedInstrumentDayCounter, 
+                  DayCounter            termStructureDayCounter
+                  )
+                      
         # Inspectors
         _QLDate     curveDate() 
         _QLDate     referenceDate()

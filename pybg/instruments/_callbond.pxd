@@ -62,7 +62,19 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
         bool lognormal()
         
         Leg redemptions()
+        int ytwFeature()
         
+        # Bond Math
+        double toPrice()
+        double toPrice(Rate bondyield)
+        
+        double toYield(Real bondprice)
+        double toYield()
+        
+        double toYTM()
+        double toYTM(Real bondprice)
+        double ytmToPrice(Real bondyield)
+
         #// OAS Functions
         void oasEngine(_curves.CurveBase &crv, 
                        Real              &a, 

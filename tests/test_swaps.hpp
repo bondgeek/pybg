@@ -60,10 +60,11 @@ struct SwapTests {
         for (int i=0; i<5; i++) 
             swapcurve[swaptenors[i]] = swapspots[i];
         
-		acurve = CurveFactory::instance().ratehelperCurve("EURANN_6M", 
-                                                          todaysDate, 
-                                                          depotenors, depospots, 6,
-                                                          swaptenors, swapspots, 5);
+		acurve = RateHelperCurve(EURiborCurve("6M"));
+        acurve.update(depotenors, depospots, 6,
+                      swaptenors, swapspots, 5,
+                      todaysDate
+                      );
         
         bcurve = new RateHelperCurve(USDLiborCurve("3M"));
         bcurve->update(depotenors, depospots, 6,

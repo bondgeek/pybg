@@ -8,6 +8,7 @@
  */
 
 #include <bg/curves/ratehelpercurve.hpp>
+#include <bg/curves/bondcurve.hpp>
 
 #include <bg/curves/usdliborcurve.hpp>
 #include <bg/curves/euriborcurve.hpp>

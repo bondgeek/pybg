@@ -188,14 +188,14 @@ int main (int argc, char * const argv[])
     double swapspots[] = {.055, .055, .055, .055, .055, .055, .055};
     
     cout << "Test with new curve " << endl;
-    RateHelperCurve acurve = CurveFactory::instance().ratehelperCurve("USDSEMI_QTR", 
-                                                                      today, 
-                                                                      depotenors, 
-                                                                      depospots, 
-                                                                      6,
-                                                                      swaptenors,                                                                      
-                                                                      swapspots,
-                                                                      7);
+    RateHelperCurve acurve = RateHelperCurve(USDLiborCurve("3M"));
+    acurve.update(depotenors, 
+                  depospots, 
+                  6,
+                  swaptenors,                                                                      
+                  swapspots,
+                  7,
+                  today);
     
     cout << "Curve: " 
     << acurve.discountingTermStructure().currentLink()->referenceDate() << "/"

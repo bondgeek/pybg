@@ -33,6 +33,12 @@ class DateGeneration(object):
 class SwapPayType(object):
     from pybg.instruments.fixedfloatswap import FixedPayer, FixedReceiver
 
+# TODO: subclass dict, as for Calenars
+#       daycount, yearFraction interface for pydates
+class DayCounters(object):
+    from pybg.quantlib.time.daycounter import Thirty360, Actual360, Actual365Fixed
+    from pybg.quantlib.time.daycounters.actual_actual import ActualActual, ISMA, ISDA, Bond
+
 class Calendars(dict):
     from pybg.quantlib.time.calendar import TARGET
     from pybg.quantlib.time.calendars.null_calendar import NullCalendar
@@ -65,18 +71,65 @@ class Calendars(dict):
     def __init__(self, *args):
         dict.__init__(self, self._lookup)
         self.update(*args)
-        
+
     @classmethod
-    def advance(cls, pydate, n, timeunit, calendar=None):
+    def adjust(cls, pydate, calendar=None, convention=None):
         if not calendar:
             calendar = cls.TARGET()
+            
+        elif not hasattr(calendar, "adjust"):
+            return None
+        
+        if not convention:
+            convention = BusinessDayConventions.Following
+        
+        qldate = qldate_from_pydate(pydate)
+        try:
+            return pydate_from_qldate(calendar.adjust(qldate, convention))
+        except:
+            try:
+                return pydate_from_qldate(calendar().adjust(qldate, convention))
+            except:
+                return None
+
+
+    @classmethod
+    def advance(cls, pydate, n, timeunit, calendar=None, convention=None):
+        if not calendar:
+            calendar = cls.TARGET()
+        
         elif not hasattr(calendar, "advance"):
             return None
         
+        if not convention:
+            convention = BusinessDayConventions.Following
+        
+        qldate = qldate_from_pydate(pydate)
         try:
-            return calendar.advance(pydate, n, timeunit)
+            return pydate_from_qldate(calendar.advance(qldate, n, timeunit))
+            
         except:
             try:
-                return calendar().advance(pydate, n, timeunit)
+                return pydate_from_qldate(calendar().advance(qldate, n, timeunit))
+            
             except:
                 return None
+
+    @classmethod
+    def is_business_day(cls, pydate, calendar=None):
+        if not calendar:
+            calendar = cls.TARGET()
+        
+        elif not hasattr(calendar, "advance"):
+            return None
+        
+        qldate = qldate_from_pydate(pydate)
+        try:
+            return calendar.is_business_day(qldate)
+            
+        except:
+            try:
+                return calendar().is_business_day(qldate)
+            
+            except:
+                return None            

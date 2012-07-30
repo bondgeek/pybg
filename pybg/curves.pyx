@@ -14,16 +14,20 @@ cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time._period as _qlperiod
 cimport pybg.quantlib.time.date as qldate
 
+cimport pybg.quantlib.time._calendar as _calendar
+from pybg.quantlib.time._period cimport Frequency as _Frequency
+from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
+
 from pybg.quantlib.handle cimport shared_ptr
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
-
 from pybg.ql import get_eval_date, set_eval_date
-
-cimport pybg.quantlib.time._calendar as _calendar
 
 from pybg.quantlib.time.api import *
 from pybg.enums import TimeUnits, Calendars
+
+cimport pybg.quantlib.time.calendar as calendar 
+from pybg.quantlib.time.daycounter cimport DayCounter
 
 from datetime import date 
 
@@ -57,7 +61,7 @@ cdef object dict_from_CurveMap(_curves.CurveMap crv):
     return pycurve
             
 cdef class CurveBase:
-    """Rate Helper Curve
+    """Curve Base
     
     """
     def __cinit__(self):
@@ -67,12 +71,38 @@ cdef class CurveBase:
         if self._thisptr is not NULL:
             del self._thisptr
             
-    def __init__(self, CurveBase curvebase):
-        raise ValueError(
-            'This is an abstract class.'
-        )
-            
-                        
+    def __init__(self, 
+                  calendar.Calendar     crv_calendar,
+                  Integer               fixingDays,                  
+                  DayCounter            depositDayCounter,
+                  fixedRateFrequency,
+                  fixedInstrumentConvention, 
+                  DayCounter            fixedInstrumentDayCounter, 
+                  DayCounter            termStructureDayCounter):
+        '''
+        Curve Base Class:
+                  Calendar              calendar,
+                  Integer               fixingDays,                  
+                  DayCounter            depositDayCounter,
+                  Frequency             fixedRateFrequency,
+                  BusinessDayConvention fixedInstrumentConvention, 
+                  DayCounter            fixedInstrumentDayCounter, 
+                  DayCounter            termStructureDayCounter
+                  
+        '''
+        self._thisptr = new shared_ptr[_curves.CurveBase]( \
+                new _curves.CurveBase(
+                    deref(crv_calendar._thisptr),
+                    fixingDays,
+                    deref(depositDayCounter._thisptr),
+                    <_Frequency>fixedRateFrequency,
+                    <_BusinessDayConvention>fixedInstrumentConvention,
+                    deref(fixedInstrumentDayCounter._thisptr),
+                    deref(termStructureDayCounter._thisptr)
+                    )
+                )
+
+                      
 cdef class RateHelperCurve:
     """Rate Helper Curve 
     
