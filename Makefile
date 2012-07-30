@@ -18,3 +18,7 @@ test:
 test0:
 	nosetests -v pybg/tests/test_curves.py
 	
+install:
+	python setup.py build_ext
+	python setup.py install
+	

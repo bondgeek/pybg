@@ -29,5 +29,19 @@ for ext in extensions:
 print("\n\nBeginning\n\n")
 
 setup(name="pybg",
+      version='0.1.0',
       ext_modules=extensions,  
+      packages=['pybg',
+                'pybg.instruments',
+                'pybg.curvetypes',
+                'pybg.quantlib',
+                'pybg.quantlib.indexes',
+                'pybg.quantlib.math',
+                'pybg.quantlib.termstructures',
+                'pybg.quantlib.termstructures.volatility',
+                'pybg.quantlib.termstructures.yields',
+                'pybg.quantlib.time',
+                'pybg.quantlib.time.calendars',
+                'pybg.quantlib.time.daycounters'
+                ],
       cmdclass={'build_ext': build_ext})

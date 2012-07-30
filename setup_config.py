@@ -85,17 +85,12 @@ extension_paths  = [
  ('pybg.indexbases', ['pybg/indexbases.pyx']),
   
  ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx',
-                                      #'bg/curvebase.cpp',
-                                      #'bg/curves/ratehelpercurve.cpp',
                                       'bg/instruments/fixedfloatswap.cpp']),
  
  ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx',
                                   'bg/instruments/bulletbond.cpp']),
                     
  ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx', 
-                                #'bg/curvebase.cpp',
-                                #'bg/curves/ratehelpercurve.cpp',
-                                #'bg/instruments/bulletbond.cpp',
                                 'bg/instruments/callbond.cpp']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
