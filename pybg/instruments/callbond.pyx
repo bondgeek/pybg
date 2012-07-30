@@ -131,7 +131,7 @@ cdef class CallBond:
             return n
         
     # Bond Math
-    def toPrice(self, Rate bondyield=None):
+    def toPrice(self, bondyield=None):
         cdef double prx
         
         if not bondyield:
@@ -141,7 +141,7 @@ cdef class CallBond:
         
         return prx 
         
-    def toYield(self, Real bondprice=None):
+    def toYield(self, bondprice=None):
         cdef double yld
         
         if not bondprice:
@@ -151,7 +151,7 @@ cdef class CallBond:
         
         return yld
          
-    def toYTM(self, Real bondprice=None):
+    def toYTM(self, bondprice=None):
         cdef double yld
         
         if not bondprice:
@@ -161,7 +161,7 @@ cdef class CallBond:
         
         return yld
     
-    def ytmToPrice(self, Real bondyield):
+    def ytmToPrice(self, bondyield):
         cdef double prx
         
         prx = self._thisptr.get().ytmToPrice(bondyield)

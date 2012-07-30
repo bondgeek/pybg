@@ -76,6 +76,7 @@ yld = bb.toYield(prc)
 print("Bullet bond value: {0:.3f}, {1:.3%}".format(prc, yld))
 
 print("\n\nCallable")
+
 import pybg.instruments.callbond as C
 
 cb = C.CallBond(.045, 
@@ -92,3 +93,6 @@ prc_cb = cb.oasValue(0.0, .2017)
 print("Call bond value: {0:.3f}".format(prc_cb))
 
 
+prc = cb.toPrice()
+yld = cb.toYield(prc)
+print("Call bond value: {0:.3f}, {1:.3%}".format(prc, yld))

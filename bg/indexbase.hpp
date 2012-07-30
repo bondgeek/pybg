@@ -12,7 +12,6 @@
 #include <ql/quantlib.hpp>
 #include <bg/date_utilities.hpp>
 
-#include <map>
 #include <string>
 
 using namespace std;

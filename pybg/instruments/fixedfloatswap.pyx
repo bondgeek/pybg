@@ -32,12 +32,17 @@ cimport pybg.quantlib._cashflow as _cashflow
 cimport pybg.quantlib.cashflow as cashflow
 
 cimport pybg.curves as curves
-from pybg._curves cimport RateHelperCurve
+from pybg._curves cimport (
+    RateHelperCurve as _RateHelperCurve, CurveBase as _CurveBase
+    )
 
 cdef public enum SwapPayType:
     FixedPayer    = _fixedfloatswap.FixedPayer
     FixedReceiver = _fixedfloatswap.FixedReceiver
 
+class SwapPayerType(object):
+    FixedPayer    = _fixedfloatswap.FixedPayer
+    FixedReceiver = _fixedfloatswap.FixedReceiver
 
 cdef class LiborSwap:
     def __cinit__(self):
@@ -239,10 +244,12 @@ cdef class USDLiborSwap(LiborSwap):
                 notional
                 )
             )     
+    
     def setEngine(self, curves.RateHelperCurve crv):
-        cdef RateHelperCurve _crv
+        #cdef _RateHelperCurve _crv
+        cdef _CurveBase _crv
         
-        _crv = deref(crv._thisptr.get())
+        _crv = <_CurveBase>deref(crv._thisptr.get())
         
         deref(self._swaptype).linkIndex(_crv)
         self._thisptr.get().setEngine(_crv)
@@ -290,9 +297,10 @@ cdef class EuriborSwap(LiborSwap):
             )
 
     def setEngine(self, curves.RateHelperCurve crv):
-        cdef RateHelperCurve _crv
+        #cdef _RateHelperCurve _crv
+        cdef _CurveBase _crv
         
-        _crv = deref(crv._thisptr.get())
+        _crv = <_CurveBase>deref(crv._thisptr.get())
         
         deref(self._swaptype).linkIndex(_crv)
         self._thisptr.get().setEngine(_crv)

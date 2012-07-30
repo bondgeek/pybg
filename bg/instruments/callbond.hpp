@@ -10,7 +10,7 @@
 #define CALLBOND_H
 
 #include <ql/quantlib.hpp>
-#include <bg/indexbase.hpp>
+//#include <bg/indexbase.hpp>
 #include <bg/instruments/bondbase.hpp>
 #include <bg/instruments/bulletbond.hpp>
 

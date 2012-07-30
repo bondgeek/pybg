@@ -30,9 +30,6 @@ class Months(object):
 class DateGeneration(object):
     from pybg.quantlib.time.schedule import Backward, Forward
 
-class SwapPayType(object):
-    from pybg.instruments.fixedfloatswap import FixedPayer, FixedReceiver
-
 # TODO: subclass dict, as for Calenars
 #       daycount, yearFraction interface for pydates
 class DayCounters(object):

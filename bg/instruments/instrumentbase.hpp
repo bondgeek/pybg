@@ -11,14 +11,12 @@
 #define INSTRUMENTBASE_H
 
 #include <ql/quantlib.hpp>
-
 #include <bg/curves/ratehelpercurve.hpp>
 
 using namespace QuantLib;
 
 namespace bondgeek 
 {
-
     class InstrumentBase {
     protected:
         InstrumentBase() {};

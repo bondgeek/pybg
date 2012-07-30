@@ -23,6 +23,7 @@ from pybg.quantlib.handle cimport shared_ptr
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 from pybg.ql import get_eval_date, set_eval_date
 
+# TODO: don't want to use import *
 from pybg.quantlib.time.api import *
 from pybg.enums import TimeUnits, Calendars
 
@@ -90,6 +91,8 @@ cdef class CurveBase:
                   DayCounter            termStructureDayCounter
                   
         '''
+        # TODO:  give CurveBase the ability to set yieldTermStruct pointer, etc
+        #        and you can use this
         self._thisptr = new shared_ptr[_curves.CurveBase]( \
                 new _curves.CurveBase(
                     deref(crv_calendar._thisptr),

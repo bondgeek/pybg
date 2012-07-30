@@ -9,10 +9,7 @@
 #ifndef BONDGEEK_H
 #define BONDGEEK_H
 
-#include <string>
-
 #include <bg/date_utilities.hpp>
-#include <bg/repository.hpp>
 
 #include <bg/indexbase.hpp>
 
@@ -21,7 +18,8 @@
 #include <bg/instruments/bulletbond.hpp>
 #include <bg/instruments/callbond.hpp>
 
+// swaptype handles this include
+// #include <bg/instruments/fixedfloatswap.hpp>
 #include <bg/swaptype.hpp>
-#include <bg/bondtype.hpp>
 
 #endif

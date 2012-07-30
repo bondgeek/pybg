@@ -3,7 +3,7 @@
  *  bondgeek
  *
  *  Created by Bart Mosley on 5/18/12.
- *  Copyright 2012 BG Research LLC. All rights reserved.
+ *  Copyright 2012 __MyCompanyName__. All rights reserved.
  *
  */
 #ifndef SWAPTYPE_H

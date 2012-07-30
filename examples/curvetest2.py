@@ -6,8 +6,9 @@ from pybg.quantlib.time.calendars.united_kingdom import UnitedKingdom, SETTLEMEN
 from pybg.quantlib.time.calendar import TARGET 
 from pybg.quantlib.time.date import Date
 
-from pybg.instruments.fixedfloatswap import USDLiborSwap
-from pybg.enums import TimeUnits, SwapPayType
+from pybg.instruments.fixedfloatswap import USDLiborSwap, SwapPayerType
+
+from pybg.enums import TimeUnits
 
 from alprion.db.curvesdb.history import curves_history
 
@@ -69,7 +70,7 @@ for dt in ussw.keys[:100]:
                            rh.referenceDate, 
                            mty, 
                            cpn, 
-                           SwapPayType.FixedPayer)
+                           SwapPayerType.FixedPayer)
 
         swp.setEngine(rh)
         
