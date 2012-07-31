@@ -1,4 +1,4 @@
-# 
+# distutils: language = c++ 
 # 
 
 cimport pybg.quantlib.time._date as _qldate

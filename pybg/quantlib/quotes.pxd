@@ -1,3 +1,5 @@
+# distutils: language = c++
+
 cimport _quote as _qt
 
 from pybg.quantlib.handle cimport shared_ptr

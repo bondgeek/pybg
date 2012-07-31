@@ -10,18 +10,6 @@ from Cython.Build import cythonize
 from setup_config import *
 
 print("\nCythonizing...\n")    
-collected_extensions0 = """cythonize(
-        [Extension(
-                extname, # name of extension
-                sources=extsources, #  our Cython source
-                include_dirs=INCLUDE_DIRS,
-                library_dirs=LIBRARY_DIRS,
-                libraries = ['QuantLib', 'boost_regex'], # libraries to link
-                language="c++") # causes Cython to create C++ source
-        for extname, extsources in extension_paths
-        ]
-        )"""
-
 collected_extensions = cythonize(
         [Extension(
                 extname,                # name of extension
@@ -31,7 +19,8 @@ collected_extensions = cythonize(
                 ) 
         for extname, extsources in extension_paths
         ]
-        )
+    )
+        
 extensions = collected_extensions
 print("\nAll the extensions are gathered:")
 for ext in extensions:

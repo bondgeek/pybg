@@ -1,8 +1,8 @@
 # distutils: language = c++
-# not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include 'types.pxi'
-
+cimport pybg.version
+ 
 from libcpp cimport bool
 
 cdef extern from 'ql/quote.hpp' namespace 'QuantLib':

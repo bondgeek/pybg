@@ -2,6 +2,7 @@ import os
 import sys
 import glob
 
+
 def collect_ext_dirpaths(_dirpath='bg/quantlib'):
     cython_extension_directories = []
     for dirpath, directories, files in os.walk(_dirpath):
@@ -23,34 +24,45 @@ def collect_ext_dirpaths(_dirpath='bg/quantlib'):
     return cython_extension_directories
 	
 def get_define_macros():
-    defines = [ ('HAVE_CONFIG_H', None)]
+    defines = [ ('HAVE_CONFIG_H', None) ]
     if sys.platform == 'win32':
         # based on the SWIG wrappers
         defines += [
             (name, None) for name in [
                 '__WIN32__', 'WIN32', 'NDEBUG', '_WINDOWS', 'NOMINMAX', 'WINNT',
                 '_WINDLL', '_SCL_SECURE_NO_DEPRECATE', '_CRT_SECURE_NO_DEPRECATE',
-                '_SCL_SECURE_NO_WARNINGS',
+                '_SCL_SECURE_NO_WARNINGS', 
             ]
         ]
     return defines
 
 def get_extra_compile_args():
     if sys.platform == 'win32':
-        args = ['/GR', '/FD', '/Zm250', '/EHsc' ]
+        args = ['/GR', '/FD', '/Zm250', '/EHsc',
+                '/MD', '/Gy'
+                ]
     else:
         args = []
 
     return args
 
+def otherstuff():
+    dbg='''
+    /O2 /Oi /GL   /FD /EHsc /MD /Gy /Yu"stdafx.h" 
+    /Fp"Release\TestingQuantLib.pch" /Fo"Release\\" /Fd"Release\vc90.pdb" /W3 /c /Zi /TP 
+    '''
+    
 def get_extra_link_args():
     if sys.platform == 'win32':
-        args = ['/subsystem:windows', '/machine:I386']
+        args = ['/subsystem:windows', '/machine:x86', 
+                 '/VERBOSE:LIB']
     else:
         args = []
 
     return args
  
+CYTHON_DIRECTIVES = {"embedsignatur": True}
+
 if sys.platform == 'darwin':
     INCLUDE_DIRS = ["/usr/local/include", '.']
     LIBRARY_DIRS = ["/usr/local/lib"]
@@ -61,15 +73,22 @@ if sys.platform == 'darwin':
                 )
     
 elif sys.platform == 'win32':
-    INCLUDE_DIRS = [r"C:\Program Files (x86)\boost\boost_1_47", r"C:\QuantLib\QuantLib-1.2", '.']
-    LIBRARY_DIRS = [r"C:\QuantLib\QuantLib-1.2\lib", r"C:\Program Files (x86)\boost\boost_1_47\lib"]
+    INCLUDE_DIRS = [r"C:\QuantLib\QuantLib-1.2",
+                    r"C:\Program Files (x86)\boost\boost_1_47", 
+                    r"."
+                    ]
+    LIBRARY_DIRS = [r"C:\QuantLib\QuantLib-1.2\lib",
+                    r"C:\Program Files (x86)\boost\boost_1_47\lib"
+                    ]
+                    
+    
     ext_args = dict(
                 include_dirs=INCLUDE_DIRS,
                 library_dirs=LIBRARY_DIRS,
                 define_macros = get_define_macros(),
                 extra_compile_args = get_extra_compile_args(),
                 extra_link_args = get_extra_link_args(),
-                
+                #pyrex_directives= CYTHON_DIRECTIVES
                 )
 
 extension_paths  = [
@@ -123,6 +142,7 @@ extension_paths  = [
  ('pybg.quantlib.termstructures.yields.flat_forward', [
             'pybg/quantlib/termstructures/yields/flat_forward.pyx'
             ]),
+            
  ('pybg.quantlib.termstructures.yields.piecewise_yield_curve', [
             'pybg/quantlib/termstructures/yields/piecewise_yield_curve.pyx',
             'pybg/quantlib/termstructures/yields/_piecewise_support_code.cpp'
