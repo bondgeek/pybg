@@ -10,14 +10,14 @@ from Cython.Build import cythonize
 from setup_config import *
 
 extension_paths  = [
- #('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
+ ('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
  ('pybg.version', ['pybg/version.pyx']),
- #('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
- #('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),
+ ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
+ ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),
  ('pybg.quantlib.quotes', ['pybg/quantlib/quotes.pyx']),
- #('pybg.quantlib.time.calendar', ['pybg/quantlib/time/calendar.pyx']),
- #('pybg.quantlib.time.date', ['pybg/quantlib/time/date.pyx']),
- #('pybg.quantlib.time.daycounter', ['pybg/quantlib/time/daycounter.pyx']),
+ ('pybg.quantlib.time.calendar', ['pybg/quantlib/time/calendar.pyx']),
+ ('pybg.quantlib.time.date', ['pybg/quantlib/time/date.pyx']),
+ ('pybg.quantlib.time.daycounter', ['pybg/quantlib/time/daycounter.pyx']),
  #('pybg.quantlib.math.optimization', ['pybg/quantlib/math/optimization.pyx']),
  
  ]

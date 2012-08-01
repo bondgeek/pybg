@@ -2,6 +2,7 @@
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include '../types.pxi'
+cimport pybg.version
 
 from libcpp cimport bool
 from libcpp.vector cimport vector

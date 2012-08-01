@@ -39,23 +39,16 @@ def get_define_macros():
 def get_extra_compile_args():
     if sys.platform == 'win32':
         args = ['/GR', '/FD', '/Zm250', '/EHsc',
-                '/MD', '/Gy'
+                '/MD', '/Gy', '/O2', '/Oi'
                 ]
     else:
         args = []
 
     return args
-
-def otherstuff():
-    dbg='''
-    /O2 /Oi /GL   /FD /EHsc /MD /Gy /Yu"stdafx.h" 
-    /Fp"Release\TestingQuantLib.pch" /Fo"Release\\" /Fd"Release\vc90.pdb" /W3 /c /Zi /TP 
-    '''
     
 def get_extra_link_args():
     if sys.platform == 'win32':
-        args = ['/subsystem:windows', '/machine:x86', 
-                 '/VERBOSE:LIB']
+        args = ['/subsystem:windows', '/machine:x86']
     else:
         args = []
 
@@ -88,7 +81,7 @@ elif sys.platform == 'win32':
                 define_macros = get_define_macros(),
                 extra_compile_args = get_extra_compile_args(),
                 extra_link_args = get_extra_link_args(),
-                #pyrex_directives= CYTHON_DIRECTIVES
+                pyrex_directives= CYTHON_DIRECTIVES
                 )
 
 extension_paths  = [
@@ -96,21 +89,36 @@ extension_paths  = [
  
  ('pybg.curves', ['pybg/curves.pyx', 
                   'bg/curvebase.cpp',
-                  'bg/curves/ratehelpercurve.cpp']),
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/date_utilities.cpp'
+                  ]),
                   
- ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx']),
- ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx']),
+ ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx',
+                  'bg/date_utilities.cpp']),
+ ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx',
+                  'bg/date_utilities.cpp']),
  
- ('pybg.indexbases', ['pybg/indexbases.pyx']),
+ ('pybg.indexbases', ['pybg/indexbases.pyx',
+                  'bg/date_utilities.cpp']),
   
  ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx',
-                                      'bg/instruments/fixedfloatswap.cpp']),
+                                      'bg/instruments/fixedfloatswap.cpp', 
+                  'bg/curvebase.cpp',
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/date_utilities.cpp']),
  
  ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx',
-                                  'bg/instruments/bulletbond.cpp']),
+                                  'bg/instruments/bulletbond.cpp', 
+                  'bg/curvebase.cpp',
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/date_utilities.cpp']),
                     
  ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx', 
-                                'bg/instruments/callbond.cpp']),
+                                'bg/instruments/callbond.cpp',
+                                  'bg/instruments/bulletbond.cpp', 
+                  'bg/curvebase.cpp',
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/date_utilities.cpp']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),

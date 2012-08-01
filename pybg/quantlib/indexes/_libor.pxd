@@ -11,6 +11,8 @@
 """
 
 include '../types.pxi'
+cimport pybg.version
+
 from pybg.quantlib.handle cimport Handle
 
 cimport pybg.quantlib.termstructures.yields._flat_forward as _ff

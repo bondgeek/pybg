@@ -2,6 +2,7 @@
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include '../types.pxi'
+cimport pybg.version
 
 cdef extern from 'ql/math/optimization/method.hpp' namespace 'QuantLib':
 

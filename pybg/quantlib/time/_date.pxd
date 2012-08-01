@@ -2,6 +2,7 @@
 # x distutils: libraries = QuantLib
 
 include '../types.pxi'
+cimport pybg.version
 
 from libcpp cimport bool
 from _period cimport Period

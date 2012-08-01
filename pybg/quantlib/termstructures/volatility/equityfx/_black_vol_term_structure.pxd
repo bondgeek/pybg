@@ -1,11 +1,10 @@
 include '../../../types.pxi'
+cimport pybg.version
 
 from pybg.quantlib.time._calendar cimport Calendar, BusinessDayConvention
 from pybg.quantlib.time._date cimport Date
 from pybg.quantlib.time._daycounter cimport DayCounter
 from pybg.quantlib.time._period cimport Frequency
-
-
 
 cdef extern from 'ql/termstructures/voltermstructure.hpp' namespace 'QuantLib':
 

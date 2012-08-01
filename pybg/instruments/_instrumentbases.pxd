@@ -4,6 +4,7 @@
 # TODO:  not sure we even need to define these classes.
 
 include '../quantlib/types.pxi'
+cimport pybg.version
 
 from libcpp cimport bool
 

@@ -1,3 +1,5 @@
+cimport pybg.version
+
 from pybg.quantlib.time._daycounter cimport DayCounter
 
 cdef extern from 'ql/time/daycounters/thirty360.hpp' \

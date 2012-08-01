@@ -1,3 +1,5 @@
+cimport pybg.version
+
 from pybg.quantlib.time._calendar cimport Calendar
 
 cdef extern from 'ql/time/calendars/germany.hpp' namespace 'QuantLib::Germany':

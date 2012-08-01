@@ -5,7 +5,10 @@ clean:
     
 	rm -rf build
 	rm -rf dist
-	
+
+clean_win:
+	del pybg\*.cpp
+
 build_ext:   
 	python setup.py build_ext --inplace
 

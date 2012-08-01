@@ -27,7 +27,7 @@ using namespace QuantLib;
 namespace bondgeek {
     
     // string manipulations functions
-    static inline std::string &rtrim(std::string &s) {
+    inline std::string &rtrim(std::string &s) {
         string whitespaces (" \t\f\v\n\r");
         size_t found;
         
@@ -39,7 +39,7 @@ namespace bondgeek {
         
         return s;
     }
-    static inline std::string &ltrim(std::string &s) {
+    inline std::string &ltrim(std::string &s) {
         string whitespaces (" \t\f\v\n\r");
         size_t found;
         
@@ -51,7 +51,7 @@ namespace bondgeek {
         
         return s;
     }
-    static inline std::string &trim(std::string &s) {
+    inline std::string &trim(std::string &s) {
         return rtrim(ltrim(s));
     }
     

@@ -8,6 +8,8 @@ from cython.operator cimport dereference as deref
 from libcpp cimport bool as bool
 from libcpp.string cimport string
 
+from pybg.version import version
+
 cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     _qldate.Date get_evaluation_date()
     void set_evaluation_date(_qldate.Date& date)
@@ -28,18 +30,6 @@ cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     string          imm_nextCode(string immCode, 
                                  _qldate.Date date_ref,
                                  bool mainCycle)
-
-
-cdef extern from 'ql/version.hpp':
-
-    char* QL_VERSION
-    int QL_HEX_VERSION
-    char* QL_LIB_VERSION
-
-__quantlib_version__ = QL_VERSION
-__quantlib_lib_version__ = QL_LIB_VERSION
-__quantlib_hex_version__ = QL_HEX_VERSION
-
 
 # Date Interfaces
 
@@ -102,7 +92,7 @@ cdef class Settings:
         
         """
         def __get__(self):
-            return QL_VERSION
+            return version()
 
     @classmethod
     def instance(cls):

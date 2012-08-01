@@ -1,5 +1,6 @@
 # distutils: language = c++
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
+cimport pybg.version
 
 from pybg.quantlib.handle cimport Handle
 cimport pybg.quantlib.termstructures.yields._flat_forward as _ff

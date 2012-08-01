@@ -1,5 +1,6 @@
 # distutils: language = c++
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
+cimport pybg.version
 
 from libcpp.string cimport string
 from cython.operator cimport dereference as deref

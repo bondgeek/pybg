@@ -51,26 +51,24 @@ namespace bondgeek {
     
     int FuturesTenor(string _tenorstr) 
     {
-        trim(_tenorstr);
-        
-        int n = atoi( _tenorstr.substr( 2, _tenorstr.length() ).c_str() );
-        
+        std::string tstr = trim(_tenorstr);
+        int n = atoi( tstr.substr( 2, tstr.length() ).c_str() );
         return n;
     }
     
     Period Tenor(string _tenorstr) {
-        trim(_tenorstr);  
+        std::string tstr = trim(_tenorstr);  
         map<char, TimeUnit> tunits;
         tunits['D'] = Days;
         tunits['W'] = Weeks;
         tunits['M'] = Months;
         tunits['Y'] = Years;
         
-        char c = toupper( *_tenorstr.substr(_tenorstr.length()-1).c_str() );
+        char c = toupper( *tstr.substr(tstr.length()-1).c_str() );
         
         if (tunits.count(c)) {
             TimeUnit t = tunits[c];
-            int n = atoi( _tenorstr.substr( 0, _tenorstr.length()-1 ).c_str() );
+            int n = atoi( tstr.substr( 0, tstr.length()-1 ).c_str() );
             return Period(n, t);
         }
         

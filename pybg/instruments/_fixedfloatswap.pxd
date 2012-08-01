@@ -2,6 +2,7 @@
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include '../quantlib/types.pxi'
+cimport pybg.version
 
 from cython.operator cimport dereference as deref
 

@@ -11,6 +11,8 @@
 """
 
 include '../types.pxi'
+cimport pybg.version
+
 from libcpp cimport bool
 from pybg.quantlib.handle cimport Handle
 

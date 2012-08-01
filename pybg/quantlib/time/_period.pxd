@@ -1,4 +1,6 @@
 include '../types.pxi'
+cimport pybg.version
+
 from libcpp cimport bool
 
 cdef extern from 'ql/time/frequency.hpp' namespace "QuantLib":

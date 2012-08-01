@@ -1,4 +1,5 @@
 include 'types.pxi'
+cimport pybg.version
 
 from libcpp cimport bool
 from libcpp.vector cimport vector
