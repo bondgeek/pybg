@@ -1,5 +1,6 @@
 # enumerations used in QuantLib code.
-    
+from pybg.ql import qldate_from_pydate, pydate_from_qldate
+
 class TimeUnits(object):
     from pybg.quantlib.time.date import Days, Weeks, Months, Years
 
