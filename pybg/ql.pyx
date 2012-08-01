@@ -32,7 +32,6 @@ cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
                                  bool mainCycle)
 
 # Date Interfaces
-
 cdef object _pydate_from_qldate(_qldate.Date qdate):
     """c++ QuantLib::Date to python datetime.time
     
