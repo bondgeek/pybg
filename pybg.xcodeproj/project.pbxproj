@@ -234,6 +234,7 @@
 		CCB1E5C915B5807C00F738BB /* curvetest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = curvetest.cpp; sourceTree = "<group>"; };
 		CCE4EC1415B35ED100F2B646 /* curvetest.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = curvetest.py; sourceTree = "<group>"; };
 		CCE4EC3A15B36D7100F2B646 /* curvetest2.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = curvetest2.py; sourceTree = "<group>"; };
+		CCF687B415CEFC5400606695 /* libbondgeek.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libbondgeek.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +291,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CCF687B215CEFC5400606695 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -330,6 +338,7 @@
 				CCB1E5C215B57FE300F738BB /* curvetest */,
 				CC48459315C5B39600E8522D /* FittedBondCurve */,
 				CC4845E115C5BAC500E8522D /* Bonds */,
+				CCF687B415CEFC5400606695 /* libbondgeek.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -668,6 +677,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		CCF687B015CEFC5400606695 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		CB378E111594C27300C91A4E /* bg_test_suite */ = {
 			isa = PBXNativeTarget;
@@ -765,6 +784,23 @@
 			productReference = CCB1E5C215B57FE300F738BB /* curvetest */;
 			productType = "com.apple.product-type.tool";
 		};
+		CCF687B315CEFC5400606695 /* bondgeek */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CCF687C015CEFC5C00606695 /* Build configuration list for PBXNativeTarget "bondgeek" */;
+			buildPhases = (
+				CCF687B015CEFC5400606695 /* Headers */,
+				CCF687B115CEFC5400606695 /* Sources */,
+				CCF687B215CEFC5400606695 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = bondgeek;
+			productName = bondgeek;
+			productReference = CCF687B415CEFC5400606695 /* libbondgeek.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -793,6 +829,7 @@
 				CCB1E5C115B57FE300F738BB /* curvetest */,
 				CC48459215C5B39600E8522D /* FittedBondCurve */,
 				CC4845E015C5BAC500E8522D /* Bonds */,
+				CCF687B315CEFC5400606695 /* bondgeek */,
 			);
 		};
 /* End PBXProject section */
@@ -868,6 +905,13 @@
 				CCB1E5D015B5808A00F738BB /* ratehelpercurve.cpp in Sources */,
 				CCB1E5D115B5808A00F738BB /* date_utilities.cpp in Sources */,
 				CCB1E5CA15B5807C00F738BB /* curvetest.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCF687B115CEFC5400606695 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1092,6 +1136,38 @@
 			};
 			name = Release;
 		};
+		CCF687B515CEFC5500606695 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = bondgeek;
+			};
+			name = Debug;
+		};
+		CCF687B615CEFC5500606695 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = bondgeek;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1154,6 +1230,15 @@
 			buildConfigurations = (
 				CCB1E5C415B57FE300F738BB /* Debug */,
 				CCB1E5C515B57FE300F738BB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CCF687C015CEFC5C00606695 /* Build configuration list for PBXNativeTarget "bondgeek" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCF687B515CEFC5500606695 /* Debug */,
+				CCF687B615CEFC5500606695 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
