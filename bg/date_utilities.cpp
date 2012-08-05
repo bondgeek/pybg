@@ -10,7 +10,8 @@
 #include <bg/date_utilities.hpp>
 
 namespace bondgeek {
-
+	
+	/*
     Date QDate(Date qdate) {return qdate;}
     
     Date QDate(string datestr)
@@ -48,7 +49,8 @@ namespace bondgeek {
         
         return Date(datenum);
     }
-    
+    */
+
     int FuturesTenor(string _tenorstr) 
     {
         std::string tstr = trim(_tenorstr);
@@ -135,6 +137,7 @@ namespace bondgeek {
         Settings::instance().evaluationDate() = cob_date;
     }
     
+	/*
     void set_evaluation_date(int cob_date) 
     {
         Date qdate_ref = QDate(cob_date);
@@ -146,5 +149,5 @@ namespace bondgeek {
         Date qdate_ref = QDate(cob_date);
         set_evaluation_date( qdate_ref );
     }
-    
+    */
 }

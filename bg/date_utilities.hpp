@@ -10,7 +10,7 @@
 #define DATE_UTILITIES_H
 
 #include <ql/quantlib.hpp>
-#include <boost/regex.hpp>
+//#include <boost/regex.hpp>
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -56,9 +56,9 @@ namespace bondgeek {
     }
     
     // Date interfaces
-    Date QDate(Date);
-    Date QDate(int);
-    Date QDate(string);
+    //Date QDate(Date);
+    //Date QDate(int);
+    //Date QDate(string);
     
     // Period, Quote interfaces
     Period Tenor(string);
@@ -78,7 +78,7 @@ namespace bondgeek {
     // Settings
     Date get_evaluation_date();
     void set_evaluation_date(Date& cob_date);
-    void set_evaluation_date(int& cob_date);
-    void set_evaluation_date(string& cob_date);
+    //void set_evaluation_date(int& cob_date);
+    //void set_evaluation_date(string& cob_date);
 }
 #endif
