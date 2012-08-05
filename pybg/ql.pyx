@@ -17,10 +17,10 @@ cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     void set_evaluation_date(string& cob_date)
     
     #Date interfaces
-    _qldate.Date QDate(_qldate.Date& indate)
-    _qldate.Date QDate(string indate)
-    _qldate.Date QDate(int indate)
-
+    #_qldate.Date QDate(_qldate.Date& indate)
+    #_qldate.Date QDate(string indate)
+    #_qldate.Date QDate(int indate)
+     
     # IMM Interfaces
     bool            isIMMdate(_qldate.Date date_ref, bool mainCycle)
     bool            isIMMcode(string instring, bool mainCycle)
