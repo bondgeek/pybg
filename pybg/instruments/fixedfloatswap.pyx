@@ -9,6 +9,7 @@ cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
 
 from cython.operator cimport dereference as deref
+from libcpp.string cimport string
 
 from pybg.quantlib.handle cimport shared_ptr
 
@@ -248,7 +249,7 @@ cdef class USDLiborSwap(LiborSwap):
     def setEngine(self, curves.RateHelperCurve crv):
         #cdef _RateHelperCurve _crv
         cdef _CurveBase _crv
-        
+        print("in setEngine %s " % crv.referenceDate)
         _crv = <_CurveBase>deref(crv._thisptr.get())
         
         deref(self._swaptype).linkIndex(_crv)
@@ -297,10 +298,17 @@ cdef class EuriborSwap(LiborSwap):
             )
 
     def setEngine(self, curves.RateHelperCurve crv):
-        #cdef _RateHelperCurve _crv
-        cdef _CurveBase _crv
+        cdef _RateHelperCurve _crv
+        #cdef _CurveBase _crv
         
-        _crv = <_CurveBase>deref(crv._thisptr.get())
+        print("in euriborswap setEngine -- %s " % crv.referenceDate)
+        
+        #_crv = <_CurveBase>deref(crv._thisptr.get())
+        _crv = deref(crv._thisptr.get())
+        print("_crv.curveDate: %s " % _pydate_from_qldate(_crv.referenceDate()))
+        cdef char* tnr = "10Y"
+        
+        print("10y: %s " % _crv.tenorquote(<string>tnr))
         
         deref(self._swaptype).linkIndex(_crv)
-        self._thisptr.get().setEngine(_crv)
+        self._thisptr.get().setEngine(deref(crv._thisptr.get()))

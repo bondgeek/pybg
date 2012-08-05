@@ -39,7 +39,7 @@ def get_define_macros():
 def get_extra_compile_args():
     if sys.platform == 'win32':
         args = ['/GR', '/FD', '/Zm250', '/EHsc',
-                '/MD', '/Gy', '/O2', '/Oi'
+                '/MD', '/Gy', '/O2', '/Oi',
                 ]
     else:
         args = []
@@ -48,7 +48,9 @@ def get_extra_compile_args():
     
 def get_extra_link_args():
     if sys.platform == 'win32':
-        args = ['/subsystem:windows', '/machine:x86']
+        args = ['/subsystem:windows', '/machine:x86',
+                '/VERBOSE:LIB'
+                ]
     else:
         args = []
 
@@ -71,13 +73,14 @@ elif sys.platform == 'win32':
                     r"."
                     ]
     LIBRARY_DIRS = [r"C:\QuantLib\QuantLib-1.2\lib",
-                    r"C:\Program Files (x86)\boost\boost_1_47\lib"
+                    r"C:\Program Files (x86)\boost\boost_1_47\lib",
+                    r".\Release"
                     ]
-                    
     
     ext_args = dict(
                 include_dirs=INCLUDE_DIRS,
                 library_dirs=LIBRARY_DIRS,
+                libraries=["bondgeek"],
                 define_macros = get_define_macros(),
                 extra_compile_args = get_extra_compile_args(),
                 extra_link_args = get_extra_link_args(),
@@ -100,13 +103,13 @@ extension_paths  = [
                   'bg/date_utilities.cpp']),
  
  ('pybg.indexbases', ['pybg/indexbases.pyx',
-                  'bg/date_utilities.cpp']),
+                      'bg/date_utilities.cpp']),
   
  ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx',
                                       'bg/instruments/fixedfloatswap.cpp', 
-                  'bg/curvebase.cpp',
-                  'bg/curves/ratehelpercurve.cpp',
-                  'bg/date_utilities.cpp']),
+                                      'bg/curvebase.cpp',
+                                        'bg/curves/ratehelpercurve.cpp',
+                                        'bg/date_utilities.cpp']),
  
  ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx',
                                   'bg/instruments/bulletbond.cpp', 

@@ -25,7 +25,16 @@ swig/example/example_wrap.c
 # system files / osx noise
 .DS_Store
 # windows / visual studio noise
+Debug/
+Release/
+*.user
+*.ncb
+*.suo
 *.idb
+*.pdb
+*.[Cc]ache
+*.log
+*.bak
 #
 # cython intermediate products
 *.pyd
