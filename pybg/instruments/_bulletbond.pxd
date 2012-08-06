@@ -40,4 +40,12 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         double toYield(Rate bondprice)
         
         # Inspectors
+        _QLDate maturityDate()
+        _QLDate settlementDate()
+        _QLDate issueDate()
+        DayCounter dayCounter()
+        Frequency frequency()
+        Natural settlementDays()
+        Calendar calendar()
         Leg redemptions()
+        Leg cashflows()
