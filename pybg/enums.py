@@ -33,10 +33,20 @@ class DateGeneration(object):
 
 # TODO: subclass dict, as for Calenars
 #       daycount, yearFraction interface for pydates
-class DayCounters(object):
+class DayCounters(dict):
     from pybg.quantlib.time.daycounter import Thirty360, Actual360, Actual365Fixed
     from pybg.quantlib.time.daycounters.actual_actual import ActualActual, ISMA, ISDA, Bond
-
+    _lookup = dict([(dc.name(), dc) for dc in
+        [Thirty360(), Actual360(), Actual365Fixed(),
+        ActualActual(), ActualActual(ISMA), ActualActual(ISDA), ActualActual(Bond)
+        ]
+        ])
+    
+    def __init__(self, *args):
+        dict.__init__(self, self._lookup)
+        self.update(*args)
+        
+        
 class Calendars(dict):
     from pybg.quantlib.time.calendar import TARGET
     from pybg.quantlib.time.calendars.null_calendar import NullCalendar
@@ -51,7 +61,6 @@ class Calendars(dict):
     from pybg.quantlib.time.calendars.united_states import (
         UnitedStates, GOVERNMENTBOND, NYSE, NERC, SETTLEMENT as US_SETTLEMENT
         )
-    
     
     _lookup = dict([(cal.name(), cal) for cal in 
         [TARGET(), NullCalendar(),

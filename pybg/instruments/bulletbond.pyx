@@ -13,6 +13,7 @@ from pybg.quantlib.handle cimport shared_ptr
 
 from pybg.quantlib.time._period cimport Frequency as _Frequency
 from pybg.quantlib.time._calendar cimport Calendar as _Calendar
+from pybg.quantlib.time._daycounter cimport DayCounter as _DayCounter
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 
@@ -22,26 +23,12 @@ cimport pybg.curves as curves
 from pybg.quantlib.time.daycounter cimport DayCounter
 from pybg.quantlib.time.calendar cimport Calendar
 
-from pybg.quantlib.time.daycounters.thirty360 import (
-        Thirty360, EUROBONDBASIS, EUROPEAN
-)
-from pybg.quantlib.time.daycounters.actual_actual import (
-        Bond, Euro, Historical, ISDA, ISMA, ActualActual, Actual365
-)
-from pybg.quantlib.time.calendars.united_states import (
-        UnitedStates, GOVERNMENTBOND, NYSE, SETTLEMENT, NERC
-)
-
-from pybg.quantlib.time.calendar import (
-    Following, ModifiedFollowing, Unadjusted
-)
-
-from pybg.quantlib.time.date import (
-    Annual, Semiannual, Quarterly, Monthly, Weekly, Daily
-)
-
 cimport pybg.quantlib._cashflow as _cashflow
 cimport pybg.quantlib.cashflow as cashflow
+
+from pybg.enums import (
+    DayCounters, Frequencies, BusinessDayConventions, Calendars
+    )
 
 cdef class BulletBond:
     def __cinit__(self):
@@ -57,12 +44,12 @@ cdef class BulletBond:
                  object issue_date,
                  Calendar calendar,
                  int settlementDays=3,
-                 DayCounter daycounter=ActualActual(Bond),
-                 frequency=Semiannual,
+                 DayCounter daycounter=DayCounters.ActualActual(DayCounters.Bond),
+                 frequency=Frequencies.Semiannual,
                  Real redemption=100.0,
                  Real faceamount=100.0,
-                 accrualConvention=Unadjusted,
-                 paymentConvention=Unadjusted
+                 accrualConvention=BusinessDayConventions.Unadjusted,
+                 paymentConvention=BusinessDayConventions.Unadjusted
                  ):
         
         self._thisptr = new shared_ptr[_bulletbond.BulletBond]( \
@@ -82,11 +69,14 @@ cdef class BulletBond:
         
     def setEngine(self, curves.RateHelperCurve crv):
         cdef _curves.RateHelperCurve _crv
-        
-        _crv = deref(crv._thisptr.get())
-        
+        print("\n\nIn setEngine")
+        _crv = deref(crv._thisptr.get()) 
         self._thisptr.get().setEngine(_crv)
         
+        cdef double px = self._thisptr.get().toPrice()
+        cdef _qldate.Date mty = self._thisptr.get().maturityDate()
+        print("call toPrice: %s " % px)
+        print("mty: %s " % _pydate_from_qldate(mty))
     
     def toPrice(self, bondyield=None):
         if bondyield:
@@ -96,10 +86,22 @@ cdef class BulletBond:
             
     def toYield(self, bondprice=None):
         if bondprice:
+            print("in toYield")
             return self._thisptr.get().toYield(bondprice)
         else:
             return self._thisptr.get().toYield()
-            
+      
+    # Inspectors
+    #    _QLDate maturityDate()
+    #    _QLDate settlementDate()
+    #    _QLDate issueDate()
+    #    DayCounter dayCounter()
+    #    Frequency frequency()
+    #    Natural settlementDays()
+    #    Calendar calendar()
+    #    Leg redemptions()
+    #    Leg cashflows()
+    
     property redemptions:
         def __get__(self):
             cdef _cashflow.Leg leg
@@ -108,6 +110,62 @@ cdef class BulletBond:
             leg = self._thisptr.get().redemptions()
             
             result = cashflow.leg_items(leg)
-            
             return result 
+    
+    property cashflows:
+        def __get__(self):
+            cdef _cashflow.Leg leg
+            cdef object result 
             
+            leg = self._thisptr.get().cashflows()
+            
+            result = cashflow.leg_items(leg)
+            return result 
+
+    property calendar:
+        def __get__(self):
+            cdef _Calendar dc
+            cdef object result 
+            
+            dc = self._thisptr.get().calendar()
+            
+            return Calendars()[dc.name().c_str()]
+
+    property dayCounter:
+        def __get__(self):
+            cdef _DayCounter dc
+            cdef object result 
+            
+            dc = self._thisptr.get().dayCounter()
+            
+            return DayCounters()[dc.name().c_str()]
+
+    property issueDate:
+        def __get__(self):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = self._thisptr.get().issueDate()
+            
+            result = _pydate_from_qldate(dt)
+            return result
+            
+    property settlementDate:
+        def __get__(self):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = self._thisptr.get().settlementDate()
+            
+            result = _pydate_from_qldate(dt)
+            return result     
+            
+    property maturity:
+        def __get__(self):
+            cdef _qldate.Date mty
+            cdef object result 
+            
+            mty = self._thisptr.get().maturityDate()
+            
+            result = _pydate_from_qldate(mty)
+            return result 

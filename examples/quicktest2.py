@@ -1,3 +1,4 @@
+
 from pybg import Annual, Semiannual
 
 import pybg.curves as curves
@@ -11,6 +12,10 @@ import pybg.ql as ql
 
 from datetime import date
 
+import pybg
+
+fn = pybg.__file__
+print("File: %s " % fn)
 
 evaldate = date(2004, 9, 20)
 
@@ -42,7 +47,6 @@ print("\nTest curve: \ndate: %s" % rh.referenceDate)
 df = rh.discount(10.0)
 print("\nTest curve: \ndiscount: %s" % df)
 
-
 #BONDS
 import pybg.enums as enums
 uscal = enums.Calendars.UnitedStates(enums.Calendars.GOVERNMENTBOND)
@@ -55,47 +59,3 @@ bb.setEngine(rh)
 prc = bb.toPrice()
 yld = bb.toYield(prc)
 print("\n\nBullet bond value: {0:.3f}, {1:.3%}".format(prc, yld))
-
-print("\n\nCallable")
-
-import pybg.instruments.callbond as C
-
-cb = C.CallBond(.045, 
-                 date(2017, 5, 15), 
-                 date(2016, 5, 15), 100., 
-                 date(2003, 5, 15), 
-                 uscal
-                 )
-
-cb.oasEngine(rh, 0., .2017, True)
-
-prc_cb = cb.oasValue(0.0, .2017)
-
-print("Call bond value: {0:.3f}".format(prc_cb))
-
-
-prc = cb.toPrice()
-yld = cb.toYield(prc)
-print("Call bond value: {0:.3f}, {1:.3%}".format(prc, yld))
-
-#SWAPS
-swp2 = EuriborSwap("6M", rh.referenceDate, date(2009, 9, 22), .04, FixedPayer)
-
-swp2.setEngine(rh)
-
-print("\nSwap\nNPV: %s | fx: %s | fl: %s" % (swp2.NPV, swp2.fixedLegNPV, swp2.floatingLegNPV))
-print("Fixed Leg")
-cfNPV = 0.0
-for amt, dt in swp2.fixedLeg:
-    cfDF = rh.discount(dt)
-    cfNPV += cfDF*amt
-    print("cf: %10s %12.2f %11.8f %12.3f" % (dt, amt, cfDF, cfNPV))
-
-print("Floating Leg")
-cfNPV = 0.0
-for amt, dt in swp2.floatingLeg:
-    cfDF = rh.discount(dt)
-    cfNPV += cfDF*amt
-    print("cf: %10s %12.2f %11.8f %12.3f" % (dt, amt, cfDF, cfNPV))
-
-

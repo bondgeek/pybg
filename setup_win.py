@@ -9,7 +9,7 @@ from Cython.Build import cythonize
 
 from setup_config import *
 
-extension_paths  = [
+extension_paths_full  = [
  ('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
  ('pybg.version', ['pybg/version.pyx']),
  
@@ -76,7 +76,7 @@ collected_extensions = cythonize(
                 language="c++",
                 **ext_args
                 ) # causes Cython to create C++ source
-        for extname, extsources in extension_paths
+        for extname, extsources in extension_paths_win
         ]
         )
 
