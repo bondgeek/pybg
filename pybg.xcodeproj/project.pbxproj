@@ -207,6 +207,8 @@
 		CBCC4EDA15A247B30097AC8B /* _euriborcurve.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = _euriborcurve.pxd; path = curvetypes/_euriborcurve.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CBCC4EDD15A247F70097AC8B /* euriborcurve.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = euriborcurve.pyx; path = curvetypes/euriborcurve.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CBCC4EE015A248560097AC8B /* euriborcurve.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = euriborcurve.pxd; path = curvetypes/euriborcurve.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CC0BADE315CF121E006C385D /* date_handlers.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date_handlers.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CC0BADE415CF122A006C385D /* date_handlers.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date_handlers.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC0BCDC915964E5400DBA0DC /* test_curves.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_curves.py; sourceTree = "<group>"; };
 		CC48459315C5B39600E8522D /* FittedBondCurve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FittedBondCurve; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC4845A115C5B3E200E8522D /* FittedBondCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FittedBondCurve.cpp; sourceTree = "<group>"; };
@@ -432,6 +434,8 @@
 				CB4D026C1594B8350002568B /* __init__.py */,
 				CCA7170415BB59F5005ED72F /* enums.py */,
 				CBCC4E0C15A1FE490097AC8B /* cusips.py */,
+				CC0BADE315CF121E006C385D /* date_handlers.pxd */,
+				CC0BADE415CF122A006C385D /* date_handlers.pyx */,
 				CB4D02701594B8350002568B /* ql.pxd */,
 				CB4D02711594B8350002568B /* ql.pyx */,
 				CBCC4E0E15A1FF3C0097AC8B /* tenor.py */,
