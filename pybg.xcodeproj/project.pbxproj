@@ -177,8 +177,8 @@
 		CB73B3FE15990FC9008F60C4 /* yield_term_structure.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = yield_term_structure.pxd; sourceTree = "<group>"; };
 		CB73B3FF15990FC9008F60C4 /* yield_term_structure.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = yield_term_structure.pyx; sourceTree = "<group>"; };
 		CB73B40015990FC9008F60C4 /* zero_curve.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zero_curve.pyx; sourceTree = "<group>"; };
-		CB73B4311599127B008F60C4 /* index.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = index.pxd; sourceTree = "<group>"; };
-		CB73B4321599127B008F60C4 /* index.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = index.pyx; sourceTree = "<group>"; };
+		CB73B4311599127B008F60C4 /* index.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = index.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CB73B4321599127B008F60C4 /* index.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = index.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B4341599127B008F60C4 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		CB73B4351599127B008F60C4 /* _euribor.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _euribor.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B4361599127B008F60C4 /* _ibor_index.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _ibor_index.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
@@ -190,7 +190,7 @@
 		CB73B43C1599127B008F60C4 /* ibor_index.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ibor_index.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B43D1599127B008F60C4 /* interest_rate_index.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = interest_rate_index.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B43E1599127B008F60C4 /* interest_rate_index.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = interest_rate_index.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
-		CB73B43F1599127C008F60C4 /* libor.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libor.pxd; sourceTree = "<group>"; };
+		CB73B43F1599127C008F60C4 /* libor.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libor.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B4401599127C008F60C4 /* libor.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libor.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B459159913F2008F60C4 /* _index.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _index.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB73B46515991522008F60C4 /* test_indexes.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_indexes.py; sourceTree = "<group>"; };

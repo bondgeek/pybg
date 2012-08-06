@@ -46,7 +46,8 @@ cdef class USDLiborIndex:
         
         elif len(args)==2:
             self._thisptr = new shared_ptr[_indexbase.IndexBase[_libor.USDLibor]]( \
-                new _indexbase.IndexBase[_libor.USDLibor]( <Integer>args[0], <QLTimeUnit>args[2] )
+                new _indexbase.IndexBase[_libor.USDLibor]( <Integer>args[0], 
+                                                           <QLTimeUnit>args[1] )
             )
     
 

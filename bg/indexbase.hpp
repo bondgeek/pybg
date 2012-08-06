@@ -44,14 +44,15 @@ namespace bondgeek {
             _indexTermStructure.linkTo(yieldTermStructurePtr);
         }
         
+        
+        // Inspectors
         const boost::shared_ptr<IborIndex> &operator()(void) { return _index; }
         const boost::shared_ptr<IborIndex> &operator()(boost::shared_ptr<YieldTermStructure> yieldTermStructurePtr) 
         { 
             this->linkTo(yieldTermStructurePtr);
             return _index; 
         }
-        
-        // Inspectors
+
         BusinessDayConvention businessDayConvention(void) { return _index->businessDayConvention(); }
         bool endOfMonth(void) { return _index->endOfMonth(); }
         

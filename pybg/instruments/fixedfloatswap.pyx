@@ -45,6 +45,7 @@ class SwapPayerType(object):
     FixedPayer    = _fixedfloatswap.FixedPayer
     FixedReceiver = _fixedfloatswap.FixedReceiver
 
+
 cdef class LiborSwap:
     def __cinit__(self):
         self._thisptr = NULL

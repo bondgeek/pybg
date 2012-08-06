@@ -51,12 +51,18 @@ re_yyyy = "(?P<Y>[1-9][0-9]{3})"
 
 re_ccyymmdd = re.compile("(?P<Y>[1-9][0-9]{3})(?P<M>[01][0-9])(?P<D>[0-3][0-9])")                                  
 
-re_mm_dd_yyyy = re.compile("(-|/)".join( (re_mm, re_dd, re_yyyy) ))                                         
-re_yyyy_mm_dd = re.compile("(-|/)".join( (re_yyyy, re_mm, re_dd) ))
+re_mm_dd_yyyy = re.compile( "(-|/)".join((re_mm, re_dd, re_yyyy)) )                                         
+re_yyyy_mm_dd = re.compile( "(-|/)".join((re_yyyy, re_mm, re_dd)) )
 
 
 def parse_datetuple(sdate):
+    '''Parses ccyymmdd, mm/dd/yyyy or yyyy/mm/dd  
+    Returns date tuple: (ccyy, mm, dd) or None if input does not match 
+    one of the patterns.
     
+    Note: input can be a string or integer (for ccyymmdd pattern).
+    
+    '''
     sdate = str(sdate)
     
     regex_strings = [re_ccyymmdd, re_mm_dd_yyyy, re_yyyy_mm_dd]
@@ -70,13 +76,26 @@ def parse_datetuple(sdate):
     
     
 def parse_date(sdate):
+    '''Parses ccyymmdd, mm/dd/yyyy or yyyy/mm/dd  
+    Returns datetime.date or None if input does not match 
+    one of the patterns.
+    
+    Note: input can be a string or integer (for ccyymmdd pattern).
+
+    '''
     tple = parse_datetuple(sdate)
     
     return date(*tple) if tple else None
     
 
 cpdef qldate.Date ql_date(object sdate):
+    '''Parses ccyymmdd, mm/dd/yyyy or yyyy/mm/dd  
+    Returns QuantLib.Date or None if input does not match 
+    one of the patterns.
     
+    Note: input can be a string or integer (for ccyymmdd pattern).
+
+    '''
     pydate = parse_date(sdate)
     
     if pydate:
