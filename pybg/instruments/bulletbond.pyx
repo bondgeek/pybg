@@ -68,12 +68,12 @@ cdef class BulletBond:
                        ))
         
     def setEngine(self, curves.RateHelperCurve crv):
-        cdef shared_ptr[_curves.CurveBase] _crv  = deref(crv._thisptr) 
+        cdef _curves.CurveBase _crv  = <_curves.CurveBase>deref(crv._thisptr.get()) 
         print("\nsetEngine(py): %s " % crv.curveDate)
-        print("\n_crv.curveDate: %s " % _pydate_from_qldate(_crv.get().curveDate()))
+        print("\n_crv.curveDate: %s " % _pydate_from_qldate(_crv.curveDate()))
         
         print("\n_crv.curveDate2: %s " % _pydate_from_qldate(crv._thisptr.get().curveDate()))
-        
+        print("\nsetEngine(py)2: %s " % crv.curveDate)
         self._thisptr.get().setEngine(_crv)
         
     
