@@ -40,9 +40,10 @@ swaps = dict(zip(swaptenors, swapspots))
 
 rh = curves.RateHelperCurve(EURiborCurve("6M", Annual))
 
-rh.update(depos, {}, swaps, evaldate)
+dt = rh.update(depos, {}, swaps, evaldate)
 
-print("\nTest curve: \ndate: %s" % rh.referenceDate)
+print("\nTest curve: \ncrv date: %s" % dt)
+print("ref date: %s" % rh.referenceDate)
 
 df = rh.discount(10.0)
 print("\nTest curve: \ndiscount: %s" % df)
@@ -53,7 +54,7 @@ uscal = enums.Calendars.UnitedStates(enums.Calendars.GOVERNMENTBOND)
 
 import pybg.instruments.bulletbond as B
 
-bb = B.BulletBond(.045, date(2017, 5, 15), date(2003, 5, 15), uscal)
+bb = B.BulletBond(0.045, date(2017, 5, 15), date(2003, 5, 15), uscal)
 bb.setEngine(rh)
 
 prc = bb.toPrice()

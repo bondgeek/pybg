@@ -301,6 +301,13 @@ namespace bondgeek {
         Real x = QL_EPSILON;
         setEngine(crv, x, x, true);
     }
+
+    void CallBond::setEngine(boost::shared_ptr<CurveBase> crv) 
+    {
+        //CurveBase *_crv = crv.get();
+        Real x = QL_EPSILON;
+        //setEngine(&_crv, x, x, true);
+    }
     
     // Bond Math Functions  
     BulletBond CallBond::bullet()
@@ -355,7 +362,7 @@ namespace bondgeek {
         
         if (price > _faceamount) 
         {
-            for (int i = 0; i < sz; i++) 
+            for (unsigned int i = 0; i < sz; i++) 
             {
                 newCallPx = calls[i]->price().amount();
                 if (newCallPx < prvCallPx) {
@@ -395,7 +402,7 @@ namespace bondgeek {
         
         if (bondprice > _faceamount) 
         {
-            for (int i = 0; i < sz; i++) 
+            for (unsigned int i = 0; i < sz; i++) 
             {
                 newCallPx = calls[i]->price().amount();
                 

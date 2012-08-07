@@ -51,12 +51,27 @@ namespace bondgeek {
                   issue_date)
     {}
     
+    void BulletBond::setEngine(boost::shared_ptr<CurveBase> crvptr)
+    {
+        boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(
+                                                                                               crvptr->discountingTermStructure()
+                                                                                               );
+        
+        Date todaysDate = Settings::instance().evaluationDate();
+        cout << "\n\nIn setEnginge(cpp): " << todaysDate << endl;
+        cout << "Termstructure Dates: " << crvptr->curveDate() << " | " << crvptr->referenceDate() << endl;
+        setPricingEngine(discEngine);
+    }
+
     void BulletBond::setEngine(CurveBase &crv)
     {
         boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(
                                                                                                crv.discountingTermStructure()
                                                                                                );
         
+        Date todaysDate = Settings::instance().evaluationDate();
+        cout << "\n\nIn setEnginge(cpp): " << todaysDate << endl;
+        cout << "Termstructure Dates: " << crv.curveDate() << " | " << crv.referenceDate() << endl;
         setPricingEngine(discEngine);
     }
     

@@ -172,6 +172,7 @@ namespace bondgeek {
         BulletBond bullet(Date &redemptionDate, Real &redemptionPrice);
         
         // Engines
+        virtual void setEngine(boost::shared_ptr<CurveBase> crv) ;
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
                                Real &a, 

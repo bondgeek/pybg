@@ -154,6 +154,7 @@ cdef class RateHelperCurve:
         cdef _curves.CurveMap   depocurve
         cdef _curves.CurveMap   futcurve
         cdef _curves.CurveMap   swapcurve
+        cdef _qldate.Date       _eval_date
         
         #TODO: validate curve inputs
         #      check that tenors/future dates don't overlap
@@ -168,10 +169,11 @@ cdef class RateHelperCurve:
 
         if evaldate:
             self.curveDate = evaldate
+            _eval_date = _qldate_from_pydate( evaldate )
+            
+        self._thisptr.get().update(depocurve, futcurve, swapcurve, _eval_date)
         
-        self._thisptr.get().update(depocurve, futcurve, swapcurve)
-        
-        return self.referenceDate
+        return self.curveDate
 
     def validateNewCurve(self, depos=None, futures=None, swaps=None):
         new_crv = {}

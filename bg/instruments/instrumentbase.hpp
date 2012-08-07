@@ -24,6 +24,7 @@ namespace bondgeek
     public:
         // virtual function 
         // defined at instrument level 
+        virtual void setEngine(boost::shared_ptr<CurveBase> crvptr) =0;
         virtual void setEngine(CurveBase &crv) =0 ;
         virtual void setEngine(CurveBase &crv, 
                                Real &parm,

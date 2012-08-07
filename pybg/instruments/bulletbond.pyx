@@ -68,15 +68,14 @@ cdef class BulletBond:
                        ))
         
     def setEngine(self, curves.RateHelperCurve crv):
-        cdef _curves.RateHelperCurve _crv
-        print("\n\nIn setEngine")
-        _crv = deref(crv._thisptr.get()) 
+        cdef shared_ptr[_curves.CurveBase] _crv  = deref(crv._thisptr) 
+        print("\nsetEngine(py): %s " % crv.curveDate)
+        print("\n_crv.curveDate: %s " % _pydate_from_qldate(_crv.get().curveDate()))
+        
+        print("\n_crv.curveDate2: %s " % _pydate_from_qldate(crv._thisptr.get().curveDate()))
+        
         self._thisptr.get().setEngine(_crv)
         
-        cdef double px = self._thisptr.get().toPrice()
-        cdef _qldate.Date mty = self._thisptr.get().maturityDate()
-        print("call toPrice: %s " % px)
-        print("mty: %s " % _pydate_from_qldate(mty))
     
     def toPrice(self, bondyield=None):
         if bondyield:
@@ -158,7 +157,13 @@ cdef class BulletBond:
             dt = self._thisptr.get().settlementDate()
             
             result = _pydate_from_qldate(dt)
-            return result     
+            return result
+
+        def __set__(self, object pydate):
+            cdef _qldate.Date dt = _qldate_from_pydate(pydate)
+            
+            dt = self._thisptr.get().settlementDate(dt)
+
             
     property maturity:
         def __get__(self):
