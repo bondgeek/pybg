@@ -25,7 +25,7 @@ from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 from pybg.ql import get_eval_date, set_eval_date
 
 # TODO: don't want to use import *
-from pybg.quantlib.time.api import *
+#from pybg.quantlib.time.api import *
 from pybg.enums import TimeUnits, Calendars
 
 cimport pybg.quantlib.time.calendar as calendar 
@@ -154,7 +154,6 @@ cdef class RateHelperCurve:
         cdef _curves.CurveMap   depocurve
         cdef _curves.CurveMap   futcurve
         cdef _curves.CurveMap   swapcurve
-        cdef _qldate.Date       _eval_date
         
         #TODO: validate curve inputs
         #      check that tenors/future dates don't overlap
@@ -169,9 +168,10 @@ cdef class RateHelperCurve:
 
         if evaldate:
             self.curveDate = evaldate
-            _eval_date = _qldate_from_pydate( evaldate )
-            
-        self._thisptr.get().update(depocurve, futcurve, swapcurve, _eval_date)
+        
+        print("\nin update: {}\n".format(get_eval_date()))
+        self._thisptr.get().update(depocurve, futcurve, swapcurve) 
+        print("in update: {}\n".format(get_eval_date()))
         
         return self.curveDate
 

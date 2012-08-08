@@ -10,46 +10,6 @@
 #include <bg/date_utilities.hpp>
 
 namespace bondgeek {
-	
-	/*
-    Date QDate(Date qdate) {return qdate;}
-    
-    Date QDate(string datestr)
-    {
-        boost::smatch matches;
-        
-        boost::regex yymmdd("(?<Y>[1-9][0-9]{3})(?<M>[0-1][0-9])(?<D>[0-3][0-9])");  
-        boost::regex mm_dd_yyyy("(?<M>[0-1][0-9])(-|/)(?<D>[0-3][0-9])(-|/)(?<Y>[1-9][0-9]{3})");
-        boost::regex yyyy_mm_dd("(?<D>[0-3][0-9])(-|/)(?<M>[0-1][0-9])(-|/)(?<Y>[1-9][0-9]{3})");
-        
-        if ( boost::regex_match(datestr, matches, yymmdd) ||
-             boost::regex_match(datestr, matches, mm_dd_yyyy) ||
-             boost::regex_match(datestr, matches, yyyy_mm_dd)
-            ) 
-        {
-            return Date(atoi( (new string(matches["D"]))->c_str() ), 
-                        static_cast<Month>(atoi( (new string(matches["M"]))->c_str() )), 
-                        atoi( (new string(matches["Y"]))->c_str() ));        
-        }
-        
-        return Date();
-    }
-
-    Date QDate(int datenum)
-    {
-        int yyyy, dd;
-        Month mm;
-        
-        if (datenum > 19000000) {
-            yyyy = datenum / 10000;
-            dd = datenum % 100 ;
-            mm = static_cast<Month>((datenum % 10000) / 100 );
-            return Date(dd, mm, yyyy);
-        }
-        
-        return Date(datenum);
-    }
-    */
 
     int FuturesTenor(string _tenorstr) 
     {
@@ -124,6 +84,8 @@ namespace bondgeek {
     // Settings
     Date get_evaluation_date()
     {
+        cout << " in get_evaluation_date, " ;
+        cout << "settings: " << &Settings::instance() << endl;
         return Settings::instance().evaluationDate();
     }
     
@@ -136,18 +98,4 @@ namespace bondgeek {
         
         Settings::instance().evaluationDate() = cob_date;
     }
-    
-	/*
-    void set_evaluation_date(int cob_date) 
-    {
-        Date qdate_ref = QDate(cob_date);
-        set_evaluation_date( qdate_ref );
-    }
-
-    void set_evaluation_date(string &cob_date) 
-    {
-        Date qdate_ref = QDate(cob_date);
-        set_evaluation_date( qdate_ref );
-    }
-    */
 }

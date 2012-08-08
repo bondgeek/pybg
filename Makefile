@@ -8,6 +8,12 @@ clean:
 
 clean_win:
 	del pybg\*.cpp
+	del pybg\instruments\*.cpp
+	del pybg\curvetypes\*.cpp
+	del pybg\*.pyd
+	del pybg\instruments\*.pyd
+	del pybg\curvetypes\*.pyd
+    
 
 build_ext:   
 	python setup.py build_ext --inplace

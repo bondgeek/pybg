@@ -1,7 +1,9 @@
 
-from pybg import Annual, Semiannual
+import pybg.enums as enums
 
 import pybg.curves as curves
+import pybg.instruments.bulletbond as B
+
 from pybg.curvetypes import USDLiborCurve, EURiborCurve
 
 from pybg.instruments.fixedfloatswap import USDLiborSwap, FixedPayer, FixedReceiver, EuriborSwap
@@ -20,6 +22,7 @@ print("File: %s " % fn)
 evaldate = date(2004, 9, 20)
 
 set_eval_date(evaldate)
+print("date: {}".format(get_eval_date()))
 
 futtenors, futspots = (
     ("ED1", "ED2", "ED3", "ED4", "ED5", "ED6", "ED7", "ED8"),
@@ -38,25 +41,26 @@ futures = dict(zip(futtenors, futspots))
 depos = dict(zip(depotenors, depospots))
 swaps = dict(zip(swaptenors, swapspots))
 
-rh = curves.RateHelperCurve(EURiborCurve("6M", Annual))
+print("one")
+rh = curves.RateHelperCurve(EURiborCurve("6M", pybg.enums.Frequencies.Annual))
 
+print("two")
 dt = rh.update(depos, {}, swaps, evaldate)
 
-print("\nTest curve: \ncrv date: %s" % dt)
+print("\nin quicktest curve: \ncrv date: %s" % dt)
 print("ref date: %s" % rh.referenceDate)
 
 df = rh.discount(10.0)
 print("\nTest curve: \ndiscount: %s" % df)
 
 #BONDS
-import pybg.enums as enums
 uscal = enums.Calendars.UnitedStates(enums.Calendars.GOVERNMENTBOND)
 
-import pybg.instruments.bulletbond as B
+print("\n\nbonding: {}".format(get_eval_date()))
 
 bb = B.BulletBond(0.045, date(2017, 5, 15), date(2003, 5, 15), uscal)
 bb.setEngine(rh)
-
+print("\n\ncalc...")
 prc = bb.toPrice()
 yld = bb.toYield(prc)
 print("\n\nBullet bond value: {0:.3f}, {1:.3%}".format(prc, yld))

@@ -2,6 +2,7 @@
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include '../quantlib/types.pxi'
+cimport pybg.version
 
 from libcpp cimport bool
 
@@ -15,7 +16,9 @@ from pybg.quantlib.time._period cimport Frequency as _Frequency
 from pybg.quantlib.time._calendar cimport Calendar as _Calendar
 from pybg.quantlib.time._daycounter cimport DayCounter as _DayCounter
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
+
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
+from pybg.ql import get_eval_date, set_eval_date
 
 cimport pybg._curves as _curves
 cimport pybg.curves as curves
@@ -52,6 +55,7 @@ cdef class BulletBond:
                  paymentConvention=BusinessDayConventions.Unadjusted
                  ):
         
+        print(" bb get_eval_date: {}".format(get_eval_date()))
         self._thisptr = new shared_ptr[_bulletbond.BulletBond]( \
             new _bulletbond.BulletBond(
                        coupon,
@@ -66,13 +70,32 @@ cdef class BulletBond:
                        <_BusinessDayConvention>accrualConvention, 
                        <_BusinessDayConvention>paymentConvention, 
                        ))
+                       
+        print(" bb eval date: {}".format(_pydate_from_qldate(self._thisptr.get().get_eval_date())))
+        print(" bb.evalDate: {}".format(self.evalDate))
         
+    property evalDate:
+        def __get__(self):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = self._thisptr.get().get_eval_date()
+            
+            result = _pydate_from_qldate(dt)
+            return result
+    
     def setEngine(self, curves.RateHelperCurve crv):
+        print(" settings: {}".format(get_eval_date()))
+        set_eval_date(get_eval_date())
         cdef _curves.CurveBase _crv  = <_curves.CurveBase>deref(crv._thisptr.get()) 
         print("\nsetEngine(py): %s " % crv.curveDate)
-        print("\n_crv.curveDate: %s " % _pydate_from_qldate(_crv.curveDate()))
         
-        print("\n_crv.curveDate2: %s " % _pydate_from_qldate(crv._thisptr.get().curveDate()))
+        
+        print(" settings: {}".format(get_eval_date()))
+        
+        print("\n_crv.curveDate: %s " % _pydate_from_qldate(_crv.curveDate()))
+        print("\n_crv.referenceDate: %s " % _pydate_from_qldate(_crv.referenceDate()))
+        
         print("\nsetEngine(py)2: %s " % crv.curveDate)
         self._thisptr.get().setEngine(_crv)
         

@@ -13,6 +13,8 @@ namespace bondgeek
 {   
     Date CurveBase::curveDate()
     {
+        cout << "in CurveBase::curveDate " << Settings::instance().evaluationDate() << endl;
+        cout << "settings: " << &Settings::instance() << endl;
         return Settings::instance().evaluationDate();
     }
     

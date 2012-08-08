@@ -147,7 +147,11 @@ namespace bondgeek {
         Date advanceCurveDate(int n, TimeUnit unit);
         
         void build(const Date &todays_date);
-        void build(void) { build_termstructure(); }
+        void build(void) { 
+            cout << "in build: " << Settings::instance().evaluationDate() << endl;
+            cout << "settings: " << &Settings::instance() << endl;
+            build_termstructure(); 
+        }
         
         virtual void build_termstructure(void) {}    
         

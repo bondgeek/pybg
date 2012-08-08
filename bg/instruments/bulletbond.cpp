@@ -49,7 +49,10 @@ namespace bondgeek {
                   paymentConvention,
                   redemption, 
                   issue_date)
-    {}
+    {
+        cout << endl << "bulletbond constr: " << Settings::instance().evaluationDate() << endl;
+        cout << "settings: " << &Settings::instance() << endl;
+    }
     
     void BulletBond::setEngine(boost::shared_ptr<CurveBase> crvptr)
     {

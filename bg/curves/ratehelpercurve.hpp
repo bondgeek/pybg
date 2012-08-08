@@ -25,7 +25,11 @@ namespace bondgeek {
         
     public:
         RateHelperCurve() {}
-        RateHelperCurve(CurveBase crvtype) { update_parms(crvtype); }
+        RateHelperCurve(CurveBase crvtype) { 
+            update_parms(crvtype); 
+            cout << "\nin constructor RateHelperCurve: " << Settings::instance().evaluationDate() << endl;    
+            cout << "settings: " << &Settings::instance() << endl;
+        }
         
         boost::shared_ptr<RateHelper> newRateHelper(const Period &tnr, 
                                                     const Rate &quote,

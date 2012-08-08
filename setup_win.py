@@ -9,23 +9,43 @@ from Cython.Build import cythonize
 
 from setup_config import *
 
-extension_paths_full  = [
+extension_paths_win  = [
  ('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
  ('pybg.version', ['pybg/version.pyx']),
  
- ('pybg.curves', ['pybg/curves.pyx']),
+ ('pybg.curves', ['pybg/curves.pyx', 
+                  'bg/curvebase.cpp',
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/date_utilities.cpp'
+                  ]),
                   
- ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx']),
+ ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx',
+                  'bg/date_utilities.cpp']),
+ ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx',
+                  'bg/date_utilities.cpp']),
  
- ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx']),
- 
- ('pybg.indexbases', ['pybg/indexbases.pyx']),
+ ('pybg.indexbases', ['pybg/indexbases.pyx',
+                      'bg/date_utilities.cpp']),
   
- ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx']),
- 
- ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx']),
+ ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx',
+                                  'bg/instruments/bulletbond.cpp', 
+                  'bg/curvebase.cpp',
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/date_utilities.cpp'
+                  ]),
                     
- ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx']),
+ ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx', 
+                                'bg/instruments/callbond.cpp',
+                                  'bg/instruments/bulletbond.cpp', 
+                  'bg/curvebase.cpp',
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/date_utilities.cpp']),
+ 
+ ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx',
+                                      'bg/instruments/fixedfloatswap.cpp', 
+                                      'bg/curvebase.cpp',
+                                        'bg/curves/ratehelpercurve.cpp',
+                                        'bg/date_utilities.cpp']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),
@@ -68,6 +88,7 @@ extension_paths_full  = [
 
  ]
 
+ 
 print("\nCythonizing...\n")    
 collected_extensions = cythonize(
         [Extension(
@@ -76,7 +97,7 @@ collected_extensions = cythonize(
                 language="c++",
                 **ext_args
                 ) # causes Cython to create C++ source
-        for extname, extsources in extension_paths_win
+        for extname, extsources in extension_paths
         ]
         )
 

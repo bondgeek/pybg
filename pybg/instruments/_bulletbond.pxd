@@ -32,7 +32,7 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
                    BusinessDayConvention accrualConvention, # = Unadjusted
                    BusinessDayConvention paymentConvention, # = Unadjusted
                    ) except +
-                   
+        
         void setEngine(_curves.CurveBase crv)
         void setEngine(shared_ptr[_curves.CurveBase] crvptr)
         
@@ -53,3 +53,4 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         Calendar calendar()
         Leg redemptions()
         Leg cashflows()
+        _QLDate get_eval_date()
