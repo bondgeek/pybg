@@ -21,15 +21,23 @@ namespace bondgeek
     protected:
         Date    _eval_date;
 
-        InstrumentBase() { 
-            _eval_date = Settings::instance().evaluationDate();
-            cout << "ib: " << _eval_date << endl;
-            cout << "settings: " << &Settings::instance() << endl;
-        };
+        InstrumentBase() 
+        {
+            if (_eval_date == Date())
+            {
+                _eval_date = get_evaluation_date();
+            }
+        }
         
     public:
         // Inspectors
         Date    get_eval_date() { return _eval_date; }
+        void    set_eval_date(Date &date_input) {
+            if (date_input != Date())
+                set_evaluation_date(date_input);
+            
+            _eval_date = get_evaluation_date();
+        }
 
         // virtual function 
         // defined at instrument level 

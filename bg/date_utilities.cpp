@@ -84,8 +84,6 @@ namespace bondgeek {
     // Settings
     Date get_evaluation_date()
     {
-        cout << " in get_evaluation_date, " ;
-        cout << "settings: " << &Settings::instance() << endl;
         return Settings::instance().evaluationDate();
     }
     

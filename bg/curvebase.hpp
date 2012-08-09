@@ -148,8 +148,6 @@ namespace bondgeek {
         
         void build(const Date &todays_date);
         void build(void) { 
-            cout << "in build: " << Settings::instance().evaluationDate() << endl;
-            cout << "settings: " << &Settings::instance() << endl;
             build_termstructure(); 
         }
         

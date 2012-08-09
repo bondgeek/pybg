@@ -31,6 +31,7 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
                    Real faceamount, # = 100.0
                    BusinessDayConvention accrualConvention, # = Unadjusted
                    BusinessDayConvention paymentConvention, # = Unadjusted
+                   _QLDate eval_date #=Date()
                    ) except +
         
         void setEngine(_curves.CurveBase crv)
@@ -54,3 +55,4 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         Leg redemptions()
         Leg cashflows()
         _QLDate get_eval_date()
+        void set_eval_date(_QLDate)

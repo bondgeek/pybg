@@ -52,10 +52,13 @@ cdef class BulletBond:
                  Real redemption=100.0,
                  Real faceamount=100.0,
                  accrualConvention=BusinessDayConventions.Unadjusted,
-                 paymentConvention=BusinessDayConventions.Unadjusted
+                 paymentConvention=BusinessDayConventions.Unadjusted,
+                 object evaldate=None
                  ):
         
-        print(" bb get_eval_date: {}".format(get_eval_date()))
+        if not evaldate:
+            evaldate = get_eval_date()
+            
         self._thisptr = new shared_ptr[_bulletbond.BulletBond]( \
             new _bulletbond.BulletBond(
                        coupon,
@@ -69,10 +72,9 @@ cdef class BulletBond:
                        faceamount, 
                        <_BusinessDayConvention>accrualConvention, 
                        <_BusinessDayConvention>paymentConvention, 
+                       _qldate_from_pydate(evaldate)
                        ))
-                       
-        print(" bb eval date: {}".format(_pydate_from_qldate(self._thisptr.get().get_eval_date())))
-        print(" bb.evalDate: {}".format(self.evalDate))
+        
         
     property evalDate:
         def __get__(self):
@@ -83,20 +85,20 @@ cdef class BulletBond:
             
             result = _pydate_from_qldate(dt)
             return result
+            
+        def __set__(self, object evaldate):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = _qldate_from_pydate(evaldate)
+            
+            self._thisptr.get().set_eval_date(dt)
+            
+
     
     def setEngine(self, curves.RateHelperCurve crv):
-        print(" settings: {}".format(get_eval_date()))
-        set_eval_date(get_eval_date())
         cdef _curves.CurveBase _crv  = <_curves.CurveBase>deref(crv._thisptr.get()) 
-        print("\nsetEngine(py): %s " % crv.curveDate)
         
-        
-        print(" settings: {}".format(get_eval_date()))
-        
-        print("\n_crv.curveDate: %s " % _pydate_from_qldate(_crv.curveDate()))
-        print("\n_crv.referenceDate: %s " % _pydate_from_qldate(_crv.referenceDate()))
-        
-        print("\nsetEngine(py)2: %s " % crv.curveDate)
         self._thisptr.get().setEngine(_crv)
         
     
@@ -108,7 +110,6 @@ cdef class BulletBond:
             
     def toYield(self, bondprice=None):
         if bondprice:
-            print("in toYield")
             return self._thisptr.get().toYield(bondprice)
         else:
             return self._thisptr.get().toYield()

@@ -21,7 +21,8 @@ namespace bondgeek {
                            Real redemption,
                            Real faceamount,
                            BusinessDayConvention accrualConvention,
-                           BusinessDayConvention paymentConvention
+                           BusinessDayConvention paymentConvention,
+                           Date &eval_date
                            ):
     _coupon(coupon),
     _maturity(maturity),
@@ -50,8 +51,7 @@ namespace bondgeek {
                   redemption, 
                   issue_date)
     {
-        cout << endl << "bulletbond constr: " << Settings::instance().evaluationDate() << endl;
-        cout << "settings: " << &Settings::instance() << endl;
+        this->set_eval_date(eval_date);
     }
     
     void BulletBond::setEngine(boost::shared_ptr<CurveBase> crvptr)
@@ -60,9 +60,6 @@ namespace bondgeek {
                                                                                                crvptr->discountingTermStructure()
                                                                                                );
         
-        Date todaysDate = Settings::instance().evaluationDate();
-        cout << "\n\nIn setEnginge(cpp): " << todaysDate << endl;
-        cout << "Termstructure Dates: " << crvptr->curveDate() << " | " << crvptr->referenceDate() << endl;
         setPricingEngine(discEngine);
     }
 
@@ -72,9 +69,6 @@ namespace bondgeek {
                                                                                                crv.discountingTermStructure()
                                                                                                );
         
-        Date todaysDate = Settings::instance().evaluationDate();
-        cout << "\n\nIn setEnginge(cpp): " << todaysDate << endl;
-        cout << "Termstructure Dates: " << crv.curveDate() << " | " << crv.referenceDate() << endl;
         setPricingEngine(discEngine);
     }
     
