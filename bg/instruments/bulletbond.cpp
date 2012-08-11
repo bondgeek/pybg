@@ -22,7 +22,7 @@ namespace bondgeek {
                            Real faceamount,
                            BusinessDayConvention accrualConvention,
                            BusinessDayConvention paymentConvention,
-                           Date &eval_date
+                           Date eval_date
                            ):
     _coupon(coupon),
     _maturity(maturity),
@@ -34,7 +34,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     FixedRateBond(settlementDays,
                   faceamount,
                   Schedule(issue_date,
@@ -50,9 +51,7 @@ namespace bondgeek {
                   paymentConvention,
                   redemption, 
                   issue_date)
-    {
-        this->set_eval_date(eval_date);
-    }
+    {}
     
     void BulletBond::setEngine(boost::shared_ptr<CurveBase> crvptr)
     {

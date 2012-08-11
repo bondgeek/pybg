@@ -99,7 +99,7 @@ namespace bondgeek {
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
                  BusinessDayConvention paymentConvention = Unadjusted,
-                 Date &eval_date=Date()
+                 Date eval_date=Date()
                  );
         //Fixed Call Price
         CallBond(const Rate &coupon,
@@ -116,7 +116,7 @@ namespace bondgeek {
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
                  BusinessDayConvention paymentConvention = Unadjusted,
-                 Date &eval_date=Date()
+                 Date eval_date=Date()
                  );
         
         // Call Price declining to par (classic municipal bond call)
@@ -135,7 +135,7 @@ namespace bondgeek {
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
                  BusinessDayConvention paymentConvention = Unadjusted,
-                 Date &eval_date=Date()
+                 Date eval_date=Date()
                  );
         
         // Non Call
@@ -150,7 +150,7 @@ namespace bondgeek {
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
                  BusinessDayConvention paymentConvention = Unadjusted,
-                 Date &eval_date=Date()
+                 Date eval_date=Date()
                  );        
         // Inspectors
         Real reversionParameter() {return _reversionParameter; }

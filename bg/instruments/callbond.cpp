@@ -105,7 +105,7 @@ namespace bondgeek {
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
                        BusinessDayConvention paymentConvention,
-                       Date &eval_date
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -117,7 +117,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -135,9 +136,7 @@ namespace bondgeek {
                           issue_date, 
                           callSched
                           )
-    {
-        this->set_eval_date(eval_date);
-    }
+    {}
     
     //Fixed Call Price
     CallBond::CallBond(const Rate &coupon,
@@ -154,7 +153,7 @@ namespace bondgeek {
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
                        BusinessDayConvention paymentConvention,
-                       Date &eval_date
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -166,7 +165,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -187,9 +187,7 @@ namespace bondgeek {
                                                  callPrice, 
                                                  callFrequency)
                           )
-    {
-        this->set_eval_date(eval_date);
-    }
+    {}
     
     //Declining Call Schedule
     CallBond::CallBond(const Rate &coupon,
@@ -207,7 +205,7 @@ namespace bondgeek {
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
                        BusinessDayConvention paymentConvention,
-                       Date &eval_date
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -219,7 +217,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -242,9 +241,7 @@ namespace bondgeek {
                                                  callFrequency,
                                                  faceamount)
                           )
-    {
-        this->set_eval_date(eval_date);
-    }
+    {}
     
     // No Call Schedule, Non-Call
     CallBond::CallBond(const Rate &coupon,
@@ -258,7 +255,7 @@ namespace bondgeek {
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
                        BusinessDayConvention paymentConvention,
-                       Date &eval_date
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -270,7 +267,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -288,9 +286,7 @@ namespace bondgeek {
                           issue_date, 
                           CallabilitySchedule()
                           )
-    {
-        this->set_eval_date(eval_date);
-    }
+    {}
     
     
     void CallBond::setEngine(CurveBase &crv, 

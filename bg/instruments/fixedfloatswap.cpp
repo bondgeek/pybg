@@ -30,7 +30,7 @@ namespace bondgeek {
                                    BusinessDayConvention floatingLegConvention,
                                    Calendar calendar,
 
-                                   Date &eval_date
+                                   Date eval_date
                                    ) : 
     _settlementDate(settle),
     _maturity(maturity),
@@ -45,6 +45,7 @@ namespace bondgeek {
     _floatingLegDayCounter(floatingLegDayCounter),
     _floatingLegConvention(floatingLegConvention),
     _calendar(calendar),
+    InstrumentBase(eval_date),
     VanillaSwap(paytype(payerType), 
                 notional,
                 Schedule(settle, 
@@ -68,9 +69,7 @@ namespace bondgeek {
                 iborIndex, 
                 floating_spread,
                 floatingLegDayCounter) 
-    {
-        this->set_eval_date(eval_date);
-    }
+    {}
     
     
     VanillaSwap::Type FixedFloatSwap::paytype(SwapPayType paytype) 

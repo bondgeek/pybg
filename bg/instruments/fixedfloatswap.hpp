@@ -61,7 +61,8 @@ namespace bondgeek {
                        DayCounter floatingLegDayCounter = Actual360(),
                        BusinessDayConvention floatingLegConvention = ModifiedFollowing,
                        Calendar calendar = TARGET(),
-                       Date &eval_date=Date()
+                       // Eval date
+                       Date eval_date=Date()
                        );
 
         VanillaSwap::Type paytype(SwapPayType paytype);

@@ -36,7 +36,7 @@ namespace bondgeek {
                    Real faceamount = 100.0,
                    BusinessDayConvention accrualConvention = Unadjusted,
                    BusinessDayConvention paymentConvention = Unadjusted,
-                   Date &eval_date=Date()
+                   Date eval_date=Date()
                    );
         
         virtual double toPrice(void);

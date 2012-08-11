@@ -73,7 +73,7 @@ namespace bondgeek {
                                                  SwapPayType payerType = FixedPayer,
                                                  Spread floating_spread = 0.0,
                                                  Real notional = 1000000.0,
-                                                 Date &eval_date=Date()
+                                                 Date eval_date=Date()
                                                  )
         {
             boost::shared_ptr<IborIndex> iborIdx = _indexBase();

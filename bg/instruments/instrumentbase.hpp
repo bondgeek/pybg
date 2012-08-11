@@ -19,24 +19,19 @@ namespace bondgeek
 {
     class InstrumentBase {
     protected:
-        Date    _eval_date;
-
-        InstrumentBase() 
-        {
-            if (_eval_date == Date())
-            {
-                _eval_date = get_evaluation_date();
-            }
-        }
         
-    public:
+        InstrumentBase(){}
+
+    public:        
+        
+        InstrumentBase(Date eval_date) { this->set_eval_date(eval_date); }
+        
         // Inspectors
-        Date    get_eval_date() { return _eval_date; }
-        void    set_eval_date(Date &date_input) {
+        Date    get_eval_date() { return get_evaluation_date(); }
+        void    set_eval_date(Date &date_input) 
+        {
             if (date_input != Date())
                 set_evaluation_date(date_input);
-            
-            _eval_date = get_evaluation_date();
         }
 
         // virtual function 
