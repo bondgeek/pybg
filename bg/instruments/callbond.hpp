@@ -98,7 +98,8 @@ namespace bondgeek {
                  Real redemption = 100.0,
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
-                 BusinessDayConvention paymentConvention = Unadjusted
+                 BusinessDayConvention paymentConvention = Unadjusted,
+                 Date eval_date=Date()
                  );
         //Fixed Call Price
         CallBond(const Rate &coupon,
@@ -114,7 +115,8 @@ namespace bondgeek {
                  Real redemption = 100.0,
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
-                 BusinessDayConvention paymentConvention = Unadjusted
+                 BusinessDayConvention paymentConvention = Unadjusted,
+                 Date eval_date=Date()
                  );
         
         // Call Price declining to par (classic municipal bond call)
@@ -132,7 +134,8 @@ namespace bondgeek {
                  Real redemption = 100.0,
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
-                 BusinessDayConvention paymentConvention = Unadjusted
+                 BusinessDayConvention paymentConvention = Unadjusted,
+                 Date eval_date=Date()
                  );
         
         // Non Call
@@ -146,7 +149,8 @@ namespace bondgeek {
                  Real redemption = 100.0,
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,
-                 BusinessDayConvention paymentConvention = Unadjusted
+                 BusinessDayConvention paymentConvention = Unadjusted,
+                 Date eval_date=Date()
                  );        
         // Inspectors
         Real reversionParameter() {return _reversionParameter; }
@@ -172,6 +176,7 @@ namespace bondgeek {
         BulletBond bullet(Date &redemptionDate, Real &redemptionPrice);
         
         // Engines
+        virtual void setEngine(boost::shared_ptr<CurveBase> crv) ;
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
                                Real &a, 

@@ -147,7 +147,9 @@ namespace bondgeek {
         Date advanceCurveDate(int n, TimeUnit unit);
         
         void build(const Date &todays_date);
-        void build(void) { build_termstructure(); }
+        void build(void) { 
+            build_termstructure(); 
+        }
         
         virtual void build_termstructure(void) {}    
         

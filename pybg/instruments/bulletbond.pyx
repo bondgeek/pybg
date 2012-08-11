@@ -2,6 +2,7 @@
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
 
 include '../quantlib/types.pxi'
+cimport pybg.version
 
 from libcpp cimport bool
 
@@ -15,7 +16,9 @@ from pybg.quantlib.time._period cimport Frequency as _Frequency
 from pybg.quantlib.time._calendar cimport Calendar as _Calendar
 from pybg.quantlib.time._daycounter cimport DayCounter as _DayCounter
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
+
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
+from pybg.ql import get_eval_date, set_eval_date
 
 cimport pybg._curves as _curves
 cimport pybg.curves as curves
@@ -49,9 +52,13 @@ cdef class BulletBond:
                  Real redemption=100.0,
                  Real faceamount=100.0,
                  accrualConvention=BusinessDayConventions.Unadjusted,
-                 paymentConvention=BusinessDayConventions.Unadjusted
+                 paymentConvention=BusinessDayConventions.Unadjusted,
+                 object evaldate=None
                  ):
         
+        if not evaldate:
+            evaldate = get_eval_date()
+            
         self._thisptr = new shared_ptr[_bulletbond.BulletBond]( \
             new _bulletbond.BulletBond(
                        coupon,
@@ -65,18 +72,35 @@ cdef class BulletBond:
                        faceamount, 
                        <_BusinessDayConvention>accrualConvention, 
                        <_BusinessDayConvention>paymentConvention, 
+                       _qldate_from_pydate(evaldate)
                        ))
         
+        
+    property evalDate:
+        def __get__(self):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = self._thisptr.get().get_eval_date()
+            
+            result = _pydate_from_qldate(dt)
+            return result
+            
+        def __set__(self, object evaldate):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = _qldate_from_pydate(evaldate)
+            
+            self._thisptr.get().set_eval_date(dt)
+            
+
+    
     def setEngine(self, curves.RateHelperCurve crv):
-        cdef _curves.RateHelperCurve _crv
-        print("\n\nIn setEngine")
-        _crv = deref(crv._thisptr.get()) 
+        cdef _curves.CurveBase _crv  = <_curves.CurveBase>deref(crv._thisptr.get()) 
+        
         self._thisptr.get().setEngine(_crv)
         
-        cdef double px = self._thisptr.get().toPrice()
-        cdef _qldate.Date mty = self._thisptr.get().maturityDate()
-        print("call toPrice: %s " % px)
-        print("mty: %s " % _pydate_from_qldate(mty))
     
     def toPrice(self, bondyield=None):
         if bondyield:
@@ -86,7 +110,6 @@ cdef class BulletBond:
             
     def toYield(self, bondprice=None):
         if bondprice:
-            print("in toYield")
             return self._thisptr.get().toYield(bondprice)
         else:
             return self._thisptr.get().toYield()
@@ -158,7 +181,13 @@ cdef class BulletBond:
             dt = self._thisptr.get().settlementDate()
             
             result = _pydate_from_qldate(dt)
-            return result     
+            return result
+
+        def __set__(self, object pydate):
+            cdef _qldate.Date dt = _qldate_from_pydate(pydate)
+            
+            dt = self._thisptr.get().settlementDate(dt)
+
             
     property maturity:
         def __get__(self):

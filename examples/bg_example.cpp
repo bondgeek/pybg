@@ -30,9 +30,8 @@ int main ()
     Date todaysDate = TARGET().adjust( Date(28, May, 2012) );
     
     Settings::instance().evaluationDate() = todaysDate;
-    
+    cout << "settings: " << &Settings::instance() << endl;
     cout << "\n\nToday: " << todaysDate << endl;
-    
     
     string futtenors[] = {"ED1", "ED2", "ED3", "ED4", "ED5", "ED6", "ED7", "ED8"};
     double futspots[] = {96.2875, 96.7875, 96.9875, 96.6875, 96.4875, 96.3875, 96.2875, 96.0875};

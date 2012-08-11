@@ -4,6 +4,8 @@
 include '../quantlib/types.pxi'
 cimport pybg.version
 
+from pybg.quantlib.handle cimport shared_ptr
+
 from pybg.quantlib.time._date cimport Date as _QLDate
 from pybg.quantlib.time._period cimport Frequency 
 from pybg.quantlib.time._calendar cimport Calendar
@@ -29,9 +31,11 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
                    Real faceamount, # = 100.0
                    BusinessDayConvention accrualConvention, # = Unadjusted
                    BusinessDayConvention paymentConvention, # = Unadjusted
+                   _QLDate eval_date #=Date()
                    ) except +
-                   
+        
         void setEngine(_curves.CurveBase crv)
+        void setEngine(shared_ptr[_curves.CurveBase] crvptr)
         
         double toPrice()
         double toPrice(Real bondyield)
@@ -42,6 +46,7 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         # Inspectors
         _QLDate maturityDate()
         _QLDate settlementDate()
+        _QLDate settlementDate(_QLDate)
         _QLDate issueDate()
         DayCounter dayCounter()
         Frequency frequency()
@@ -49,3 +54,5 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         Calendar calendar()
         Leg redemptions()
         Leg cashflows()
+        _QLDate get_eval_date()
+        void set_eval_date(_QLDate)

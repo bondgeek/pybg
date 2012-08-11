@@ -15,6 +15,7 @@ from pybg.quantlib.time._period cimport Frequency as _Frequency
 from pybg.quantlib.time._calendar cimport Calendar as _Calendar
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
+from pybg.ql import get_eval_date, set_eval_date
 
 cimport pybg._curves as _curves
 cimport pybg.curves as curves
@@ -65,14 +66,18 @@ cdef class CallBond:
                  Real redemption=100.0,
                  Real faceamount=100.0,
                  accrualConvention=Unadjusted,
-                 paymentConvention=Unadjusted
+                 paymentConvention=Unadjusted,
+                 object evaldate=None
                  ):
 
+        if not evaldate:
+            evaldate = get_eval_date()
+            
         self._thisptr = new shared_ptr[_callbond.CallBond]( \
             new _callbond.CallBond(
                        coupon,
-                       _qldate_from_pydate( maturity ),
-                       _qldate_from_pydate( calldate ),
+                       _qldate_from_pydate(maturity),
+                       _qldate_from_pydate(calldate),
                        callprice,
                        _qldate_from_pydate( issue_date),
                        deref(calendar._thisptr), 
@@ -84,9 +89,28 @@ cdef class CallBond:
                        faceamount, 
                        <_BusinessDayConvention>accrualConvention, 
                        <_BusinessDayConvention>paymentConvention, 
+                       _qldate_from_pydate(evaldate)
                        )
              )
-    
+
+    property evalDate:
+        def __get__(self):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = self._thisptr.get().get_eval_date()
+            
+            result = _pydate_from_qldate(dt)
+            return result
+            
+        def __set__(self, object evaldate):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = _qldate_from_pydate(evaldate)
+            
+            self._thisptr.get().set_eval_date(dt)
+            
     property spread:
         def __get__(self):
             cdef Real sprd

@@ -28,7 +28,9 @@ namespace bondgeek {
                                    Frequency floatingLegFrequency,
                                    DayCounter floatingLegDayCounter,
                                    BusinessDayConvention floatingLegConvention,
-                                   Calendar calendar
+                                   Calendar calendar,
+
+                                   Date eval_date
                                    ) : 
     _settlementDate(settle),
     _maturity(maturity),
@@ -43,6 +45,7 @@ namespace bondgeek {
     _floatingLegDayCounter(floatingLegDayCounter),
     _floatingLegConvention(floatingLegConvention),
     _calendar(calendar),
+    InstrumentBase(eval_date),
     VanillaSwap(paytype(payerType), 
                 notional,
                 Schedule(settle, 
@@ -68,6 +71,7 @@ namespace bondgeek {
                 floatingLegDayCounter) 
     {}
     
+    
     VanillaSwap::Type FixedFloatSwap::paytype(SwapPayType paytype) 
     {
         switch (paytype) {
@@ -83,6 +87,17 @@ namespace bondgeek {
         }
     }
     
+    void FixedFloatSwap::setEngine(boost::shared_ptr<CurveBase> crv)  
+    {
+        typedef boost::shared_ptr<PricingEngine> PrcEnginePtr;
+        
+        PrcEnginePtr swapEngine = createPriceEngine<DiscountingSwapEngine>( \
+                                                crv->discountingTermStructure()
+                                                );
+        
+        setPricingEngine(swapEngine);
+    }
+
     void FixedFloatSwap::setEngine(CurveBase &crv)  
     {
         typedef boost::shared_ptr<PricingEngine> PrcEnginePtr;

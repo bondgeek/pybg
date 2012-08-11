@@ -19,11 +19,24 @@ namespace bondgeek
 {
     class InstrumentBase {
     protected:
-        InstrumentBase() {};
         
-    public:
+        InstrumentBase(){}
+
+    public:        
+        
+        InstrumentBase(Date eval_date) { this->set_eval_date(eval_date); }
+        
+        // Inspectors
+        Date    get_eval_date() { return get_evaluation_date(); }
+        void    set_eval_date(Date &date_input) 
+        {
+            if (date_input != Date())
+                set_evaluation_date(date_input);
+        }
+
         // virtual function 
         // defined at instrument level 
+        virtual void setEngine(boost::shared_ptr<CurveBase> crvptr) =0;
         virtual void setEngine(CurveBase &crv) =0 ;
         virtual void setEngine(CurveBase &crv, 
                                Real &parm,

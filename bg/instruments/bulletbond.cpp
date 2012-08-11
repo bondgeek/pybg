@@ -21,7 +21,8 @@ namespace bondgeek {
                            Real redemption,
                            Real faceamount,
                            BusinessDayConvention accrualConvention,
-                           BusinessDayConvention paymentConvention
+                           BusinessDayConvention paymentConvention,
+                           Date eval_date
                            ):
     _coupon(coupon),
     _maturity(maturity),
@@ -33,7 +34,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     FixedRateBond(settlementDays,
                   faceamount,
                   Schedule(issue_date,
@@ -51,6 +53,15 @@ namespace bondgeek {
                   issue_date)
     {}
     
+    void BulletBond::setEngine(boost::shared_ptr<CurveBase> crvptr)
+    {
+        boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(
+                                                                                               crvptr->discountingTermStructure()
+                                                                                               );
+        
+        setPricingEngine(discEngine);
+    }
+
     void BulletBond::setEngine(CurveBase &crv)
     {
         boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(

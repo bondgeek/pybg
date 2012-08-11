@@ -36,10 +36,9 @@ swaps = dict(zip(swaptenors, swapspots))
 rh = curves.RateHelperCurve(EURiborCurve("6M", Annual))
 
 rh.update(depos, {}, swaps, evaldate)
+df = rh.discount(10.0)
 
 print("\nTest curve: \ndate: %s" % rh.referenceDate)
-
-df = rh.discount(10.0)
 print("\nTest curve: \ndiscount: %s" % df)
 
 swp2 = EuriborSwap("6M", rh.referenceDate, date(2009, 9, 22), .04, FixedPayer)

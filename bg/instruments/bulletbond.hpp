@@ -35,7 +35,8 @@ namespace bondgeek {
                    Real redemption = 100.0,
                    Real faceamount = 100.0,
                    BusinessDayConvention accrualConvention = Unadjusted,
-                   BusinessDayConvention paymentConvention = Unadjusted
+                   BusinessDayConvention paymentConvention = Unadjusted,
+                   Date eval_date=Date()
                    );
         
         virtual double toPrice(void);
@@ -43,6 +44,7 @@ namespace bondgeek {
         virtual double toYield(Real bondprice);
         virtual double toYield() {return toYield(toPrice()); };
         
+        virtual void setEngine(boost::shared_ptr<CurveBase> crvptr) ;
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
                                Real &a, 

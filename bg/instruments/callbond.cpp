@@ -104,7 +104,8 @@ namespace bondgeek {
                        Real redemption,
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
-                       BusinessDayConvention paymentConvention
+                       BusinessDayConvention paymentConvention,
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -116,7 +117,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -150,7 +152,8 @@ namespace bondgeek {
                        Real redemption,
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
-                       BusinessDayConvention paymentConvention
+                       BusinessDayConvention paymentConvention,
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -162,7 +165,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -200,7 +204,8 @@ namespace bondgeek {
                        Real redemption,
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
-                       BusinessDayConvention paymentConvention
+                       BusinessDayConvention paymentConvention,
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -212,7 +217,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -248,7 +254,8 @@ namespace bondgeek {
                        Real redemption,
                        Real faceamount,
                        BusinessDayConvention accrualConvention,
-                       BusinessDayConvention paymentConvention
+                       BusinessDayConvention paymentConvention,
+                       Date eval_date
                        ) : 
     _coupon(coupon),
     _maturity(maturity),
@@ -260,7 +267,8 @@ namespace bondgeek {
              redemption,
              faceamount,
              accrualConvention,
-             paymentConvention),
+             paymentConvention,
+             eval_date),
     CallableFixedRateBond(settlementDays, 
                           faceamount, 
                           Schedule(issue_date,
@@ -300,6 +308,13 @@ namespace bondgeek {
     {
         Real x = QL_EPSILON;
         setEngine(crv, x, x, true);
+    }
+
+    void CallBond::setEngine(boost::shared_ptr<CurveBase> crv) 
+    {
+        //CurveBase *_crv = crv.get();
+        Real x = QL_EPSILON;
+        //setEngine(&_crv, x, x, true);
     }
     
     // Bond Math Functions  
@@ -355,7 +370,7 @@ namespace bondgeek {
         
         if (price > _faceamount) 
         {
-            for (int i = 0; i < sz; i++) 
+            for (unsigned int i = 0; i < sz; i++) 
             {
                 newCallPx = calls[i]->price().amount();
                 if (newCallPx < prvCallPx) {
@@ -395,7 +410,7 @@ namespace bondgeek {
         
         if (bondprice > _faceamount) 
         {
-            for (int i = 0; i < sz; i++) 
+            for (unsigned int i = 0; i < sz; i++) 
             {
                 newCallPx = calls[i]->price().amount();
                 

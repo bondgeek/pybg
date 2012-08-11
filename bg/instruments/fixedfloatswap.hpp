@@ -60,11 +60,14 @@ namespace bondgeek {
                        Frequency floatingLegFrequency = Quarterly,
                        DayCounter floatingLegDayCounter = Actual360(),
                        BusinessDayConvention floatingLegConvention = ModifiedFollowing,
-                       Calendar calendar = TARGET()
+                       Calendar calendar = TARGET(),
+                       // Eval date
+                       Date eval_date=Date()
                        );
 
         VanillaSwap::Type paytype(SwapPayType paytype);
-        
+
+        virtual void setEngine(boost::shared_ptr<CurveBase> crv) ;
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
                                Real &a, 

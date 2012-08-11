@@ -20,10 +20,10 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
 
     cdef cppclass CallBond:
         CallBond(Rate &coupon,
-				 _QLDate &maturity,
-				 _QLDate &callDate,
-				 Real &callPrice, 
-				 _QLDate &issue_date,
+                 _QLDate &maturity,
+                 _QLDate &callDate,
+                 Real &callPrice, 
+                 _QLDate &issue_date,
                  Calendar calendar, # = UnitedStates(UnitedStates::GovernmentBond)
                  Natural settlementDays, # = 3
                  DayCounter daycounter, # = ActualActual(ActualActual::Bond)
@@ -33,12 +33,13 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
                  Real faceamount, # = 100.0
                  BusinessDayConvention accrualConvention, # = Unadjusted
                  BusinessDayConvention paymentConvention, # = Unadjusted
+                 _QLDate eval_date
                  )
                  
         CallBond(Rate &coupon,
-				 _QLDate &maturity,
-				 _QLDate &issue_date,
-				 Calendar calendar, # = UnitedStates(UnitedStates::GovernmentBond)
+                 _QLDate &maturity,
+                 _QLDate &issue_date,
+                 Calendar calendar, # = UnitedStates(UnitedStates::GovernmentBond)
                  Natural settlementDays, # = 3
                  DayCounter daycounter, # = ActualActual(ActualActual::Bond)
                  Frequency payFrequency, # = Semiannual
@@ -47,6 +48,7 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
                  Real faceamount, # = 100.0
                  BusinessDayConvention accrualConvention, # = Unadjusted
                  BusinessDayConvention paymentConvention, # = Unadjusted
+                 _QLDate eval_date
                  )
 
         # Engines
@@ -61,7 +63,9 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
         Real reversionParameter()
         Real sigma()
         bool lognormal()
-        
+        _QLDate get_eval_date()
+        void set_eval_date(_QLDate)
+
         Leg redemptions()
         int ytwFeature()
         

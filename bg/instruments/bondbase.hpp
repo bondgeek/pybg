@@ -41,7 +41,9 @@ namespace bondgeek
                  Real redemption,
                  Real faceamount,
                  BusinessDayConvention accrualConvention,
-                 BusinessDayConvention paymentConvention) :
+                 BusinessDayConvention paymentConvention,
+                 Date eval_date=Date()
+                 ) :
         _calendar(calendar),
         _settlementDays(settlementDays),
         _daycounter(daycounter),
@@ -49,7 +51,8 @@ namespace bondgeek
         _redemption(redemption),
         _faceamount(faceamount),
         _accrualConvention(accrualConvention),
-        _paymentConvention(paymentConvention)
+        _paymentConvention(paymentConvention),
+        InstrumentBase(eval_date)
         {}
         
         virtual double toYield() =0;

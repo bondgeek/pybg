@@ -56,6 +56,8 @@ cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
         Spread      spread()
         Leg         fixedLeg()
         Leg         floatingLeg()
+        _QLDate     get_eval_date()
+        void        set_eval_date(_QLDate)
         
         #Results
         Real    NPV()
@@ -92,7 +94,8 @@ cdef extern from 'bg/swaptype.hpp' namespace 'bondgeek':
             Rate fixedRate,
             SwapPayType payerType,
             Spread floating_spread,
-            Real notional
+            Real notional,
+            _QLDate evaldate
             )
         
         

@@ -7,6 +7,7 @@ cimport pybg.instruments._fixedfloatswap as _fixedfloatswap
 
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
+from pybg.ql import get_eval_date, set_eval_date
 
 from cython.operator cimport dereference as deref
 from libcpp.string cimport string
@@ -69,7 +70,8 @@ cdef class LiborSwap:
             # floating leg 
             floatingLegFrequency,
             DayCounter floatingLegDayCounter,
-            floatingLegConvention
+            floatingLegConvention,
+            object evaldate
             ):
         """Enter tenor as '3M'
         
@@ -140,7 +142,25 @@ cdef class LiborSwap:
             result = cashflow.leg_items(leg)
             
             return result        
-    
+
+    property evalDate:
+        def __get__(self):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = self._thisptr.get().get_eval_date()
+            
+            result = _pydate_from_qldate(dt)
+            return result
+            
+        def __set__(self, object evaldate):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = _qldate_from_pydate(evaldate)
+            
+            self._thisptr.get().set_eval_date(dt)
+            
     #Results
     #    Real   NPV()
     #    Real   fixedLegBPS() 
@@ -222,9 +242,13 @@ cdef class USDLiborSwap(LiborSwap):
             # floating leg 
             floatingLegFrequency=Quarterly,
             DayCounter floatingLegDayCounter=Actual360(),
-            floatingLegConvention=ModifiedFollowing
+            floatingLegConvention=ModifiedFollowing,
+            object evaldate=None
             ):
-                    
+        
+        if not evaldate:
+            evaldate = get_eval_date()        
+        
         self._swaptype = \
             new _fixedfloatswap.SwapType[ _libor.USDLibor ](
                 <_Frequency>fixedLegFrequency,
@@ -243,18 +267,18 @@ cdef class USDLiborSwap(LiborSwap):
                 fixedRate,
                 payerType,
                 floating_spread,
-                notional
+                notional,
+                _qldate_from_pydate(evaldate)
                 )
             )     
     
     def setEngine(self, curves.RateHelperCurve crv):
-        #cdef _RateHelperCurve _crv
-        cdef _CurveBase _crv
-        print("in setEngine %s " % crv.referenceDate)
-        _crv = <_CurveBase>deref(crv._thisptr.get())
+        cdef _RateHelperCurve _crv
+        
+        _crv = deref(crv._thisptr.get())
         
         deref(self._swaptype).linkIndex(_crv)
-        self._thisptr.get().setEngine(_crv)
+        self._thisptr.get().setEngine(deref(crv._thisptr.get()))
               
                                       
 cdef class EuriborSwap(LiborSwap):    
@@ -273,8 +297,12 @@ cdef class EuriborSwap(LiborSwap):
             # floating leg 
             floatingLegFrequency=Semiannual,
             DayCounter floatingLegDayCounter=Actual360(),
-            floatingLegConvention=ModifiedFollowing
+            floatingLegConvention=ModifiedFollowing,
+            object evaldate=None
             ):
+        
+        if not evaldate:
+            evaldate = get_eval_date()
             
         self._swaptype = \
             new _fixedfloatswap.SwapType[ _euribor.Euribor ](
@@ -294,22 +322,15 @@ cdef class EuriborSwap(LiborSwap):
                 fixedRate,
                 payerType,
                 floating_spread,
-                notional
+                notional,
+                _qldate_from_pydate(evaldate)
                 )
             )
 
     def setEngine(self, curves.RateHelperCurve crv):
         cdef _RateHelperCurve _crv
-        #cdef _CurveBase _crv
         
-        print("in euriborswap setEngine -- %s " % crv.referenceDate)
-        
-        #_crv = <_CurveBase>deref(crv._thisptr.get())
         _crv = deref(crv._thisptr.get())
-        print("_crv.curveDate: %s " % _pydate_from_qldate(_crv.referenceDate()))
-        cdef char* tnr = "10Y"
-        
-        print("10y: %s " % _crv.tenorquote(<string>tnr))
         
         deref(self._swaptype).linkIndex(_crv)
         self._thisptr.get().setEngine(deref(crv._thisptr.get()))
