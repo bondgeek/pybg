@@ -446,7 +446,6 @@ int main (int argc, char * const argv[])
     t1  = timer.elapsed();
     cout << fixed << setprecision(3)
     << t1-t0 << " s\n" << endl;
-    t0=t1;
-    
+        
     return 0;
 }
