@@ -40,6 +40,14 @@
 		CC4845E615C5BAE200E8522D /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CC4845E815C5BB0400E8522D /* Bonds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845E715C5BB0400E8522D /* Bonds.cpp */; };
 		CC48463315C5D44D00E8522D /* bondcurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845F515C5BEDE00E8522D /* bondcurve.cpp */; };
+		CC947DEF15D800AE00138FFD /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
+		CC947DF015D800D600138FFD /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
+		CC947DF115D800D600138FFD /* callbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02121594B7470002568B /* callbond.cpp */; };
+		CC947DF215D800D600138FFD /* fixedfloatswap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02141594B7470002568B /* fixedfloatswap.cpp */; };
+		CC947DF315D800D600138FFD /* curvebase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02031594B7470002568B /* curvebase.cpp */; };
+		CC947DF415D800D600138FFD /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
+		CC947DF515D800D600138FFD /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
+		CC947DF715D800FA00138FFD /* sinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC947DF615D800FA00138FFD /* sinker.cpp */; };
 		CCB1E5C715B5800E00F738BB /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CCB1E5C815B5803300F738BB /* libboost_regex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01F81594B6510002568B /* libboost_regex.dylib */; };
 		CCB1E5CA15B5807C00F738BB /* curvetest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCB1E5C915B5807C00F738BB /* curvetest.cpp */; };
@@ -217,6 +225,8 @@
 		CC4845F415C5BEDE00E8522D /* bondcurve.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondcurve.hpp; sourceTree = "<group>"; };
 		CC4845F515C5BEDE00E8522D /* bondcurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bondcurve.cpp; sourceTree = "<group>"; };
 		CC62B4AE15B4315500848EF4 /* curvetest3.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = curvetest3.py; sourceTree = "<group>"; };
+		CC947DEA15D8008900138FFD /* sinker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = sinker; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC947DF615D800FA00138FFD /* sinker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sinker.cpp; sourceTree = "<group>"; };
 		CC96902315C4957F008B5B6D /* bondbase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondbase.hpp; sourceTree = "<group>"; };
 		CC9A9B6A15A8CA3C00B24799 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		CC9FB84315A79F8A0083E005 /* _fixedfloatswap.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _fixedfloatswap.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
@@ -284,6 +294,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC947DE815D8008900138FFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC947DEF15D800AE00138FFD /* libQuantLib.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CCB1E5C015B57FE300F738BB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -341,6 +359,7 @@
 				CC48459315C5B39600E8522D /* FittedBondCurve */,
 				CC4845E115C5BAC500E8522D /* Bonds */,
 				CCF687B415CEFC5400606695 /* libbondgeek.dylib */,
+				CC947DEA15D8008900138FFD /* sinker */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -414,6 +433,7 @@
 				CB4D025F1594B7470002568B /* callbond_example.cpp */,
 				CB4D02601594B7470002568B /* bg_example.cpp */,
 				CCB1E5C915B5807C00F738BB /* curvetest.cpp */,
+				CC947DF615D800FA00138FFD /* sinker.cpp */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -772,6 +792,22 @@
 			productReference = CC4845E115C5BAC500E8522D /* Bonds */;
 			productType = "com.apple.product-type.tool";
 		};
+		CC947DE915D8008900138FFD /* sinker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC947DEE15D800AC00138FFD /* Build configuration list for PBXNativeTarget "sinker" */;
+			buildPhases = (
+				CC947DE715D8008900138FFD /* Sources */,
+				CC947DE815D8008900138FFD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sinker;
+			productName = sinker;
+			productReference = CC947DEA15D8008900138FFD /* sinker */;
+			productType = "com.apple.product-type.tool";
+		};
 		CCB1E5C115B57FE300F738BB /* curvetest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CCB1E5C615B5800E00F738BB /* Build configuration list for PBXNativeTarget "curvetest" */;
@@ -834,6 +870,7 @@
 				CC48459215C5B39600E8522D /* FittedBondCurve */,
 				CC4845E015C5BAC500E8522D /* Bonds */,
 				CCF687B315CEFC5400606695 /* bondgeek */,
+				CC947DE915D8008900138FFD /* sinker */,
 			);
 		};
 /* End PBXProject section */
@@ -894,6 +931,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC4845E815C5BB0400E8522D /* Bonds.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC947DE715D8008900138FFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC947DF015D800D600138FFD /* bulletbond.cpp in Sources */,
+				CC947DF115D800D600138FFD /* callbond.cpp in Sources */,
+				CC947DF215D800D600138FFD /* fixedfloatswap.cpp in Sources */,
+				CC947DF315D800D600138FFD /* curvebase.cpp in Sources */,
+				CC947DF415D800D600138FFD /* ratehelpercurve.cpp in Sources */,
+				CC947DF515D800D600138FFD /* date_utilities.cpp in Sources */,
+				CC947DF715D800FA00138FFD /* sinker.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1110,6 +1161,36 @@
 			};
 			name = Release;
 		};
+		CC947DEC15D8008900138FFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = sinker;
+			};
+			name = Debug;
+		};
+		CC947DED15D8008900138FFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = sinker;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		CCB1E5C415B57FE300F738BB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1225,6 +1306,15 @@
 			buildConfigurations = (
 				CC4845E315C5BAC500E8522D /* Debug */,
 				CC4845E415C5BAC500E8522D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC947DEE15D800AC00138FFD /* Build configuration list for PBXNativeTarget "sinker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC947DEC15D8008900138FFD /* Debug */,
+				CC947DED15D8008900138FFD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
