@@ -71,6 +71,46 @@ Integer numSubPeriod(const Period& subPeriod,
     return 0;
 }
 
+std::vector<Real> sinkingFundNotionals(const std::vector<Real>& sf_par,
+                                        Frequency sf_freq,
+                                        Frequency frequency,
+                                        int sched_size
+                                        )
+{
+    std::vector<Real> sf_notionals;
+    
+    //Total amount sunk
+    double sf_total=0.0;
+    for (int i=0; i < sf_par.size(); i++)
+        sf_total += sf_par[i];
+    
+    int nsub = numSubPeriod(Period(frequency), Period(sf_freq));
+    QL_ENSURE(nsub > 0, "sink frequency not compatible with bond schedule");
+    
+    int sf_start_pos = sched_size - (nsub * sf_par.size()); 
+    
+    // prior to sinking fund start all notionals are par.
+    for (int i = 0; i < sf_start_pos; i++)
+    {
+        sf_notionals.push_back(100.);
+    }
+    
+    double bal = 100. ;
+    int n_itr = 0;
+    for (int i=sf_start_pos; i < sched_size; i=i+nsub) 
+    {
+        for (int j = 0; j < nsub; j++) 
+        {
+            sf_notionals.push_back(bal);
+        }
+        
+        bal -= 100.0 * sf_par[n_itr] / sf_total;
+        n_itr++;        
+    }
+    
+    return sf_notionals;
+}
+
 class NonCallBond : public Bond {
 protected:
     Frequency frequency_;
@@ -79,16 +119,17 @@ protected:
 public:
     /* Generic Fixed Rate Bond, no amortization 
      */
-    NonCallBond(Natural                     settlementDays,
-            Real                        faceAmount,
-            const Schedule&             schedule,
-            const std::vector<Rate>&    coupons,
-            const DayCounter&           accrualDayCounter,
-            BusinessDayConvention       paymentConvention = Following,
-            Real                        redemption = 100.0,
-            const Date&                 issueDate = Date(),
-            const Calendar&             paymentCalendar = Calendar()
-            ) : 
+    NonCallBond(
+                Natural                     settlementDays,
+                Real                        faceAmount,
+                const Schedule&             schedule,
+                const std::vector<Rate>&    coupons,
+                const DayCounter&           accrualDayCounter,
+                BusinessDayConvention       paymentConvention = Following,
+                Real                        redemption = 100.0,
+                const Date&                 issueDate = Date(),
+                const Calendar&             paymentCalendar = Calendar()
+                ) : 
     Bond(settlementDays,
          paymentCalendar==Calendar() ? schedule.calendar() : paymentCalendar,
          issueDate),
@@ -103,10 +144,10 @@ public:
         //.withPaymentCalendar(calendar_)
         .withPaymentAdjustment(paymentConvention);
         
-        addRedemptionsToCashflows();
+        addRedemptionsToCashflows(std::vector<Real>(1, redemption));
     }
     
-    /* Fixed Rate amortizing bond 
+    /* Generic Fixed Rate Amortizing Bond 
        
     notionals:  A declining balance (actually non-increasing) balance 
      of outstanding notional at each schedule date.
@@ -136,12 +177,14 @@ public:
         cashflows_ = FixedRateLeg(schedule)
         .withNotionals(notionals)
         .withCouponRates(coupons, accrualDayCounter)
+        //check quantlib version
         //.withPaymentCalendar(calendar_)
         .withPaymentAdjustment(paymentConvention);
 
         addRedemptionsToCashflows(redemptionValues);
 
     }
+
     
     void showCashFlows(void)
     {
@@ -256,109 +299,54 @@ int main (int argc, char * const argv[])
     bnd.showCashFlows();
     bnd.showNotionals();
     
-    std::vector<Real> sinkingfund;
-    std::vector<Real> sf_notionals;
+    
+    /* Sinkfing fund amortization:
+     
+     notionals start at par on the dated date and end at zero on maturity.
+     redemptions are the prices redemption prices (pct of par, e.g. 101.)
+     
+     */
     
     double sf_sch[] = {
         40000, 40000, 40000, 40000    };
     int sf_num = 4;
     Frequency sf_freq = Annual;
     
-    int nsub = numSubPeriod(Period(frequency), Period(sf_freq));
-    cout << endl << endl << Period(frequency) << " | " << Period(sf_freq) 
-    << endl 
-    << "numSubPeriods: " << nsub << endl << endl;
-
-    std::vector<double> redvals;
-    redvals.assign(sf_sch, sf_sch+sf_num);
+    std::vector<Real> sf_notionals;
+    std::vector<Real> sf_redemptions;
     
-    double sf_total=0.0;
-    for (std::vector<double>::iterator it=redvals.begin();
-         it < redvals.end(); it++)
-        sf_total += *it;
+    std::vector<double> sf_bal;
+    sf_bal.assign(sf_sch, sf_sch+sf_num);
     
-    cout << endl << endl << "sf total: " << sf_total ;
+    sf_notionals = sinkingFundNotionals(sf_bal, sf_freq, frequency, sch.size());
     
-    double sf_not=100.; // you start with par
-    double amt_sunk;
-    for (std::vector<double>::iterator it=redvals.begin();
-         it < redvals.end(); ++it) 
+    //redeem the last sinker, for example, at 101.
+    Real rval = 101.;
+    
+    for (int i=0; i < sf_notionals.size(); i++) 
     {
-        amt_sunk = 100. * (*it/sf_total);
-        
-        *it = sf_not ;
-        
-        sf_not -= amt_sunk;
+        sf_redemptions.push_back(i == sch.size()-1 ? rval : 100.0 );
     }
-    redvals.push_back(0.0);  // and you end up with no balance.
-    
-    cout << "\n\nNotionals: " << endl;
-    for (std::vector<double>::iterator it=redvals.begin();
-         it < redvals.end(); it++)
-        cout <<  *it << endl;
-    
-    /*
-    int n_itr = redvals.size();
-    int n_subitr = 0;
-    double notional_bal = 0.;
-    for (int i=sch.size()-1; i>=0; i--) 
-    {
-        cout << "adding " << i << " of " 
-        << sch.size() << ": ";
-        
-        if (--n_subitr <= 0 && notional_bal < 100.0) { 
-            n_subitr = nsub;
-            notional_bal = redvals[--n_itr];
-        }
-        sf_notionals.push_back(notional_bal);
-        
-        cout << notional_bal << endl;
-    }
-    */ 
-    
-    double notional_amt = 100.;
-    double sfamt = 100.00/sch.size();
-    Real   rval;
-    
-    for (int i=0; i < sch.size(); i++) {
-        cout << "adding " << i << " of " 
-        << sch.size() << ": ";
-    
-        sinkingfund.push_back(notional_amt);
-        cout << notional_amt << endl;
-        notional_amt -= sfamt;
-        
-        //redeem the last sinker at 101.
-        rval = i == sch.size()-1 ? 101.0 : 100.0 ;
-        sf_notionals.push_back(rval);
-    }
-    
-    for (std::vector<Real>::iterator it=sf_notionals.begin();
-         it < sf_notionals.end(); it++)
-        cout <<  *it << endl;
-    
-    cout << "size: " << sf_notionals.size()
-    << endl;
-
-    
+     
     cout << endl << endl
     << "Amortizing Generic Bond "
     << endl;
     NonCallBond bnd2(
                  settlementDays,
-                 sinkingfund,
+                 sf_notionals,
                  sch,
                  std::vector<Rate>(1, coupon),
                  bondDayCounter,
                  paymentConvention,
-                 sf_notionals,
+                 sf_redemptions,
                  dated
-                 );
-    cout << "built " << endl;
-    bnd2.showCashFlows();
+                 ); 
     
+    // show the results
+    bnd2.showCashFlows();
     bnd2.showRedemptions();
     bnd2.showNotionals();
     
     return 0;
 }
+
