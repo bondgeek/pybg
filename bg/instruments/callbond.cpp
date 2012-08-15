@@ -310,13 +310,6 @@ namespace bondgeek {
         setEngine(crv, x, x, true);
     }
 
-    void CallBond::setEngine(boost::shared_ptr<CurveBase> crv) 
-    {
-        //CurveBase *_crv = crv.get();
-        Real x = QL_EPSILON;
-        //setEngine(&_crv, x, x, true);
-    }
-    
     // Bond Math Functions  
     BulletBond CallBond::bullet()
     {

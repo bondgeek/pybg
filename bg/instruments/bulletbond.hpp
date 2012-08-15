@@ -44,7 +44,6 @@ namespace bondgeek {
         virtual double toYield(Real bondprice);
         virtual double toYield() {return toYield(toPrice()); };
         
-        virtual void setEngine(boost::shared_ptr<CurveBase> crvptr) ;
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
                                Real &a, 

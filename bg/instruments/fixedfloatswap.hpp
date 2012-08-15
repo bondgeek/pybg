@@ -67,7 +67,6 @@ namespace bondgeek {
 
         VanillaSwap::Type paytype(SwapPayType paytype);
 
-        virtual void setEngine(boost::shared_ptr<CurveBase> crv) ;
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
                                Real &a, 

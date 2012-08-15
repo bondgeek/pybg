@@ -52,15 +52,6 @@ namespace bondgeek {
                   redemption, 
                   issue_date)
     {}
-    
-    void BulletBond::setEngine(boost::shared_ptr<CurveBase> crvptr)
-    {
-        boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(
-                                                                                               crvptr->discountingTermStructure()
-                                                                                               );
-        
-        setPricingEngine(discEngine);
-    }
 
     void BulletBond::setEngine(CurveBase &crv)
     {
