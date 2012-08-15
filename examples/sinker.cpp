@@ -258,12 +258,16 @@ int main (int argc, char * const argv[])
                          swapspots,
                          7,
                          today);
-    cout << "df: " << usdLiborCurve.discount(10.) << endl;
     
+    boost::shared_ptr<PricingEngine> discEngine = \
+    createPriceEngine<DiscountingBondEngine>(
+                                             usdLiborCurve.discountingTermStructure()
+                                             );
     
     // set up the callable bond
     Real coupon = .06;
     Date maturity(15,September,2012);
+    Date maturity0(15, September, 2011);
     
     Date dated(16,September,2004);
     
@@ -297,8 +301,21 @@ int main (int argc, char * const argv[])
                 dated
                 );
     bnd.showCashFlows();
-    bnd.showNotionals();
     
+    cout << "one year shorter" << endl;
+    NonCallBond bnd0(
+                    settlementDays,
+                    faceAmount,
+                    Schedule(dated, maturity0, Period(frequency), bondCalendar,
+                             accrualConvention, accrualConvention,
+                             DateGeneration::Backward, false),
+                    std::vector<Rate>(1, coupon),
+                    bondDayCounter,
+                    paymentConvention,
+                    redemption,
+                    dated
+                    );
+    bnd0.showCashFlows();
     
     /* Sinkfing fund amortization:
      
@@ -308,8 +325,8 @@ int main (int argc, char * const argv[])
      */
     
     double sf_sch[] = {
-        40000, 40000, 40000, 40000    };
-    int sf_num = 4;
+        40000, 40000    };
+    int sf_num = 2;
     Frequency sf_freq = Annual;
     
     std::vector<Real> sf_notionals;
@@ -346,6 +363,20 @@ int main (int argc, char * const argv[])
     bnd2.showCashFlows();
     bnd2.showRedemptions();
     bnd2.showNotionals();
+
+    bnd0.setPricingEngine(discEngine);
+    bnd.setPricingEngine(discEngine);
+    bnd2.setPricingEngine(discEngine);
+    
+    double prc0 = bnd0.cleanPrice();
+    double prc = bnd.cleanPrice();
+    double prc2 = bnd2.cleanPrice();
+    
+    cout << endl << "priced0: " << prc0 << endl; 
+    cout << endl << "priced: " << prc << endl; 
+    cout << endl << "priced2: " << prc2 << endl;
+    
+    cout << "avg price: " << (prc0+prc)/2. << endl;
     
     return 0;
 }
