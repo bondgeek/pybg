@@ -16,6 +16,7 @@
 #include <bg/curves/curves.hpp>
 
 #include <bg/instruments/bulletbond.hpp>
+#include <bg/instruments/sinkingfundbond.hpp>
 #include <bg/instruments/callbond.hpp>
 
 // swaptype handles this include

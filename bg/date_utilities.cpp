@@ -3,14 +3,64 @@
  *  QuantLibFun
  *
  *  Created by Bart Mosley on 5/11/12.
- *  Copyright 2012 __MyCompanyName__. All rights reserved.
+ *  Copyright 2012 BG Research LLC. All rights reserved.
  *
+ *  Note: daysMinMax & numSubPeriod copied from QuantLib library
+ *        AmortizingFixedRateBond classes
  */
 
 #include <bg/date_utilities.hpp>
 
 namespace bondgeek {
 
+    // Tenor & Period manipulations
+    std::pair<Integer,Integer> daysMinMax(const Period& p) {
+        switch (p.units()) {
+            case Days:
+                return std::make_pair(p.length(), p.length());
+            case Weeks:
+                return std::make_pair(7*p.length(), 7*p.length());
+            case Months:
+                return std::make_pair(28*p.length(), 31*p.length());
+            case Years:
+                return std::make_pair(365*p.length(), 366*p.length());
+            default:
+                QL_FAIL("unknown time unit (" << Integer(p.units()) << ")");
+        }
+    }
+    
+    Integer numSubPeriod(const Period& subPeriod,
+                         const Period& superPeriod
+                         ) 
+    {
+        Integer numSubPeriods;
+        
+        std::pair<Integer, Integer> superDays(daysMinMax(superPeriod));
+        std::pair<Integer, Integer> subDays(daysMinMax(subPeriod));
+        
+        //obtain the approximate time ratio
+        Real minPeriodRatio =
+        ((Real)superDays.first)/((Real)subDays.second);
+        Real maxPeriodRatio =
+        ((Real)superDays.second)/((Real)subDays.first);
+        Integer lowRatio = static_cast<Integer>(std::floor(minPeriodRatio));
+        Integer highRatio = static_cast<Integer>(std::ceil(maxPeriodRatio));
+        
+        try {
+            for(Integer i=lowRatio; i <= highRatio; ++i) {
+                Period testPeriod = subPeriod * i;
+                if(testPeriod == superPeriod) {
+                    numSubPeriods = i;
+                    return numSubPeriods;
+                }
+            }
+        } catch(Error e) {
+            return -1;
+        }
+        
+        return 0;
+    }
+    
     int FuturesTenor(string _tenorstr) 
     {
         std::string tstr = trim(_tenorstr);

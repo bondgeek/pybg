@@ -5,6 +5,9 @@
  *  Created by BART MOSLEY on 5/16/12.
  *  Copyright 2012 BG Research LLC. All rights reserved.
  *
+ *  Note: daysMinMax & numSubPeriod copied from QuantLib library
+ *        AmortizingFixedRateBond classes
+ *
  */
 #ifndef DATE_UTILITIES_H
 #define DATE_UTILITIES_H
@@ -55,6 +58,10 @@ namespace bondgeek {
     }
 
     // Period, Quote interfaces
+    std::pair<Integer,Integer> daysMinMax(const Period& p);
+    Integer numSubPeriod(const Period& subPeriod,
+                         const Period& superPeriod
+                         ) ;
     Period Tenor(string);
     int FuturesTenor(string);
     
