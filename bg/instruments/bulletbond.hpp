@@ -39,10 +39,12 @@ namespace bondgeek {
                    Date eval_date=Date()
                    );
         
-        virtual double toPrice(void);
+        virtual double toPrice(void) { return this->cleanPrice(); }
+        virtual double toYield() { return this->toYield(toPrice()); }
+        
         virtual double toPrice(Rate bondyield);
         virtual double toYield(Real bondprice);
-        virtual double toYield() {return toYield(toPrice()); };
+        
         
         virtual void setEngine(CurveBase &crv) ;
         virtual void setEngine(CurveBase &crv, 
@@ -51,12 +53,6 @@ namespace bondgeek {
                                bool lognormal=true) ;
         
     };
- 
-    // Inline functions
-    inline double BulletBond::toPrice()
-    {
-        return this->cleanPrice();
-    }
     
 }
 #endif

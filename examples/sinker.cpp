@@ -121,15 +121,11 @@ int main (int argc, char * const argv[])
     BusinessDayConvention accrualConvention = Unadjusted;
     BusinessDayConvention paymentConvention = Unadjusted;
     
-    Schedule sch(dated, maturity, Period(frequency), bondCalendar,
-                 accrualConvention, accrualConvention,
-                 DateGeneration::Backward, false);
-    
     cout << endl << endl
     << "Generic Bond"
     << endl;
     SinkingFundBond bnd(coupon,
-                        maturity1,
+                        maturity,
                         std::vector<Real>(1, faceAmount),
                         Annual,
                         dated,
@@ -142,23 +138,25 @@ int main (int argc, char * const argv[])
                         accrualConvention,
                         paymentConvention
                         );
-    /*
-    showCashFlows(bnd);
     
+    showCashFlows(bnd);
+
     cout << "\n\none year shorter" << endl;
-    SinkingFundBond bnd0(
-                         settlementDays,
-                         Schedule(dated, maturity0, Period(frequency), bondCalendar,
-                                  accrualConvention, accrualConvention,
-                                  DateGeneration::Backward, false),
-                         std::vector<Rate>(1, coupon),
-                         bondDayCounter,
+    SinkingFundBond bnd0(coupon,
+                         maturity0,
                          std::vector<Real>(1, faceAmount),
                          Annual,
-                         paymentConvention,
+                         dated,
+                         bondCalendar,
+                         settlementDays,
+                         bondDayCounter,
+                         frequency,
                          redemption,
-                         dated
+                         faceAmount,
+                         accrualConvention,
+                         paymentConvention
                          );
+    
     showCashFlows(bnd0);
     
     cout << "\n\ntwo years shorter" << endl;
@@ -177,50 +175,47 @@ int main (int argc, char * const argv[])
                          paymentConvention
                          );
     showCashFlows(bnd1);
-    */
+
     /* Sinkfing fund amortization:
      
      notionals start at par on the dated date and end at zero on maturity.
      redemptions are the prices redemption prices (pct of par, e.g. 101.)
-     
 
+     */
     
     double sf_sch[] = {
-        40000, 40000, 40000
+        40000, 40000, 40000, 40000, 40000, 40000,
+        40000, 40000, 40000, 40000, 40000, 40000,
+        40000
     };
     int sf_num = 3;
     Frequency sf_freq = Annual;
     
-    std::vector<Real> sf_notionals;
-    std::vector<Real> sf_redemptions;
-    
     std::vector<double> sf_bal;
     sf_bal.assign(sf_sch, sf_sch+sf_num);
     
-    //sf_notionals = sinkingFundNotionals(sf_bal, sf_freq, sch);
-    
-    //redeem the last sinker, for example, at 101.
     Real rval = 100.;
          
     cout << endl << endl
     << "Amortizing Generic Bond "
     << endl;
-    SinkingFundBond bnd2(
-                         settlementDays,
-                         //sf_notionals,
-                         sch,
-                         std::vector<Rate>(1, coupon),
-                         bondDayCounter,
+    SinkingFundBond bnd2(coupon,
+                         maturity,
                          sf_bal,
                          sf_freq,
-                         paymentConvention,
+                         dated,
+                         bondCalendar,
+                         settlementDays,
+                         bondDayCounter,
+                         frequency,
                          rval,
-                         dated
+                         faceAmount,
+                         accrualConvention,
+                         paymentConvention
                          ); 
     
     // show the results
     showCashFlows(bnd2);
-    showRedemptions(bnd2);
     
     bnd0.setPricingEngine(discEngine);
     bnd1.setPricingEngine(discEngine);
@@ -239,8 +234,35 @@ int main (int argc, char * const argv[])
     
     cout << "avg price: " << (prc0+prc1+prc)/3. << endl;
 
-
-    */
+    Date settle = Date(1, February, 2012);
+    today = bondCalendar.advance(settle, -settlementDays, Days);
+    
+    Settings::instance().evaluationDate() = today;
+    
+    cout << "eval / settle " 
+    << today << " / "
+    << settle << endl;
+    
+    sf_bal.assign(sf_sch, sf_sch+13);
+    SinkingFundBond bnd3(.0663,
+                         Date(1, February, 2035),
+                         sf_bal,
+                         sf_freq,
+                         Date(4, February, 2010),
+                         bondCalendar,
+                         settlementDays,
+                         bondDayCounter,
+                         frequency,
+                         rval,
+                         faceAmount,
+                         accrualConvention,
+                         paymentConvention
+                         ); 
+    
+    showCashFlows(bnd3);
+    
+    cout << "cf yield: " << bnd3.toYield(109.36) << endl;
+    
     return 0;
 }
 

@@ -12,6 +12,68 @@
 
 namespace bondgeek
 {
+    SinkingFundBond::SinkingFundBond(const Rate &coupon,
+                                     const Date &maturity,
+                                     const std::vector<Real>& sinkingfund,
+                                     Frequency sinkingfundFrequency,
+                                     const Date &issue_date,
+                                     Calendar paymentCalendar,
+                                     Natural settlementDays,
+                                     DayCounter daycounter,
+                                     Frequency payfrequency,
+                                     Real redemption,
+                                     Real faceamount,
+                                     BusinessDayConvention accrualConvention,
+                                     BusinessDayConvention paymentConvention,
+                                     Date eval_date) : 
+    BondBase(paymentCalendar,
+             settlementDays,
+             daycounter,
+             payfrequency,
+             redemption,
+             faceamount,
+             accrualConvention,
+             paymentConvention,
+             eval_date),
+    Bond(settlementDays,
+         paymentCalendar,
+         issue_date),
+    frequency_(payfrequency),
+    dayCounter_(daycounter) 
+    {
+        Schedule schedule(issue_date,
+                          maturity, 
+                          Period(payfrequency),
+                          paymentCalendar,
+                          accrualConvention, 
+                          accrualConvention, 
+                          DateGeneration::Backward, 
+                          false);
+        
+        std::vector<Real> sfnotional;
+        if (!sinkingfund.empty()) {
+            sfnotional = this->sinkingFundNotionals(sinkingfund,
+                                                    sinkingfundFrequency,
+                                                    schedule);
+            // TODO: add faceamount as argument to sinkingFundNotionals
+        } else {
+            sfnotional = std::vector<Real>(1, faceamount);
+        }
+        
+        this->init(settlementDays,
+                   schedule,
+                   std::vector<Rate>(1, coupon),
+                   daycounter,
+                   sfnotional,
+                   paymentConvention,
+                   redemption,
+                   issue_date,
+                   paymentCalendar
+                   );        
+        
+    }
+    
+    
     void SinkingFundBond::init(
                                Natural                     settlementDays,
                                const Schedule&             schedule,
@@ -83,74 +145,13 @@ namespace bondgeek
         return sf_notionals;
     }
     
-    SinkingFundBond::SinkingFundBond(const Rate &coupon,
-                                     const Date &maturity,
-                                     const std::vector<Real>& sinkingfund,
-                                     Frequency sinkingfundFrequency,
-                                     const Date &issue_date,
-                                     Calendar paymentCalendar,
-                                     Natural settlementDays,
-                                     DayCounter daycounter,
-                                     Frequency payfrequency,
-                                     Real redemption,
-                                     Real faceamount,
-                                     BusinessDayConvention accrualConvention,
-                                     BusinessDayConvention paymentConvention,
-                                     Date eval_date) : 
-    BondBase(paymentCalendar,
-             settlementDays,
-             daycounter,
-             payfrequency,
-             redemption,
-             faceamount,
-             accrualConvention,
-             paymentConvention,
-             eval_date),
-    Bond(settlementDays,
-         paymentCalendar,
-         issue_date),
-    frequency_(payfrequency),
-    dayCounter_(daycounter) 
-    {
-        Schedule schedule(issue_date,
-                          maturity, 
-                          Period(payfrequency),
-                          paymentCalendar,
-                          accrualConvention, 
-                          accrualConvention, 
-                          DateGeneration::Backward, 
-                          false);
-        
-        std::vector<Real> sfnotional;
-        if (!sinkingfund.empty()) {
-            sfnotional = this->sinkingFundNotionals(sinkingfund,
-                                              sinkingfundFrequency,
-                                              schedule);
-            // TODO: add faceamount as argument to sinkingFundNotionals
-        } else {
-            sfnotional = std::vector<Real>(1, faceamount);
-        }
-        
-        this->init(settlementDays,
-                   schedule,
-                   std::vector<Rate>(1, coupon),
-                   daycounter,
-                   sfnotional,
-                   paymentConvention,
-                   redemption,
-                   issue_date,
-                   paymentCalendar
-                   );        
-        
-    }
-        
     void SinkingFundBond::setEngine(CurveBase &crv)
     {
         boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(
                                                                                                crv.discountingTermStructure()
                                                                                                );
         
-        setPricingEngine(discEngine);
+        this->setPricingEngine(discEngine);
     }
     
     void SinkingFundBond::setEngine(CurveBase &crv, 
@@ -158,8 +159,9 @@ namespace bondgeek
                                     Real &sigma,
                                     bool lognormal) 
     {
-        setEngine(crv);
+        this->setEngine(crv);
     }
+    
     
     double SinkingFundBond::toPrice(Rate bondyield)
     {
