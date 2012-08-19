@@ -1,9 +1,6 @@
 # distutils: language = c++
 # not using distutils for libraries, Visual Studio auto-linking doesn't like
 
-include '../quantlib/types.pxi'
-cimport pybg.version
-
 from libcpp cimport bool
 
 cimport pybg.quantlib.time._date as _qldate
@@ -58,7 +55,9 @@ cdef class BulletBond:
         
         if not evaldate:
             evaldate = get_eval_date()
-            
+        
+        self._settlementDays = settlementDays
+        
         self._thisptr = new shared_ptr[_bulletbond.BulletBond]( \
             new _bulletbond.BulletBond(
                        coupon,
@@ -163,6 +162,15 @@ cdef class BulletBond:
             
             return DayCounters()[dc.name().c_str()]
 
+    property frequency:
+        def __get__(self):
+            cdef _Frequency freq 
+            cdef object result 
+            
+            freq = self._thisptr.get().frequency()
+            
+            return freq
+
     property issueDate:
         def __get__(self):
             cdef _qldate.Date dt
@@ -188,7 +196,10 @@ cdef class BulletBond:
             
             dt = self._thisptr.get().settlementDate(dt)
 
-            
+    property settlementDays:
+        def __get__(self):
+            return self._settlementDays
+        
     property maturity:
         def __get__(self):
             cdef _qldate.Date mty

@@ -162,18 +162,19 @@ namespace bondgeek {
         int ytwFeature() { return _ytwFeature; }
         
         // Bond Math
-        virtual double toPrice();
+        virtual double toPrice() { return this->cleanPrice(); }
         virtual double toPrice(Rate bondyield);
         virtual double toYield(Real bondprice);
         virtual double toYield() {return toYield(toPrice()); };
         
         double toYTM();
-        double toYTM(Real bondprice);
+        double toYTM(Real bondprice, Real redemption=100.0);
         double ytmToPrice(Real bondyield);
         
         // Create BulletBond for maturity or redemption feature
-        BulletBond bullet(void);
-        BulletBond bullet(Date &redemptionDate, Real &redemptionPrice);
+        BulletBond bullet(Real redemption=100.0);
+        BulletBond bullet(Date &redemptionDate, Real &redemptionPrice, 
+                          Real coupon=-1.);
         
         // Engines
         virtual void setEngine(CurveBase &crv) ;
@@ -257,12 +258,6 @@ namespace bondgeek {
             
         }
     };
-    
-    // Inline functions
-    inline double CallBond::toPrice()
-    {
-        return this->cleanPrice();
-    }
     
 }
 #endif

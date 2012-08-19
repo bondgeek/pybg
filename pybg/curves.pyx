@@ -24,7 +24,7 @@ from pybg.quantlib.handle cimport shared_ptr
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
 from pybg.ql import get_eval_date, set_eval_date
 
-from pybg.enums import TimeUnits, Calendars
+from pybg.enums import TimeUnits, Calendars, DayCounters
 
 cimport pybg.quantlib.time.calendar as calendar 
 from pybg.quantlib.time.daycounter cimport DayCounter
@@ -249,13 +249,11 @@ cdef class RateHelperCurve:
         return rate
         
     def discount(self, ref):
-        cdef double         yrs 
-        cdef _qldate.Date   _date_ref
+        cdef double yrs 
         cdef double discfactor
         
         if type(ref) == type(date.today()):
-            _date_ref = _qldate_from_pydate(ref)
-            discfactor = self._thisptr.get().discount(_date_ref, True)
+            yrs = DayCounters.year_fraction(self.referenceDate, ref)
             
         else:
             try:
@@ -263,10 +261,209 @@ cdef class RateHelperCurve:
             except:
                 yrs = 0.0
             
-            discfactor = self._thisptr.get().discount(yrs, True)
+        discfactor = self._thisptr.get().discount(yrs, True)
         
         return discfactor
-        
 
+    
+cdef class BondHelperQuote:
+    """BondHelperQuote
+    
+    """
+    def __cinit__(self):
+        self._thisptr = NULL
 
+    def __dealloc__(self):
+        if self._thisptr is not NULL:
+            del self._thisptr
+            
+    def __init__(self, 
+                 Real px_quote, 
+                 object maturity, 
+                 Rate coupon, 
+                 object issue_date=None):
+                
+        if issue_date:            
+            self._thisptr = new shared_ptr[_curves.BondHelperQuote]( \
+                new _curves.BondHelperQuote(px_quote,
+                                            _qldate_from_pydate(maturity),
+                                            coupon,
+                                            _qldate_from_pydate(issue_date)) )
         
+        else:
+            self._thisptr = new shared_ptr[_curves.BondHelperQuote]( \
+                    new _curves.BondHelperQuote(px_quote,
+                                                _qldate_from_pydate(maturity),
+                                                coupon) )
+            
+    # Inspectors 
+    property maturity:
+        def __get__(self):
+            cdef _qldate.Date mty
+            cdef object result 
+            
+            mty = self._thisptr.get().maturity()
+            
+            result = _pydate_from_qldate(mty)
+            return result 
+            
+    property coupon:
+        def __get__(self):
+            cdef Real val
+            
+            val = self._thisptr.get().coupon()
+
+            return val  
+                   
+    property quote:
+        def __get__(self):
+            cdef Real val
+            
+            val = self._thisptr.get().quote()
+
+            return val 
+            
+ 
+cdef _curves.BondCurveMap bondCurveMap_from_dict(pycurve):
+    cdef _curves.BondCurveMap   curve
+        
+    cdef char* bnd_id
+
+    for t, values in pycurve.items():
+        t = t.upper()
+        bnd_id = t
+        curve[<string>bnd_id] = deref(BondHelperQuote(*values)._thisptr.get())
+
+    return curve 
+
+cdef class BondCurve:
+    """Bond Curve 
+    
+    """
+    def __cinit__(self):
+        self._thisptr = NULL
+
+    def __dealloc__(self):
+        if self._thisptr is not NULL:
+            del self._thisptr
+            
+    def __init__(self, CurveBase curvebase):
+        
+        cdef _curves.CurveBase *_crvbase
+        
+        try:
+            _crvbase = curvebase._thisptr.get()
+            self._thisptr = new shared_ptr[_curves.BondCurve]( \
+                new _curves.BondCurve(deref(_crvbase))
+                )
+        except:
+            self._thisptr = new shared_ptr[_curves.BondCurve]( \
+                new _curves.BondCurve()
+                )
+
+    def add_helpers(self, bondcurve, depocurve=None):
+        cdef _curves.BondCurveMap   _bondcurve
+        cdef _curves.CurveMap       _depocurve
+        
+        if depocurve:
+            _depocurve = curveMap_from_dict(depocurve)
+            self._thisptr.get().add_depos(_depocurve)
+            
+        _bondcurve = bondCurveMap_from_dict(bondcurve)
+        self._thisptr.get().add_bonds(_bondcurve)
+    
+    def update(self, bondcurve, depocurve=None, evaldate=None):
+        cdef _curves.BondCurveMap   _bondcurve
+        cdef _curves.CurveMap       _depocurve
+        
+        if depocurve:
+            _depocurve = curveMap_from_dict(depocurve)
+            
+        _bondcurve = bondCurveMap_from_dict(bondcurve)
+        
+        if evaldate:
+            self.curveDate = evaldate
+        
+        self._thisptr.get().update(_bondcurve, _depocurve) 
+        
+        return self.curveDate
+    
+    def advanceCurveDate(self, int ndays, timeunit=None):
+        
+        if not timeunit:
+            timeunit = TimeUnits.Days
+            
+        cdef int _ndays = int(ndays)
+        
+        self._thisptr.get().advanceCurveDate(int(ndays), 
+                                             <_qlperiod.TimeUnit> timeunit)
+        
+    property curveDate:
+        def __get__(self):
+            cdef _qldate.Date _refdate = self._thisptr.get().curveDate()
+            return _pydate_from_qldate(_refdate)
+        
+        def __set__(self, curve_date):
+            cdef _qldate.Date _refdate
+            
+            try:
+                _refdate = _qldate_from_pydate(curve_date)
+            except:
+                _refdate = _qldate_from_pydate(date.today())
+            
+            self._thisptr.get().setCurveDate(_refdate)
+                
+    property referenceDate:
+        def __get__(self):
+            cdef _qldate.Date _refdate = self._thisptr.get().referenceDate()
+            return _pydate_from_qldate(_refdate)
+    
+    property maxDate:
+        def __get__(self):
+            cdef _qldate.Date _qdate_ref = self._thisptr.get().maxDate()
+            return _pydate_from_qldate(_qdate_ref)
+    
+    property fixingdays:
+        def __get__(self):
+            cdef int fixdays_ref = self._thisptr.get().fixingDays()
+            return fixdays_ref
+    
+    property curveQuotes:
+        def __get__(self):
+            cdef _curves.CurveMap crv = self._thisptr.get().curveQuotes()
+            
+            pycrv = dict_from_CurveMap(crv)
+            return pycrv
+    
+    property calendar:
+        def __get__(self):
+            cdef  _calendar.Calendar crv_cal = self._thisptr.get().calendar()
+            
+            cdef string cal_name = crv_cal.name()
+            
+            return Calendars().get(cal_name.c_str(), None)
+            
+    # Curve functions
+    def tenorquote(self, key):
+        key = key.upper()
+        cdef char* tnr = key
+        cdef Rate rate = self._thisptr.get().tenorquote(<string>tnr)
+        return rate
+        
+    def discount(self, ref):
+        cdef double yrs 
+        cdef double discfactor
+        
+        if type(ref) == type(date.today()):
+            yrs = DayCounters.year_fraction(self.referenceDate, ref)
+            
+        else:
+            try:
+                yrs = <double>ref
+            except:
+                yrs = 0.0
+            
+        discfactor = self._thisptr.get().discount(yrs, True)
+        
+        return discfactor
+    

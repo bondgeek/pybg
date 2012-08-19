@@ -1,11 +1,13 @@
 import pybg.ql 
+import pybg.enums
 import pybg.curves as curves
-from pybg.curvetypes import USDLiborCurve
 
+from pybg.curvetypes import USDLiborCurve
 
 from datetime import date
 
-dt0 = date(2012, 7, 11)
+dt0 = date(2012, 6, 30)
+
 depos = {
 '12M': 0.010695000000000001,
  '1D': 0.00169,
@@ -39,3 +41,53 @@ rh = curves.RateHelperCurve(USDLiborCurve("3M"))
 
 rh.update(depos, {}, swaps, dt0)
 
+govbondcurve = curves.CurveBase(pybg.enums.Calendars.UnitedStates(pybg.enums.Calendars.GOVERNMENTBOND),
+1,
+pybg.enums.DayCounters.Actual360(),
+pybg.enums.Frequencies.Semiannual,
+pybg.enums.BusinessDayConventions.ModifiedFollowing,
+pybg.enums.DayCounters.ActualActual(pybg.enums.DayCounters.Bond),
+pybg.enums.DayCounters.ActualActual(pybg.enums.DayCounters.ISDA)
+)
+
+bcrv = curves.BondCurve(govbondcurve)
+ 
+dated = [date(2005, 3, 15),
+        date(2005, 6, 15),
+        date(2006, 6, 30),
+        date(2002, 11, 15),
+        date(1987, 5, 15)
+    ]
+    
+maturities = [
+        date(2010, 8, 31),
+        date(2011, 8, 31),
+        date(2013, 8, 31),
+        date(2018, 8, 15),
+        date(2038, 5, 15)
+    ]
+    
+couponRates = [
+        0.02375,
+        0.04625,
+        0.03125,
+        0.04000,
+        0.04500
+    ]
+    
+marketQuotes = [
+        100.390625,
+        106.21875,
+        100.59375,
+        101.6875,
+        102.140625
+    ]
+
+bond_ids = [
+        "B1", "B2", "B3", "B4", "B5"
+    ]
+
+q = zip(marketQuotes, maturities, couponRates, dated)
+bndcrv = dict(zip(bond_ids, q))
+
+bcrv.update(bndcrv)

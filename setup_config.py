@@ -64,7 +64,7 @@ if sys.platform == 'darwin':
     ext_args = dict(
                 include_dirs=INCLUDE_DIRS,
                 library_dirs=LIBRARY_DIRS,
-                libraries = ['QuantLib', 'boost_regex'], # libraries to link
+                libraries = ['QuantLib', ], # libraries to link
                 )
     
 elif sys.platform == 'win32':
@@ -97,7 +97,8 @@ extension_paths  = [
  
  ('pybg.curves', ['pybg/curves.pyx', 
                   'bg/curvebase.cpp',
-                  'bg/curves/ratehelpercurve.cpp']),
+                  'bg/curves/ratehelpercurve.cpp',
+                  'bg/curves/bondcurve.cpp']),
                   
  ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx']),
  ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx']),
@@ -111,8 +112,10 @@ extension_paths  = [
                                   'bg/instruments/bulletbond.cpp']),
                     
  ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx', 
-                                'bg/instruments/callbond.cpp',
-                                  'bg/instruments/bulletbond.cpp']),
+                                'bg/instruments/callbond.cpp']),
+                                
+ ('pybg.instruments.sinkingfundbond', ['pybg/instruments/sinkingfundbond.pyx',
+  'bg/instruments/sinkingfundbond.cpp']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),

@@ -26,30 +26,6 @@ namespace QuantLib {
 }
 #endif
 
-class TestLiborCurve : public CurveBase {
-protected:
-public:
-    TestLiborCurve():
-    CurveBase(boost::shared_ptr<IborIndex>(new USDLibor(Period(3,Months))),
-              2,
-              Semiannual,
-              ModifiedFollowing,
-              Thirty360(Thirty360::European),
-              ActualActual(ActualActual::ISDA)
-              )
-    {}
-    
-    TestLiborCurve(string tenor, Frequency fixedFrequency=Semiannual):
-    CurveBase(boost::shared_ptr<IborIndex>(new USDLibor( Tenor(tenor) )),
-              2,
-              fixedFrequency,
-              ModifiedFollowing,
-              Thirty360(Thirty360::European),
-              ActualActual(ActualActual::ISDA)
-              )
-    {}
-};
-
 
 int main () 
 {

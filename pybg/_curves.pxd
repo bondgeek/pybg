@@ -48,9 +48,14 @@ cdef extern from 'bg/curvebase.hpp' namespace 'bondgeek':
         Calendar    fixingCalendar()        
         Integer     fixingDays() 
 
+        # build methods
         _QLDate     setCurveDate(_QLDate todays_date)
         _QLDate     advanceCurveDate(int n, TimeUnit unit)
         void        build()
+        
+        # Results
+        Real        discount(double years, bool extrapolate)
+        
 
 cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
     
@@ -63,8 +68,6 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
         void add_depos(CurveMap crv)
         void add_swaps(CurveMap crv)
         void add_futs(CurveMap crv)
-        
-        void build_termstructure()
         
         void update(CurveMap &depocurve,
                     CurveMap &futcurve,
@@ -79,6 +82,44 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
         # curve values        
         Real        tenorquote(string key)  
         CurveMap    curveQuotes()
+
         
-        Real        discount(double years, bool extrapolate)
-        Real        discount(_QLDate dfdate, bool extrapolate)
+cdef extern from 'bg/curves/bondcurve.hpp' namespace 'bondgeek':
+    
+    cdef cppclass BondHelperQuote:
+        BondHelperQuote()
+        BondHelperQuote(Real px_quote, 
+                        _QLDate maturity, 
+                        Rate coupon)
+        BondHelperQuote(Real px_quote, 
+                        _QLDate maturity, 
+                        Rate coupon,
+                        _QLDate issue_date) 
+                        
+        #Inspectors
+        _QLDate issue_date()
+        _QLDate maturity() 
+        Real coupon()
+        Real quote() 
+    
+    ctypedef map[string, BondHelperQuote] BondCurveMap
+    
+    cdef cppclass BondCurve(RateHelperCurve, CurveBase):
+        BondCurve() except +
+        BondCurve(CurveBase crvtype) except +
+        
+        void add_bonds(BondCurveMap crv) 
+
+        void update(BondCurveMap bondcurve,
+                    CurveMap     depocurve
+                    )
+        void update(BondCurveMap bondcurve,
+                    CurveMap     depocurve,
+                    _QLDate      todays_date
+                    )
+        
+        bool updateBondCurve(BondCurveMap crv)
+        
+
+        
+        

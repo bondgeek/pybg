@@ -10,6 +10,7 @@
 #ifndef BONDCURVE_H
 #define BONDCURVE_H
 
+#include <bg/curvebase.hpp>
 #include <bg/curves/ratehelpercurve.hpp>
 #include <bg/date_utilities.hpp>
 
@@ -41,16 +42,12 @@ namespace bondgeek {
     class BondCurve : public RateHelperCurve 
     {
     protected:
-        //RHelperList _rateHelpers;
-        
-        //map< string, boost::shared_ptr<SimpleQuote> > _quotes;
+        boost::shared_ptr<RateHelper> newBondHelper(BondHelperQuote bondquote);
         
     public:
         BondCurve() {}
         BondCurve(CurveBase crvtype) { update_parms(crvtype); }
         
-        boost::shared_ptr<RateHelper> newBondHelper(BondHelperQuote bondquote);
-                
         void add_bonds(BondCurveMap crv); 
         
         void update(BondCurveMap bondcurve,

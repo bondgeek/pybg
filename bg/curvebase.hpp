@@ -163,7 +163,7 @@ namespace bondgeek {
                                                                          const DayCounter& dc = DayCounter()
                                                                          ); 
         // values from term structure
-        Real discount(double years, bool extrapolate=false); 
+        Real discount(double years, bool extrapolate=true); 
         Real discount(const Date &d, bool extrapolate=false);
                 
     };

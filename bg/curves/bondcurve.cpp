@@ -67,7 +67,7 @@ namespace bondgeek
             quote = boost::shared_ptr<SimpleQuote>(new SimpleQuote((*it).second.quote()));
             _quotes[ (*it).first ] = quote;
             
-            _rateHelpers.push_back(newBondHelper((*it).second));
+            _rateHelpers.push_back(this->newBondHelper((*it).second));
             
         }
     }

@@ -11,7 +11,6 @@
 		CB378D841594BC5700C91A4E /* curvebase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02031594B7470002568B /* curvebase.cpp */; };
 		CB378D861594BC5700C91A4E /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
 		CB378D871594BC5700C91A4E /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
-		CB378D8A1594BC6100C91A4E /* libboost_regex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01F81594B6510002568B /* libboost_regex.dylib */; };
 		CB378D8B1594BC6100C91A4E /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CB378E091594C1B100C91A4E /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
 		CB378E0A1594C1B100C91A4E /* callbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02121594B7470002568B /* callbond.cpp */; };
@@ -22,11 +21,9 @@
 		CB378E1A1594C28200C91A4E /* curvebase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02031594B7470002568B /* curvebase.cpp */; };
 		CB378E1C1594C28200C91A4E /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
 		CB378E1D1594C28200C91A4E /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
-		CB378E1F1594C29300C91A4E /* libboost_regex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01F81594B6510002568B /* libboost_regex.dylib */; };
 		CB378E201594C29300C91A4E /* libboost_unit_test_framework.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FA1594B6510002568B /* libboost_unit_test_framework.dylib */; };
 		CB378E211594C29300C91A4E /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CB378E231594C2B100C91A4E /* test_bondgeek.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02661594B7470002568B /* test_bondgeek.cpp */; };
-		CB378E531594C6F300C91A4E /* libboost_regex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01F81594B6510002568B /* libboost_regex.dylib */; };
 		CB378E541594C6F300C91A4E /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CB378E551594C6FD00C91A4E /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
 		CB378E561594C6FD00C91A4E /* callbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02121594B7470002568B /* callbond.cpp */; };
@@ -58,7 +55,6 @@
 		CC947DF515D800D600138FFD /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
 		CC947DF715D800FA00138FFD /* sinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC947DF615D800FA00138FFD /* sinker.cpp */; };
 		CCB1E5C715B5800E00F738BB /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
-		CCB1E5C815B5803300F738BB /* libboost_regex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01F81594B6510002568B /* libboost_regex.dylib */; };
 		CCB1E5CA15B5807C00F738BB /* curvetest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCB1E5C915B5807C00F738BB /* curvetest.cpp */; };
 		CCB1E5CB15B5808A00F738BB /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
 		CCB1E5CC15B5808A00F738BB /* callbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02121594B7470002568B /* callbond.cpp */; };
@@ -73,7 +69,6 @@
 		CB2C913D1594E19100B78DFB /* usdliborcurve.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = usdliborcurve.hpp; sourceTree = "<group>"; };
 		CB378E121594C27300C91A4E /* bg_test_suite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bg_test_suite; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB378E4F1594C6E100C91A4E /* callbond_example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = callbond_example; sourceTree = BUILT_PRODUCTS_DIR; };
-		CB4D01F81594B6510002568B /* libboost_regex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_regex.dylib; path = usr/local/lib/libboost_regex.dylib; sourceTree = SDKROOT; };
 		CB4D01FA1594B6510002568B /* libboost_unit_test_framework.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_unit_test_framework.dylib; path = usr/local/lib/libboost_unit_test_framework.dylib; sourceTree = SDKROOT; };
 		CB4D01FC1594B6510002568B /* libQuantLib.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libQuantLib.dylib; path = usr/local/lib/libQuantLib.dylib; sourceTree = SDKROOT; };
 		CB4D02011594B7470002568B /* bondgeek.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondgeek.hpp; sourceTree = "<group>"; };
@@ -229,6 +224,7 @@
 		CC0BADE315CF121E006C385D /* date_handlers.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date_handlers.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC0BADE415CF122A006C385D /* date_handlers.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date_handlers.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC0BCDC915964E5400DBA0DC /* test_curves.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_curves.py; sourceTree = "<group>"; };
+		CC3CB6F515E033EC000F2441 /* test_bonds.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = test_bonds.hpp; sourceTree = "<group>"; };
 		CC48459315C5B39600E8522D /* FittedBondCurve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FittedBondCurve; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC4845A115C5B3E200E8522D /* FittedBondCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FittedBondCurve.cpp; sourceTree = "<group>"; };
 		CC4845E115C5BAC500E8522D /* Bonds */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Bonds; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,6 +242,9 @@
 		CC9FB86515A7A1390083E005 /* _bulletbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _bulletbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC9FB86815A7A1630083E005 /* bulletbond.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bulletbond.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC9FB86B15A7A1890083E005 /* bulletbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bulletbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CCA506F915E18CCF0082C4AD /* _sinkingfundbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _sinkingfundbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CCA506FC15E18CFA0082C4AD /* sinkingfundbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sinkingfundbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CCA506FF15E18D2A0082C4AD /* sinkingfundbond.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sinkingfundbond.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CCA7170415BB59F5005ED72F /* enums.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = enums.py; sourceTree = "<group>"; };
 		CCAFF37D15C6A6C5007A2D8B /* bondtype.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondtype.hpp; sourceTree = "<group>"; };
 		CCAFF37E15C6A6C5007A2D8B /* CurveFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CurveFactory.cpp; sourceTree = "<group>"; };
@@ -265,7 +264,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB378E1F1594C29300C91A4E /* libboost_regex.dylib in Frameworks */,
 				CB378E201594C29300C91A4E /* libboost_unit_test_framework.dylib in Frameworks */,
 				CB378E211594C29300C91A4E /* libQuantLib.dylib in Frameworks */,
 			);
@@ -275,7 +273,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB378E531594C6F300C91A4E /* libboost_regex.dylib in Frameworks */,
 				CB378E541594C6F300C91A4E /* libQuantLib.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,7 +281,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB378D8A1594BC6100C91A4E /* libboost_regex.dylib in Frameworks */,
 				CB378D8B1594BC6100C91A4E /* libQuantLib.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,7 +313,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCB1E5C815B5803300F738BB /* libboost_regex.dylib in Frameworks */,
 				CCB1E5C715B5800E00F738BB /* libQuantLib.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,7 +333,6 @@
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
-				CB4D01F81594B6510002568B /* libboost_regex.dylib */,
 				CB4D01FA1594B6510002568B /* libboost_unit_test_framework.dylib */,
 				CB4D01FC1594B6510002568B /* libQuantLib.dylib */,
 			);
@@ -457,6 +451,7 @@
 				CB4D02661594B7470002568B /* test_bondgeek.cpp */,
 				CB4D02671594B7470002568B /* test_dates.hpp */,
 				CB4D02681594B7470002568B /* test_swaps.hpp */,
+				CC3CB6F515E033EC000F2441 /* test_bonds.hpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -690,6 +685,9 @@
 				CC9FB84315A79F8A0083E005 /* _fixedfloatswap.pxd */,
 				CC9FB84415A79F8A0083E005 /* fixedfloatswap.pxd */,
 				CC9FB84515A79F8A0083E005 /* fixedfloatswap.pyx */,
+				CCA506F915E18CCF0082C4AD /* _sinkingfundbond.pxd */,
+				CCA506FC15E18CFA0082C4AD /* sinkingfundbond.pxd */,
+				CCA506FF15E18D2A0082C4AD /* sinkingfundbond.pyx */,
 				CC9FB86515A7A1390083E005 /* _bulletbond.pxd */,
 				CC9FB86B15A7A1890083E005 /* bulletbond.pxd */,
 				CC9FB86815A7A1630083E005 /* bulletbond.pyx */,

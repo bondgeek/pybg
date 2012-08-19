@@ -24,6 +24,7 @@ namespace bondgeek {
         Date _maturity;        
         Date _issue_date;
         
+        
     public:
         BulletBond(const Rate &coupon,
                    const Date &maturity,
@@ -51,6 +52,7 @@ namespace bondgeek {
                                Real &a, 
                                Real &sigma,
                                bool lognormal=true) ;
+        
         
     };
     

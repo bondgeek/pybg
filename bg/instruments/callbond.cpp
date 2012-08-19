@@ -311,7 +311,7 @@ namespace bondgeek {
     }
 
     // Bond Math Functions  
-    BulletBond CallBond::bullet()
+    BulletBond CallBond::bullet(Real redemption)
     {
         BulletBond newbond(_coupon,
                            _maturity,
@@ -320,16 +320,21 @@ namespace bondgeek {
                            _settlementDays,
                            _daycounter,
                            _payfrequency,
-                           _redemption,
+                           redemption,
                            _faceamount,
                            _accrualConvention,
                            _paymentConvention);
         return newbond;
     }
     
-    BulletBond CallBond::bullet(Date &redemptionDate, Real &redemptionPrice)
+    BulletBond CallBond::bullet(Date &redemptionDate, Real &redemptionPrice,
+                                Real coupon)
     {
-        BulletBond newbond(_coupon,
+        if (coupon < 0.0) {
+            coupon = _coupon;
+        }
+        
+        BulletBond newbond(coupon,
                            redemptionDate,
                            _issue_date,
                            _calendar,
@@ -430,12 +435,12 @@ namespace bondgeek {
     
     double CallBond::toYTM()
     {
-        return this->toYTM(this->cleanPrice());
+        return this->toYTM(this->cleanPrice(), _redemption);
     }
     
-    double CallBond::toYTM(Real bondprice)
+    double CallBond::toYTM(Real bondprice, Real redemption)
     {        
-        BulletBond mtyBond = bullet();
+        BulletBond mtyBond = bullet(redemption);
         
         return mtyBond.toYield(bondprice);
     }

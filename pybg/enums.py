@@ -45,8 +45,28 @@ class DayCounters(dict):
     def __init__(self, *args):
         dict.__init__(self, self._lookup)
         self.update(*args)
+    
+    @classmethod
+    def year_fraction(cls, pydate1, pydate2, daycounter=None):
+        if not daycounter:
+            daycounter = cls.ActualActual()
         
+        qldate1 = qldate_from_pydate(pydate1)
+        qldate2 = qldate_from_pydate(pydate2)
         
+        return daycounter.year_fraction(qldate1, qldate2)
+        
+    @classmethod
+    def daycount(cls, pydate1, pydate2, daycounter=None):
+        if not daycounter:
+            daycounter = cls.ActualActual()
+        
+        qldate1 = qldate_from_pydate(pydate1)
+        qldate2 = qldate_from_pydate(pydate2)
+        
+        return daycounter.day_count(qldate1, qldate2)
+            
+                
 class Calendars(dict):
     from pybg.quantlib.time.calendar import TARGET
     from pybg.quantlib.time.calendars.null_calendar import NullCalendar

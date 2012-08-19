@@ -18,3 +18,4 @@
 
 //#include "test_dates.hpp"
 #include "test_swaps.hpp"
+#include "test_bonds.hpp"

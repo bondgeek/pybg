@@ -15,6 +15,7 @@ from pybg.quantlib.time._daycounter cimport DayCounter as DayCounter
 from pybg.quantlib._cashflow cimport Leg
 
 cimport pybg._curves as _curves
+cimport pybg.instruments._bulletbond as _bulletbond
 
 cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
 
@@ -63,10 +64,20 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
         Real reversionParameter()
         Real sigma()
         bool lognormal()
+        
+        _QLDate maturityDate()
+        _QLDate settlementDate()
+        _QLDate settlementDate(_QLDate)
+        _QLDate issueDate()
+        DayCounter dayCounter()
+        Frequency frequency()
+        Natural settlementDays()
+        Calendar calendar()
+        Leg redemptions()
+        Leg cashflows()
         _QLDate get_eval_date()
         void set_eval_date(_QLDate)
 
-        Leg redemptions()
         int ytwFeature()
         
         # Bond Math
@@ -78,6 +89,7 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
         
         double toYTM()
         double toYTM(Real bondprice)
+        double toYTM(Real bondprice, Real redemption)
         double ytmToPrice(Real bondyield)
 
         #// OAS Functions
