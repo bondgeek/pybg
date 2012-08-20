@@ -93,8 +93,6 @@ cdef class BulletBond:
             
             self._thisptr.get().set_eval_date(dt)
             
-
-    
     def setEngine(self, curves.RateHelperCurve crv):
         cdef _curves.CurveBase _crv  = <_curves.CurveBase>deref(crv._thisptr.get()) 
         

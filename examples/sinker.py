@@ -2,7 +2,8 @@ import pybg.ql
 import pybg.enums
 import pybg.curves as curves
 
-from pybg.curvetypes import USDLiborCurve
+import pybg.instruments.bulletbond as bb
+import pybg.instruments.sinkingfundbond as sf 
 
 from datetime import date
 
@@ -16,30 +17,10 @@ depos = {
  '3M': 0.004561,
  '6M': 0.007344000000000001}
 
-swaps = {'10Y': 0.016415,
- '12Y': 0.018515,
- '15Y': 0.020555,
- '20Y': 0.022275999999999997,
- '25Y': 0.023115,
- '2Y': 0.005003,
- '30Y': 0.02366,
- '3Y': 0.005679999999999999,
- '40Y': 0.023895,
- '4Y': 0.007007,
- '5Y': 0.008685,
- '6Y': 0.010549,
- '7Y': 0.012316,
- '8Y': 0.01387,
- '9Y': 0.015218}
-
 
 print("\nSetting eval date: %s" % dt0)
 pybg.ql.set_eval_date(dt0)
 
-rh = curves.RateHelperCurve(USDLiborCurve("3M"))
-
-
-rh.update(depos, {}, swaps, dt0)
 
 govbondcurve = curves.CurveBase(pybg.enums.Calendars.UnitedStates(pybg.enums.Calendars.GOVERNMENTBOND),
 1,
@@ -92,3 +73,19 @@ bndcrv = dict(zip(bond_ids, q))
 
 bcrv.update(bndcrv)
 
+#bulletbond
+
+uscal = pybg.enums.Calendars.UnitedStates(pybg.enums.Calendars.GOVERNMENTBOND)
+
+dated = date(2003, 5, 15)
+mty = date(2027, 5, 15)
+
+bnd1 = bb.BulletBond(.06, mty, dated, uscal)
+
+#sinker
+sfbnd = sf.SinkingFundBond(.06, 
+                            mty, 
+                            (40., 40., 40.), 
+                            pybg.enums.Frequencies.Annual,
+                            dated)
+                            
