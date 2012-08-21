@@ -322,8 +322,9 @@ int main (int argc, char * const argv[])
     cout << "test value: " << callbnd.cleanPrice() << endl << endl;
     cout << "test value (noncall): " << noncallbond.cleanPrice() << endl << endl;
     cout << "test value (bullet): " << bulletbond.cleanPrice() << endl << endl;
+    cout << "test value (bullet, toPrice): " << bulletbond.toPrice() << endl << endl;
     
-    cout << "\n\nMuni Sched " << endl;
+    cout << "\n\nMuni Schedules " << endl;
     CallabilitySchedule muniSched = createBondCallSchedule(Date(15, December, 2007),
                                                            102.,
                                                            Date(15, December, 2009),
@@ -343,17 +344,40 @@ int main (int argc, char * const argv[])
                            accrualConvention,
                            paymentConvention
                            );
+
+    CallBond callbnd_sched1(coupon,
+                           maturity,
+                           Date(15, December, 2007),
+                           102.,
+                           Date(15, December, 2009),
+                           dated, 
+                           bondCalendar, 
+                           settlementDays,
+                           bondDayCounter,
+                           frequency,
+                           Annual,
+                           redemption,
+                           faceAmount,
+                           accrualConvention,
+                           paymentConvention
+                           );
     
-    vector< boost::shared_ptr<Callability> >::size_type sz_m = muniSched.size();
+    
+    CallabilitySchedule muniSched1 = callbnd_sched1.callability();
+    vector< boost::shared_ptr<Callability> >::size_type sz_m = muniSched1.size();
     
     for (int i=0; i<sz_m; i++) 
     {
-        cout << muniSched[i]->date() << " | " << muniSched[i]->price().amount() << endl;
+        cout << muniSched1[i]->date() << " | " << muniSched1[i]->price().amount() << endl;
     }
+    
     callbnd_sched.setPricingEngine(engine1);
-    cout << "test value: " << callbnd_sched.toPrice() << endl;
-    cout << "yield to worst: " << callbnd_sched.toYield() << endl;
-    cout << "price from ytw: " << callbnd_sched.toPrice(callbnd_sched.toYield()) <<
+    callbnd_sched1.setPricingEngine(engine1);
+    
+    cout << "test value: " << callbnd_sched.toPrice() << " | " << callbnd_sched1.toPrice() << endl;
+    cout << "yield to worst: " << callbnd_sched.toYield() << " | " << callbnd_sched1.toYield() << endl;
+    cout << "price from ytw: " << callbnd_sched.toPrice(callbnd_sched.toYield()) 
+    << " | " << callbnd_sched1.toPrice(callbnd_sched1.toYield()) << 
     endl << endl;
     
     //TODO: create vol/mean reversion matrix

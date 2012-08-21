@@ -47,10 +47,12 @@ cdef class BulletBond(BondBase):
                  object evaldate=None
                  ):
         
-        if not evaldate:
-            evaldate = get_eval_date()
-        
-        self._settlementDays = settlementDays
+        BondBase.__init__(self, 
+                 evaldate,
+                 coupon,
+                 maturity,
+                 issue_date=issue_date
+                 )
         
         self._thisptr = new shared_ptr[_instrumentbases.BondBase]( 
             new _bulletbond.BulletBond(
@@ -65,7 +67,7 @@ cdef class BulletBond(BondBase):
                        faceamount, 
                        <_BusinessDayConvention>accrualConvention, 
                        <_BusinessDayConvention>paymentConvention, 
-                       _qldate_from_pydate(evaldate)
+                       _qldate_from_pydate(self.evalDate)
                        ))
             
     # Bond Inspectors
@@ -105,25 +107,5 @@ cdef class BulletBond(BondBase):
             
             result = cashflow.leg_items(leg)
             return result 
-    
 
-    property issueDate:
-        def __get__(self):
-            cdef _qldate.Date dt
-            cdef object result 
-            
-            dt = (<_bulletbond.BulletBond *>self._thisptr.get()).issueDate()
-            
-            result = _pydate_from_qldate(dt)
-            return result
-        
-    property maturity:
-        def __get__(self):
-            cdef _qldate.Date mty
-            cdef object result 
-            
-            mty = (<_bulletbond.BulletBond *>self._thisptr.get()).maturityDate()
-            
-            result = _pydate_from_qldate(mty)
-            return result 
     

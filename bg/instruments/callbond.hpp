@@ -34,7 +34,7 @@ namespace bondgeek {
                                                const Date &parCall, 
                                                const Date &endDate,
                                                const Frequency &callFrequency=Annual,
-                                               const Real &faceAmount=100.0,
+                                               const Real &redemption=100.0,
                                                const DayCounter &dayCounter=Thirty360()
                                                );
     
@@ -130,7 +130,7 @@ namespace bondgeek {
                  Natural settlementDays = 3,
                  DayCounter daycounter = ActualActual(ActualActual::Bond),
                  Frequency payFrequency = Semiannual,
-                 Frequency callFrequency = Semiannual,
+                 Frequency callFrequency = Annual,
                  Real redemption = 100.0,
                  Real faceamount = 100.0,
                  BusinessDayConvention accrualConvention = Unadjusted,

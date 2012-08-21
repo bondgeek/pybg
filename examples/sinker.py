@@ -1,34 +1,28 @@
 import pybg.ql 
-import pybg.enums
 import pybg.curves as curves
 
 import pybg.instruments.bulletbond as bb
 import pybg.instruments.sinkingfundbond as sf 
 
+from pybg.enums import (
+    DayCounters, Frequencies, BusinessDayConventions, Calendars
+    )
+    
 from datetime import date
 
-dt0 = date(2012, 6, 30)
-
-depos = {
-'12M': 0.010695,
- '1D': 0.00169,
- '1M': 0.0024875,
- '1W': 0.001996,
- '3M': 0.004561,
- '6M': 0.007344}
-
+dt0 = date(2008, 9, 15)
 
 print("\nSetting eval date: %s" % dt0)
 pybg.ql.set_eval_date(dt0)
 
-
-govbondcurve = curves.CurveBase(pybg.enums.Calendars.UnitedStates(pybg.enums.Calendars.GOVERNMENTBOND),
-1,
-pybg.enums.DayCounters.Actual360(),
-pybg.enums.Frequencies.Semiannual,
-pybg.enums.BusinessDayConventions.ModifiedFollowing,
-pybg.enums.DayCounters.ActualActual(pybg.enums.DayCounters.Bond),
-pybg.enums.DayCounters.ActualActual(pybg.enums.DayCounters.ISDA)
+govbondcurve = curves.CurveBase(
+Calendars.UnitedStates(Calendars.GOVERNMENTBOND),
+3,
+DayCounters.Actual360(),
+Frequencies.Semiannual,
+BusinessDayConventions.Unadjusted,
+DayCounters.ActualActual(DayCounters.Bond),
+DayCounters.ActualActual(DayCounters.ISDA)
 )
 
 bcrv = curves.BondCurve(govbondcurve)
@@ -63,29 +57,43 @@ marketQuotes = [
         101.6875,
         102.140625
     ]
-
+        
 bond_ids = [
         "B1", "B2", "B3", "B4", "B5"
     ]
 
+depos = {
+        "3M": 0.0096,
+        "6M": 0.0145,
+        "1Y": 0.0194}
+
 q = zip(marketQuotes, maturities, couponRates, dated)
 bndcrv = dict(zip(bond_ids, q))
 
-bcrv.update(bndcrv)
+print("build bond curve...")
+bcrv.update(bndcrv, depos)
+
+output_line1 = "bond: {}, price/yield: {:7.3f}/{:6.3f}%"
+output_line2 = "      check {:7.3f} vs {:7.3f}"
+for id, bndrow in bndcrv.items():
+    qt, mty, cpn, dtd = bndrow
+    b = bb.BulletBond(cpn, mty, dtd, Calendars.UnitedStates(Calendars.GOVERNMENTBOND))
+    print(output_line1.format(id, qt, 100.0*b.toYield(qt)))
+    b.setEngine(bcrv)
+    print(output_line2.format(qt, b.toPrice()))
 
 #bulletbond
-
-uscal = pybg.enums.Calendars.UnitedStates(pybg.enums.Calendars.GOVERNMENTBOND)
-
+print("test bond")
 dated = date(2003, 5, 15)
 mty = date(2027, 5, 15)
 
-bnd1 = bb.BulletBond(.06, mty, dated, uscal)
+bnd1 = bb.BulletBond(.06, mty, dated, Calendars.UnitedStates(Calendars.GOVERNMENTBOND))
 
 #sinker
+print("sinking fund bond")
 sfbnd = sf.SinkingFundBond(.06, 
                             mty, 
                             (40., 40., 40.), 
-                            pybg.enums.Frequencies.Annual,
+                            Frequencies.Annual,
                             dated)
                             

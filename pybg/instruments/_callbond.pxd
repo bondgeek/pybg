@@ -23,14 +23,15 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
     cdef cppclass CallBond(BondBase):
         CallBond(Rate &coupon,
                  _QLDate &maturity,
-                 _QLDate &callDate,
-                 Real &callPrice, 
-                 _QLDate &issue_date,
+                 _QLDate &firstCallDate,
+                 Real &firstCallPrice,
+                 _QLDate &parCallDate, 
+                 _QLDate &issue_date, # = Date()
                  Calendar calendar, # = UnitedStates(UnitedStates::GovernmentBond)
                  Natural settlementDays, # = 3
                  DayCounter daycounter, # = ActualActual(ActualActual::Bond)
                  Frequency payFrequency, # = Semiannual
-                 Frequency callFrequency, # = Semiannual
+                 Frequency callFrequency, # = Annual
                  Real redemption, # = 100.0
                  Real faceamount, # = 100.0
                  BusinessDayConvention accrualConvention, # = Unadjusted

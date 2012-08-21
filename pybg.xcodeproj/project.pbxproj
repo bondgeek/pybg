@@ -38,10 +38,6 @@
 		CB9CD11815DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11915DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11A15DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
-		CC48459715C5B3AB00E8522D /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
-		CC4845A215C5B3E200E8522D /* FittedBondCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845A115C5B3E200E8522D /* FittedBondCurve.cpp */; };
-		CC4845E615C5BAE200E8522D /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
-		CC4845E815C5BB0400E8522D /* Bonds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845E715C5BB0400E8522D /* Bonds.cpp */; };
 		CC48463315C5D44D00E8522D /* bondcurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845F515C5BEDE00E8522D /* bondcurve.cpp */; };
 		CC61CCD115E1CC1500C5443A /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CC61CCD215E1CC3600C5443A /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
@@ -92,8 +88,6 @@
 		CB4D02131594B7470002568B /* callbond.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = callbond.hpp; sourceTree = "<group>"; };
 		CB4D02141594B7470002568B /* fixedfloatswap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fixedfloatswap.cpp; sourceTree = "<group>"; };
 		CB4D02151594B7470002568B /* fixedfloatswap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fixedfloatswap.hpp; sourceTree = "<group>"; };
-		CB4D025D1594B7470002568B /* BermudanSwaption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BermudanSwaption.cpp; sourceTree = "<group>"; };
-		CB4D025E1594B7470002568B /* CallableBonds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CallableBonds.cpp; sourceTree = "<group>"; };
 		CB4D025F1594B7470002568B /* callbond_example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = callbond_example.cpp; sourceTree = "<group>"; };
 		CB4D02601594B7470002568B /* bg_example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bg_example.cpp; sourceTree = "<group>"; };
 		CB4D02611594B7470002568B /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -163,7 +157,7 @@
 		CB4D02AB1594B8350002568B /* test_daycounter.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_daycounter.py; sourceTree = "<group>"; };
 		CB4D02AC1594B8350002568B /* test_schedule.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_schedule.py; sourceTree = "<group>"; };
 		CB4D02AD1594B8360002568B /* test_settings.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_settings.py; sourceTree = "<group>"; };
-		CB4D02B71594B8A50002568B /* pybg */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pybg; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB4D02B71594B8A50002568B /* bg_example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bg_example; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB502A9315AB624F00A2832C /* ql_swapvalution.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = ql_swapvalution.py; sourceTree = "<group>"; };
 		CB502A9915AB694D00A2832C /* _callbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _callbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB502A9A15AB695A00A2832C /* callbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = callbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
@@ -234,10 +228,7 @@
 		CC0BADE415CF122A006C385D /* date_handlers.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date_handlers.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC0BCDC915964E5400DBA0DC /* test_curves.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_curves.py; sourceTree = "<group>"; };
 		CC3CB6F515E033EC000F2441 /* test_bonds.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = test_bonds.hpp; sourceTree = "<group>"; };
-		CC48459315C5B39600E8522D /* FittedBondCurve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FittedBondCurve; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC4845A115C5B3E200E8522D /* FittedBondCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FittedBondCurve.cpp; sourceTree = "<group>"; };
-		CC4845E115C5BAC500E8522D /* Bonds */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Bonds; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC4845E715C5BB0400E8522D /* Bonds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bonds.cpp; sourceTree = "<group>"; };
+		CC43CDCB15E413E200FFBF2C /* test_bonds.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_bonds.py; sourceTree = "<group>"; };
 		CC4845F415C5BEDE00E8522D /* bondcurve.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondcurve.hpp; sourceTree = "<group>"; };
 		CC4845F515C5BEDE00E8522D /* bondcurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bondcurve.cpp; sourceTree = "<group>"; };
 		CC61CCCE15E1C8BF00C5443A /* sinker.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = sinker.py; sourceTree = "<group>"; };
@@ -292,22 +283,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB378D8B1594BC6100C91A4E /* libQuantLib.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC48459115C5B39600E8522D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC48459715C5B3AB00E8522D /* libQuantLib.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC4845DF15C5BAC500E8522D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC4845E615C5BAE200E8522D /* libQuantLib.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,12 +343,10 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CB4D02B71594B8A50002568B /* pybg */,
+				CB4D02B71594B8A50002568B /* bg_example */,
 				CB378E121594C27300C91A4E /* bg_test_suite */,
 				CB378E4F1594C6E100C91A4E /* callbond_example */,
 				CCB1E5C215B57FE300F738BB /* curvetest */,
-				CC48459315C5B39600E8522D /* FittedBondCurve */,
-				CC4845E115C5BAC500E8522D /* Bonds */,
 				CCF687B415CEFC5400606695 /* libbondgeek.dylib */,
 				CC947DEA15D8008900138FFD /* sinker */,
 			);
@@ -446,10 +419,6 @@
 				CCE4EC3A15B36D7100F2B646 /* curvetest2.py */,
 				CC62B4AE15B4315500848EF4 /* curvetest3.py */,
 				CB502A9315AB624F00A2832C /* ql_swapvalution.py */,
-				CB4D025D1594B7470002568B /* BermudanSwaption.cpp */,
-				CC4845E715C5BB0400E8522D /* Bonds.cpp */,
-				CC4845A115C5B3E200E8522D /* FittedBondCurve.cpp */,
-				CB4D025E1594B7470002568B /* CallableBonds.cpp */,
 				CB4D025F1594B7470002568B /* callbond_example.cpp */,
 				CB4D02601594B7470002568B /* bg_example.cpp */,
 				CCB1E5C915B5807C00F738BB /* curvetest.cpp */,
@@ -599,6 +568,7 @@
 				CB73B46515991522008F60C4 /* test_indexes.py */,
 				CB73B46615991522008F60C4 /* test_piecewise_yield_curve.py */,
 				CB73B46715991522008F60C4 /* test_rate_helpers.py */,
+				CC43CDCB15E413E200FFBF2C /* test_bonds.py */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -784,39 +754,7 @@
 			);
 			name = bg_example;
 			productName = pybg;
-			productReference = CB4D02B71594B8A50002568B /* pybg */;
-			productType = "com.apple.product-type.tool";
-		};
-		CC48459215C5B39600E8522D /* FittedBondCurve */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC4845A315C5B3E200E8522D /* Build configuration list for PBXNativeTarget "FittedBondCurve" */;
-			buildPhases = (
-				CC48459015C5B39600E8522D /* Sources */,
-				CC48459115C5B39600E8522D /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = FittedBondCurve;
-			productName = FittedBondCurve;
-			productReference = CC48459315C5B39600E8522D /* FittedBondCurve */;
-			productType = "com.apple.product-type.tool";
-		};
-		CC4845E015C5BAC500E8522D /* Bonds */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC4845E915C5BB0400E8522D /* Build configuration list for PBXNativeTarget "Bonds" */;
-			buildPhases = (
-				CC4845DE15C5BAC500E8522D /* Sources */,
-				CC4845DF15C5BAC500E8522D /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Bonds;
-			productName = Bonds;
-			productReference = CC4845E115C5BAC500E8522D /* Bonds */;
+			productReference = CB4D02B71594B8A50002568B /* bg_example */;
 			productType = "com.apple.product-type.tool";
 		};
 		CC947DE915D8008900138FFD /* sinker */ = {
@@ -894,8 +832,6 @@
 				CB378E111594C27300C91A4E /* bg_test_suite */,
 				CB378E4E1594C6E100C91A4E /* callbond_example */,
 				CCB1E5C115B57FE300F738BB /* curvetest */,
-				CC48459215C5B39600E8522D /* FittedBondCurve */,
-				CC4845E015C5BAC500E8522D /* Bonds */,
 				CCF687B315CEFC5400606695 /* bondgeek */,
 				CC947DE915D8008900138FFD /* sinker */,
 			);
@@ -946,22 +882,6 @@
 				CB378D871594BC5700C91A4E /* date_utilities.cpp in Sources */,
 				CB378D821594BC0E00C91A4E /* bg_example.cpp in Sources */,
 				CB9CD11A15DE755F009A3918 /* sinkingfundbond.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC48459015C5B39600E8522D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC4845A215C5B3E200E8522D /* FittedBondCurve.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC4845DE15C5BAC500E8522D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC4845E815C5BB0400E8522D /* Bonds.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1122,7 +1042,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/bin;
 				PREBINDING = NO;
-				PRODUCT_NAME = pybg;
+				PRODUCT_NAME = bg_example;
 			};
 			name = Debug;
 		};
@@ -1136,67 +1056,7 @@
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/bin;
 				PREBINDING = NO;
-				PRODUCT_NAME = pybg;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		CC48459515C5B39700E8522D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = /usr/local/bin;
-				PREBINDING = NO;
-				PRODUCT_NAME = FittedBondCurve;
-			};
-			name = Debug;
-		};
-		CC48459615C5B39700E8522D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/bin;
-				PREBINDING = NO;
-				PRODUCT_NAME = FittedBondCurve;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		CC4845E315C5BAC500E8522D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = /usr/local/bin;
-				PREBINDING = NO;
-				PRODUCT_NAME = Bonds;
-			};
-			name = Debug;
-		};
-		CC4845E415C5BAC500E8522D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/bin;
-				PREBINDING = NO;
-				PRODUCT_NAME = Bonds;
+				PRODUCT_NAME = bg_example;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1330,24 +1190,6 @@
 			buildConfigurations = (
 				CB4D02B91594B8A60002568B /* Debug */,
 				CB4D02BA1594B8A60002568B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CC4845A315C5B3E200E8522D /* Build configuration list for PBXNativeTarget "FittedBondCurve" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CC48459515C5B39700E8522D /* Debug */,
-				CC48459615C5B39700E8522D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CC4845E915C5BB0400E8522D /* Build configuration list for PBXNativeTarget "Bonds" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CC4845E315C5BAC500E8522D /* Debug */,
-				CC4845E415C5BAC500E8522D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

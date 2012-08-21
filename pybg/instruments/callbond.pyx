@@ -22,7 +22,6 @@ from pybg.ql import get_eval_date, set_eval_date
 cimport pybg._curves as _curves
 cimport pybg.curves as curves
 
-import pybg.enums as enums
 import pybg.instruments.bulletbond as BB
 
 from pybg.quantlib.time.daycounter cimport DayCounter
@@ -31,45 +30,60 @@ from pybg.quantlib.time.calendar cimport Calendar
 cimport pybg.quantlib._cashflow as _cashflow
 cimport pybg.quantlib.cashflow as cashflow
 
+from pybg.enums import (
+    DayCounters, Frequencies, BusinessDayConventions, Calendars
+    )
+
 cdef class CallBond:
     
     def __init__(self,
                  Rate coupon,
                  object maturity,
-                 object calldate,
-                 Real callprice,
-                 object issue_date,
+                 object first_calldate,
+                 Real first_callprice,
+                 object par_calldate=None,
+                 object issue_date=None,
                  Calendar calendar=None,
                  int settlementDays=3,
                  DayCounter daycounter=None,
-                 frequency=enums.Frequencies.Semiannual,
-                 callfrequency=enums.Frequencies.Semiannual,
+                 frequency=Frequencies.Semiannual,
+                 callfrequency=Frequencies.Semiannual,
                  Real redemption=100.0,
                  Real faceamount=100.0,
-                 accrualConvention=enums.BusinessDayConventions.Unadjusted,
-                 paymentConvention=enums.BusinessDayConventions.Unadjusted,
+                 accrualConvention=BusinessDayConventions.Unadjusted,
+                 paymentConvention=BusinessDayConventions.Unadjusted,
                  object evaldate=None
                  ):
-
-        if not evaldate:
-            evaldate = get_eval_date()
+        '''initialize callable bond
+        
+        '''
+        
+        BondBase.__init__(self, 
+                 evaldate,
+                 coupon,
+                 maturity,
+                 issue_date=issue_date,
+                 first_calldate=first_calldate,
+                 first_callprice=first_callprice,
+                 par_calldate=par_calldate,
+                 callfrequency=callfrequency
+                 ) 
         
         if not daycounter:
-            daycounter = enums.DayCounters.ActualActual(enums.DayCounters.Bond)
+            daycounter = DayCounters.ActualActual(DayCounters.Bond)
         
         if not calendar:
-            calendar = enums.Calendars.UnitedStates(enums.Calendars.GOVERNMENTBOND)
+            calendar = Calendars.UnitedStates( \
+                                            Calendars.GOVERNMENTBOND)
             
-        self._coupon = <Real>coupon
-        self._settlementDays = settlementDays
-        
         self._thisptr = new shared_ptr[_instrumentbases.BondBase]( \
             new _callbond.CallBond(
                        coupon,
                        _qldate_from_pydate(maturity),
-                       _qldate_from_pydate(calldate),
-                       callprice,
-                       _qldate_from_pydate( issue_date),
+                       _qldate_from_pydate(first_calldate),
+                       first_callprice,
+                       _qldate_from_pydate(par_calldate),
+                       _qldate_from_pydate(issue_date),
                        deref(calendar._thisptr), 
                        settlementDays, 
                        deref(daycounter._thisptr),
@@ -79,7 +93,7 @@ cdef class CallBond:
                        faceamount, 
                        <_BusinessDayConvention>accrualConvention, 
                        <_BusinessDayConvention>paymentConvention, 
-                       _qldate_from_pydate(evaldate)
+                       _qldate_from_pydate(self.evalDate)
                        )
              )
         
@@ -148,28 +162,6 @@ cdef class CallBond:
             
             result = cashflow.leg_items(leg)
             return result 
-    
-
-    property issueDate:
-        def __get__(self):
-            cdef _qldate.Date dt
-            cdef object result 
-            
-            dt = (<_callbond.CallBond *>self._thisptr.get()).issueDate()
-            
-            result = _pydate_from_qldate(dt)
-            return result
-        
-    property maturity:
-        def __get__(self):
-            cdef _qldate.Date mty
-            cdef object result 
-            
-            mty = (<_callbond.CallBond *>self._thisptr.get()).maturityDate()
-            
-            result = _pydate_from_qldate(mty)
-            return result 
-    
             
     # Bond Math
     def toYTM(self, bondprice=None, redemption=100.0):
@@ -202,7 +194,7 @@ cdef class CallBond:
             _qtax["oid"] = self.coupon
             _qtax["rval"] = 100.0
         
-        nyrs = enums.DayCounters.year_fraction(self.settlementDate,
+        nyrs = DayCounters.year_fraction(self.settlementDate,
                                                self.maturity)
                                                         
         _qtax["demin"] = float(floor(nyrs)) * ptsyear
@@ -244,8 +236,8 @@ cdef class CallBond:
                                   self.frequency,
                                   100.0,
                                   100.0,
-                                  enums.BusinessDayConventions.Unadjusted,
-                                  enums.BusinessDayConventions.Unadjusted,
+                                  BusinessDayConventions.Unadjusted,
+                                  BusinessDayConventions.Unadjusted,
                                   get_eval_date() ).toPrice(atyield)
                                                
             taxRate = capgains if amd < _qtax["demin"] else ordinc

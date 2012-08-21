@@ -47,23 +47,31 @@ cdef class SinkingFundBond:
                  paymentConvention=BusinessDayConventions.Unadjusted,
                  object evaldate=None
                  ):
+        '''sinking fund bond
         
-        if not evaldate:
-            evaldate = get_eval_date()
-            
+        '''
+        
+        BondBase.__init__(self, 
+                 evaldate,
+                 coupon,
+                 maturity,
+                 issue_date=issue_date,
+                 sinkingfund=sinkingfund,
+                 sinkingfundFrequency=sinkingfundFrequency
+                 ) 
+        
+        if not daycounter:
+            daycounter = DayCounters.ActualActual(DayCounters.Bond)
+        
         if not calendar:
-            calendar = Calendars.UnitedStates(Calendars.GOVERNMENTBOND)
-        
-        if not issue_date:
-            issue_date = evaldate
-            
+            calendar = Calendars.UnitedStates( \
+                                            Calendars.GOVERNMENTBOND)
+                                                     
         cdef vector[Real] sf 
         cdef Real sf_pmt
         for sf_pmt in sinkingfund:
             sf.push_back(sf_pmt)
-        
-        self._settlementDays = settlementDays
-        
+                
         self._thisptr = new shared_ptr[_instrumentbases.BondBase]( \
             new _sinkingfundbond.SinkingFundBond(
                        coupon,
@@ -79,7 +87,7 @@ cdef class SinkingFundBond:
                        faceamount, 
                        <_BusinessDayConvention>accrualConvention, 
                        <_BusinessDayConvention>paymentConvention, 
-                       _qldate_from_pydate(evaldate)
+                       _qldate_from_pydate(self.evalDate)
                        ))
         
         
@@ -120,24 +128,3 @@ cdef class SinkingFundBond:
             
             result = cashflow.leg_items(leg)
             return result 
-    
-    property issueDate:
-        def __get__(self):
-            cdef _qldate.Date dt
-            cdef object result 
-            
-            dt = (<_sinkingfundbond.SinkingFundBond *>self._thisptr.get()).issueDate()
-            
-            result = _pydate_from_qldate(dt)
-            return result
-        
-    property maturity:
-        def __get__(self):
-            cdef _qldate.Date mty
-            cdef object result 
-            
-            mty = (<_sinkingfundbond.SinkingFundBond *>self._thisptr.get()).maturityDate()
-            
-            result = _pydate_from_qldate(mty)
-            return result 
-    

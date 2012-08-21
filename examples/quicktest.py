@@ -80,7 +80,7 @@ import pybg.instruments.callbond as C
 
 cb = C.CallBond(.045, 
                  date(2017, 5, 15), 
-                 date(2016, 5, 15), 100., 
+                 date(2016, 5, 15), 100., date(2017, 5, 15),
                  date(2003, 5, 15), 
                  uscal
                  )

@@ -16,6 +16,5 @@ cdef class RateHelperCurve:
 cdef class BondHelperQuote:
     cdef shared_ptr[_curves.BondHelperQuote]* _thisptr
 
-cdef class BondCurve:
-    cdef shared_ptr[_curves.BondCurve]* _thisptr
-
+cdef class BondCurve(RateHelperCurve):
+    pass

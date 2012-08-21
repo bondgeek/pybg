@@ -16,6 +16,4 @@ cdef class SinkingFundBond(BondBase):
     '''Sinking Fund Bond Structure
     
     '''
-    #cdef shared_ptr[_sinkingfundbond.SinkingFundBond]* _thisptr
-    cdef int _settlementDays
-    cdef Real coupon
+    pass

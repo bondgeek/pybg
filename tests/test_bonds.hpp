@@ -22,6 +22,10 @@ namespace QuantLib {
 }
 #endif
 
+// for arrays
+#define LENGTH(x) (sizeof(x)/sizeof(x[0]))
+
+
 struct BondTests {
 	Date todaysDate;
     
@@ -51,15 +55,157 @@ struct BondTests {
                                                  acurve.discountingTermStructure()
                                                  );
 		
-		
+		Settings::instance().evaluationDate() = todaysDate;
 	}
 };
 
 BOOST_FIXTURE_TEST_SUITE( bondtest, BondTests )
 
-BOOST_AUTO_TEST_CASE( bond_value )
+BOOST_AUTO_TEST_CASE( bulletbond_price_yield_consistency )
 {
+    BOOST_MESSAGE("Testing consistency of bond price-yield calcs...");
+    Rate coupon[] = {.06, .05, .04};
+    Date maturity[] = {
+        Date(15, September,2012),
+        Date(1, November,2015),
+        Date(30, June,2011),
+        Date(28, February, 2017)
+    };
+    Date dated[] = {
+        Date(15, September,2004),
+        Date(1, May,2004),
+        Date(30, June,2004),
+        Date(1, February, 2004)
+    };
+    Calendar bondCalendar[] = {
+        UnitedStates(UnitedStates::GovernmentBond),
+        UnitedStates(UnitedStates::Settlement),
+        UnitedStates(UnitedStates::NYSE)
+    };
+    DayCounter bondDayCounter[] = {
+        ActualActual(ActualActual::Bond),
+        ActualActual(ActualActual::Actual365),
+        ActualActual(ActualActual::ISDA),
+        ActualActual(ActualActual::Euro),
+        Thirty360(Thirty360::BondBasis),
+        Thirty360(Thirty360::USA),
+        Thirty360(Thirty360::European),
+        Thirty360(Thirty360::EurobondBasis)
+    };
     
+    Natural settlementDays = 3;
+    Frequency frequency = Semiannual;
+    
+    Real faceAmount = 100.0; // Notional amount
+    Real redemption = 100.0; // Amount paid on redemption
+    
+    BusinessDayConvention accrualConvention = Unadjusted;
+    BusinessDayConvention paymentConvention = Unadjusted;
+    
+    Real tolerance = 1.0e-5;
+    
+    double prc;
+    double yld;
+    for (int i=0; i < LENGTH(coupon); i++) {
+        for (int j=0; j < LENGTH(maturity); j++) {
+            for (int k; k < LENGTH(bondCalendar); k++) {
+                for (int l; l < LENGTH(bondDayCounter); l++) {
+                    BulletBond bnd(
+                                   coupon[i],
+                                   maturity[j],
+                                   dated[j],
+                                   bondCalendar[k],
+                                   settlementDays,
+                                   bondDayCounter[l],
+                                   frequency,
+                                   redemption,
+                                   faceAmount,
+                                   accrualConvention,
+                                   paymentConvention
+                                   );
+                    
+                    bnd.setEngine(acurve);
+                    
+                    prc = bnd.toPrice();
+                    yld = bnd.toYield(prc);
+                    
+                    BOOST_CHECK( abs(bnd.toPrice(yld) - prc) < tolerance );
+                }
+            }
+        }
+    }
+     
+    BOOST_TEST_MESSAGE("OK");
+}
+
+BOOST_AUTO_TEST_CASE( callbond_price_yield_consistency )
+{
+    BOOST_MESSAGE("Testing consistency of bond price-yield calcs...");
+    Rate coupon = .05;
+    Date maturity(15, September,2016);
+    Date dated(15, September, 2004);
+    Date calldate[] = {
+        Date(15, September,2011),
+        Date(15, September,2012),
+        Date(15, September,2013)
+    };
+    Real callprc[] = {100., 101., 102.};
+    Date pardate[] = {
+        maturity,
+        Date(15, September,2013),
+        Date(15, September,2015)
+    };
+    
+    Calendar bondCalendar = UnitedStates(UnitedStates::Settlement);
+    DayCounter bondDayCounter = Thirty360(Thirty360::BondBasis);
+    
+    Natural settlementDays = 3;
+    Frequency frequency = Semiannual;
+    
+    Real faceAmount = 100.0; // Notional amount
+    Real redemption = 100.0; // Amount paid on redemption
+    
+    BusinessDayConvention accrualConvention = Unadjusted;
+    BusinessDayConvention paymentConvention = Unadjusted;
+    
+    Real tolerance = 1.0e-5;
+    
+    double prc;
+    double yld;
+    for (int i=0; i < LENGTH(calldate); i++) {
+
+        CallBond bnd(
+                     coupon,
+                     maturity,
+                     calldate[i],
+                     callprc[i],
+                     pardate[i],
+                     dated,
+                     bondCalendar,
+                     settlementDays,
+                     bondDayCounter,
+                     frequency,
+                     Annual,
+                     redemption,
+                     faceAmount,
+                     accrualConvention,
+                     paymentConvention
+                     );
+        
+        bnd.setEngine(acurve);
+        
+        prc = bnd.toPrice();
+        yld = bnd.toYield(prc);
+        
+        BOOST_CHECK( abs(bnd.toPrice(yld) - prc) < tolerance );
+    }
+    
+    BOOST_TEST_MESSAGE("OK");
+}
+
+BOOST_AUTO_TEST_CASE( bond_value_sinker_consistency )
+{
+    BOOST_MESSAGE("Testing consistency of sinking fund bond calcs...");
     Real coupon = .06;
     Date maturity(15, September,2012);
     Date maturity1(15, September, 2011);
@@ -67,7 +213,7 @@ BOOST_AUTO_TEST_CASE( bond_value )
     
     Date dated(16,September,2004);
     
-    Natural settlementDays = 3;  // Bloomberg OAS1 settle is Oct 19, 2007
+    Natural settlementDays = 3;  
     Frequency frequency = Semiannual;
     
     Calendar bondCalendar = UnitedStates(UnitedStates::GovernmentBond);
@@ -155,23 +301,22 @@ BOOST_AUTO_TEST_CASE( bond_value )
                          paymentConvention
                          ); 
     
+    bnd.setEngine(acurve);
+
     bnd0.setPricingEngine(discEngine);
     bnd1.setPricingEngine(discEngine);
-    bnd.setPricingEngine(discEngine);
     bnd2.setPricingEngine(discEngine);
     
+    double prc = bnd.toPrice();
+
     double prc0 = bnd0.cleanPrice();
     double prc1 = bnd1.cleanPrice();
-    double prc = bnd.cleanPrice();
     double prc2 = bnd2.cleanPrice();
     
     double avgpx = (prc0+prc1+prc)/3.;
     
-    BOOST_TEST_MESSAGE("Check average life pricing");
     BOOST_CHECK( abs(prc2-avgpx) < .0001 );	 
-
-	
-    
+    BOOST_TEST_MESSAGE("OK");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -44,7 +44,7 @@ namespace bondgeek {
                                                const Date &parCall, 
                                                const Date &endDate,
                                                const Frequency &callFrequency,
-                                               const Real &faceAmount,
+                                               const Real &redemption,
                                                const DayCounter &dayCounter
                                                ) 
     // classic muni schedule, first premium date/price, first par date/price
@@ -58,10 +58,10 @@ namespace bondgeek {
         Real dtp = 0.0;
         int frequency = callFrequency;
         
-        if (callPrice > faceAmount && parCall > firstCall) {
+        if (callPrice > redemption && parCall > firstCall) {
             Real callyears = dayCounter.yearFraction(firstCall, parCall);
             
-            dtp = (callPrice-faceAmount)/(frequency*callyears);
+            dtp = (callPrice - redemption)/(frequency * callyears);
             
         }
         
@@ -80,7 +80,7 @@ namespace bondgeek {
             fdate = nullCalendar.advance(fdate, Period(callFrequency), Unadjusted, false);
             
             if (fdate >= parCall) {
-                cPrice = faceAmount;
+                cPrice = redemption;
             }
             else {
                 cPrice -= dtp;
@@ -239,7 +239,7 @@ namespace bondgeek {
                                                  parCallDate,
                                                  maturity,  
                                                  callFrequency,
-                                                 faceamount)
+                                                 redemption)
                           )
     {}
     

@@ -23,7 +23,7 @@ cimport pybg.curves as curves
 from pybg.enums import (
     DayCounters, Frequencies, BusinessDayConventions, Calendars
     )
-
+        
 cdef class BondBase:
     def __cinit__(self):
         self._thisptr = NULL
@@ -33,17 +33,39 @@ cdef class BondBase:
             del self._thisptr
     
     def __init__(self, 
+                 object evaldate,
                  Rate coupon,
                  object maturity,
                  object issue_date=None,
-                 object calldate=None,
-                 Real callprice=100.,
-                 object parcalldate=None,
+                 object first_calldate=None,
+                 Real first_callprice=100.0,
+                 object par_calldate=None,
+                 callfrequency=Frequencies.Annual,
                  object sinkingfund=None,
                  sinkingfundFrequency=Frequencies.Annual
                  ):
-        raise NotImplementedError("Bond Base is a virtual base class")
+                 
+        self.evalDate = get_eval_date() if not evaldate else evaldate
                 
+        self._firstCallDate = first_calldate
+        if not first_calldate:
+            self._callable = False
+            self._firstCallPrice = 0.
+            self._parCallDate = None
+        else:
+            self._callable = True
+            self._firstCallPrice = first_callprice
+            self._parCallDate = par_calldate if par_calldate else maturity
+            self._callfrequency = callfrequency
+        
+        self._issueDate = self.evalDate if not issue_date else issue_date
+        self._coupon = coupon
+        self._maturity = maturity
+        self._sinkingfund = sinkingfund 
+        self._sinker = False if not sinkingfund else True
+        self._sinkingfundFrequency = sinkingfundFrequency
+        
+        
     def setEngine(self, crv, a=0., sigma=0., lognormal=True):
         cdef _curves.CurveBase _crv
         
@@ -120,6 +142,36 @@ cdef class BondBase:
             stlDays = self._thisptr.get().get_settlementDays()
             
             return int(stlDays)
+    
+    property issue_date:
+        def __get__(self):
+            return self._issueDate
+        
+    property maturity:
+        def __get__(self):
+            return self._maturity 
+            
+    property coupon:
+        def __get__(self):
+            return self._coupon
+            
+    property sinker:
+        def __get__(self):
+            if self._sinker:
+                return (self._sinkingfund, self._sinkingfundFrequency)
+            else:
+                return None
+    
+    property callfeature:
+        def __get__(self):
+            if self._callable:
+                return (self._firstCallDate, 
+                        self._firstCallPrice, 
+                        self._parCallDate,
+                        self._callfrequency)
+            else:
+                return None
+                
     
 
             
