@@ -104,7 +104,9 @@ extension_paths  = [
  ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx']),
  
  ('pybg.indexbases', ['pybg/indexbases.pyx']),
-  
+
+ ('pybg.instruments.instrumentbases', ['pybg/instruments/instrumentbases.pyx']),
+                                        
  ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx',
                                       'bg/instruments/fixedfloatswap.cpp']),
  

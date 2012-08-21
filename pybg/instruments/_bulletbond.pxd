@@ -15,10 +15,11 @@ from pybg.quantlib.time._daycounter cimport DayCounter as DayCounter
 from pybg.quantlib._cashflow cimport Leg
 
 cimport pybg._curves as _curves
+from pybg.instruments._instrumentbases cimport BondBase
 
 cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
 
-    cdef cppclass BulletBond:
+    cdef cppclass BulletBond(BondBase):
         BulletBond(
                    Rate coupon,
                    _QLDate maturity,
@@ -34,16 +35,15 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
                    _QLDate eval_date #=Date()
                    ) except +
         
-        void setEngine(_curves.CurveBase crv)
-        void setEngine(shared_ptr[_curves.CurveBase] crvptr)
+        #void setEngine(_curves.CurveBase crv)
         
-        double toPrice()
-        double toPrice(Real bondyield)
+        #double toPrice()
+        #double toPrice(Real bondyield)
         
-        double toYield()
-        double toYield(Rate bondprice)
+        #double toYield()
+        #double toYield(Rate bondprice)
         
-        # Inspectors
+        # Inspectors from QuantLib::FixedRateBond
         _QLDate maturityDate()
         _QLDate settlementDate()
         _QLDate settlementDate(_QLDate)
@@ -54,5 +54,7 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         Calendar calendar()
         Leg redemptions()
         Leg cashflows()
-        _QLDate get_eval_date()
-        void set_eval_date(_QLDate)
+        
+        # Inspectors from InstrumentBase
+        #_QLDate get_eval_date()
+        #void set_eval_date(_QLDate)

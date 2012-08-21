@@ -31,9 +31,8 @@ namespace bondgeek
         BusinessDayConvention   _accrualConvention;
         BusinessDayConvention   _paymentConvention; 
         
-        BondBase() {};
-        
     public:
+        BondBase() {};
         BondBase(Calendar calendar,
                  Natural settlementDays,
                  DayCounter daycounter,
@@ -62,8 +61,15 @@ namespace bondgeek
         virtual double toPrice(Rate bondyield) =0;        
         
         // Inspectors not available in all QuantLib classes
-        DayCounter get_dayCounter() { return _daycounter; }
-        Frequency  get_frequency() { return _payfrequency; } 
+        DayCounter  get_dayCounter() { return _daycounter; }
+        Frequency   get_frequency() { return _payfrequency; }
+        Natural     get_settlementDays() { return _settlementDays; }
+        Calendar    get_calendar() { return _calendar; }
+        Real        get_redemption() { return _redemption; } 
+        Real        get_faceAmount() { return _faceamount; } 
+        BusinessDayConvention get_accrualConvention() { return _accrualConvention; }
+        BusinessDayConvention get_paymentConvention() { return _paymentConvention; }
+                    
     };
     
 }

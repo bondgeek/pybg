@@ -18,12 +18,8 @@ using namespace QuantLib;
 namespace bondgeek 
 {
     class InstrumentBase {
-    protected:
-        
-        InstrumentBase(){}
-
     public:        
-        
+        InstrumentBase(){}    
         InstrumentBase(Date eval_date) { this->set_eval_date(eval_date); }
         
         // Inspectors
@@ -36,10 +32,9 @@ namespace bondgeek
 
         // virtual function 
         // defined at instrument level 
-        virtual void setEngine(CurveBase &crv) =0 ;
         virtual void setEngine(CurveBase &crv, 
-                               Real &parm,
-                               Real &sigma,
+                               Real parm=QL_EPSILON,
+                               Real sigma=QL_EPSILON,
                                bool lognormal=true) =0 ;
     };
 }

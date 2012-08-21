@@ -21,13 +21,15 @@ cimport pybg.quantlib.termstructures.yields._flat_forward as _ff
 
 cimport pybg._curves as _curves
 
+from pybg.instruments._instrumentbases cimport InstrumentBase
+
 cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
 
     cdef enum SwapPayType: 
         FixedReceiver   = -1 
         FixedPayer      = 1 
         
-    cdef cppclass FixedFloatSwap:
+    cdef cppclass FixedFloatSwap(InstrumentBase):
         FixedFloatSwap(
             _QLDate settle, 
             _QLDate maturity, 
@@ -47,8 +49,6 @@ cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
             Calendar calendar
             ) except +  
         
-        void setEngine(_curves.CurveBase crv)
-        
         #Inspectors 
         SwapPayType payerType()
         Real        nominal()
@@ -56,8 +56,11 @@ cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
         Spread      spread()
         Leg         fixedLeg()
         Leg         floatingLeg()
-        _QLDate     get_eval_date()
-        void        set_eval_date(_QLDate)
+
+        # from InstrumentBase
+        #_QLDate     get_eval_date()
+        #void        set_eval_date(_QLDate)
+        #void setEngine(_curves.CurveBase, Real, Real, bool)
         
         #Results
         Real    NPV()
@@ -67,8 +70,6 @@ cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
         Real 	floatingLegBPS()
         Real 	floatingLegNPV()
         Spread 	fairSpread()
-            
-            
 
 cdef extern from 'bg/swaptype.hpp' namespace 'bondgeek':
     

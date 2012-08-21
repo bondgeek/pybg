@@ -87,7 +87,10 @@ namespace bondgeek {
         }
     }
 
-    void FixedFloatSwap::setEngine(CurveBase &crv)  
+    void FixedFloatSwap::setEngine(CurveBase &crv, 
+                                   Real a, 
+                                   Real sigma,
+                                   bool lognormal)   
     {
         typedef boost::shared_ptr<PricingEngine> PrcEnginePtr;
         
@@ -96,14 +99,6 @@ namespace bondgeek {
                                                 );
         
         setPricingEngine(swapEngine);
-    }
-    
-    void FixedFloatSwap::setEngine(CurveBase &crv, 
-                                   Real &a, 
-                                   Real &sigma,
-                                   bool lognormal)  
-    {
-        setEngine(crv);
     }
     
 }

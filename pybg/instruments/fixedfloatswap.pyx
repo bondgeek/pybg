@@ -278,7 +278,7 @@ cdef class USDLiborSwap(LiborSwap):
         _crv = deref(crv._thisptr.get())
         
         deref(self._swaptype).linkIndex(_crv)
-        self._thisptr.get().setEngine(deref(crv._thisptr.get()))
+        self._thisptr.get().setEngine(deref(crv._thisptr.get()), 0., 0., True)
               
                                       
 cdef class EuriborSwap(LiborSwap):    
@@ -333,4 +333,4 @@ cdef class EuriborSwap(LiborSwap):
         _crv = deref(crv._thisptr.get())
         
         deref(self._swaptype).linkIndex(_crv)
-        self._thisptr.get().setEngine(deref(crv._thisptr.get()))
+        self._thisptr.get().setEngine(deref(crv._thisptr.get()), 0., 0., True)

@@ -67,11 +67,12 @@ namespace bondgeek {
 
         VanillaSwap::Type paytype(SwapPayType paytype);
 
-        virtual void setEngine(CurveBase &crv) ;
+        // alpha, sigma & lognormal parameters are ignored for bullet/noncall
         virtual void setEngine(CurveBase &crv, 
-                               Real &a, 
-                               Real &sigma,
-                               bool lognormal=true) ;    
+                               Real a=QL_EPSILON, 
+                               Real sigma=QL_EPSILON,
+                               bool lognormal=true) ;
+        
         //Inspectors
         SwapPayType payerType(void) { return _payerType; }
         

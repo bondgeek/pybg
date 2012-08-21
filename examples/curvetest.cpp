@@ -87,15 +87,7 @@ int main ()
         testDate = TARGET().advance(testDate, -1, Days);
         
     }
-    
-    CurveMap crv_quotes = crv_usdlibor->curveQuotes();
-    CurveMap::iterator it;
-    cout <<"\n\nCurve " << endl;
-    for (it = crv_quotes.begin(); it != crv_quotes.end(); it++)
-    {
-        cout << (*it).first << ": " << (*it).second << endl;
-    }
-    
+        
     
     cout << "\n\nBond Curve " << endl;
     // setup bonds
@@ -160,7 +152,7 @@ int main ()
     
     bondcurve.update(bndcrvmap);
     
-    testDate = todaysDate;
+    testDate = Date(15, September, 2008);
     for (int i=0; i < 90; i++) 
     {
         cout << testDate << " >> " ;

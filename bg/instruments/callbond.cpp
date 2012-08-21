@@ -290,8 +290,8 @@ namespace bondgeek {
     
     
     void CallBond::setEngine(CurveBase &crv, 
-                             Real &a, 
-                             Real &sigma,
+                             Real a, 
+                             Real sigma,
                              bool lognormal)  
     {
         a = max(QL_EPSILON, a);
@@ -302,12 +302,6 @@ namespace bondgeek {
         createOptionEngine<HullWhite, TreeCallableFixedRateBondEngine>(crv.discountingTermStructure(), a, sigma);
         
         setPricingEngine(pxEngine);
-    }
-    
-    void CallBond::setEngine(CurveBase &crv) 
-    {
-        Real x = QL_EPSILON;
-        setEngine(crv, x, x, true);
     }
 
     // Bond Math Functions  

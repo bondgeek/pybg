@@ -54,7 +54,7 @@ cdef extern from 'bg/curvebase.hpp' namespace 'bondgeek':
         void        build()
         
         # Results
-        Real        discount(double years, bool extrapolate)
+        Real        discount(double years, bool extrapolate) except +
         
 
 cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
@@ -80,8 +80,8 @@ cdef extern from 'bg/curves/ratehelpercurve.hpp' namespace 'bondgeek':
                     )
                     
         # curve values        
-        Real        tenorquote(string key)  
-        CurveMap    curveQuotes()
+        Real        tenorquote(string key) except +
+        CurveMap    curveQuotes() except +
 
         
 cdef extern from 'bg/curves/bondcurve.hpp' namespace 'bondgeek':
@@ -118,7 +118,7 @@ cdef extern from 'bg/curves/bondcurve.hpp' namespace 'bondgeek':
                     _QLDate      todays_date
                     )
         
-        bool updateBondCurve(BondCurveMap crv)
+        bool updateBondCurve(BondCurveMap crv) except +
         
 
         

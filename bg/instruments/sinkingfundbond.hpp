@@ -56,11 +56,10 @@ namespace bondgeek
         virtual double toPrice(Rate bondyield);
         virtual double toYield(Real bondprice);
         
-        
-        virtual void setEngine(CurveBase &crv) ;
+        // alpha, sigma & lognormal parameters are ignored for bullet/noncall
         virtual void setEngine(CurveBase &crv, 
-                               Real &a, 
-                               Real &sigma,
+                               Real a=QL_EPSILON, 
+                               Real sigma=QL_EPSILON,
                                bool lognormal=true) ;
         
         std::vector<Real> sinkingFundNotionals(const std::vector<Real>& sf_par,

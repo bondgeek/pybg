@@ -144,24 +144,19 @@ namespace bondgeek
         
         return sf_notionals;
     }
-    
-    void SinkingFundBond::setEngine(CurveBase &crv)
+     
+    void SinkingFundBond::setEngine(CurveBase &crv, 
+                                    Real a, 
+                                    Real sigma,
+                                    bool lognormal) 
     {
-        boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(
-                                                                                               crv.discountingTermStructure()
-                                                                                               );
+        boost::shared_ptr<PricingEngine> discEngine = \
+            createPriceEngine<DiscountingBondEngine>(
+                                           crv.discountingTermStructure()
+                                           );
         
         this->setPricingEngine(discEngine);
     }
-    
-    void SinkingFundBond::setEngine(CurveBase &crv, 
-                                    Real &a, 
-                                    Real &sigma,
-                                    bool lognormal) 
-    {
-        this->setEngine(crv);
-    }
-    
     
     double SinkingFundBond::toPrice(Rate bondyield)
     {

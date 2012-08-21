@@ -16,10 +16,11 @@ from pybg.quantlib.time._daycounter cimport DayCounter as DayCounter
 from pybg.quantlib._cashflow cimport Leg
 
 cimport pybg._curves as _curves
+from pybg.instruments._instrumentbases cimport BondBase
 
 cdef extern from 'bg/instruments/sinkingfundbond.hpp' namespace 'bondgeek':
 
-    cdef cppclass SinkingFundBond:
+    cdef cppclass SinkingFundBond(BondBase):
         SinkingFundBond(
                    Rate coupon,
                    _QLDate maturity,
@@ -37,15 +38,6 @@ cdef extern from 'bg/instruments/sinkingfundbond.hpp' namespace 'bondgeek':
                    _QLDate eval_date #=Date()
                    )
         
-        void setEngine(_curves.CurveBase crv)
-        void setEngine(shared_ptr[_curves.CurveBase] crvptr)
-        
-        double toPrice()
-        double toPrice(Real bondyield)
-        
-        double toYield()
-        double toYield(Rate bondprice)
-        
         # Inspectors
         _QLDate maturityDate()
         _QLDate settlementDate()
@@ -57,6 +49,4 @@ cdef extern from 'bg/instruments/sinkingfundbond.hpp' namespace 'bondgeek':
         Calendar calendar()
         Leg redemptions()
         Leg cashflows()
-        _QLDate get_eval_date()
-        void set_eval_date(_QLDate)
         

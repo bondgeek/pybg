@@ -176,13 +176,11 @@ namespace bondgeek {
         BulletBond bullet(Date &redemptionDate, Real &redemptionPrice, 
                           Real coupon=-1.);
         
-        // Engines
-        virtual void setEngine(CurveBase &crv) ;
+        // alpha, sigma & lognormal parameters are ignored for bullet/noncall
         virtual void setEngine(CurveBase &crv, 
-                               Real &a, 
-                               Real &sigma,
+                               Real a=QL_EPSILON, 
+                               Real sigma=QL_EPSILON,
                                bool lognormal=true) ;
-        
         
         // OAS Functions
         void    oasEngine(CurveBase &crv, 

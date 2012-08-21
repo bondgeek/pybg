@@ -33,9 +33,7 @@
 		CB378E5C1594C6FD00C91A4E /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
 		CB378E5F1594C73A00C91A4E /* callbond_example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D025F1594B7470002568B /* callbond_example.cpp */; };
 		CB9CD11215DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
-		CB9CD11315DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11515DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
-		CB9CD11615DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11715DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11815DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11915DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
@@ -130,7 +128,7 @@
 		CB4D02851594B8350002568B /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		CB4D02861594B8350002568B /* _calendar.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _calendar.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D02871594B8350002568B /* _date.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _date.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
-		CB4D02881594B8350002568B /* _daycounter.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _daycounter.pxd; sourceTree = "<group>"; };
+		CB4D02881594B8350002568B /* _daycounter.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _daycounter.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D02891594B8350002568B /* _period.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _period.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CB4D028A1594B8350002568B /* _schedule.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _schedule.pxd; sourceTree = "<group>"; };
 		CB4D028B1594B8350002568B /* api.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = api.py; sourceTree = "<group>"; };
@@ -218,6 +216,9 @@
 		CB73B46715991522008F60C4 /* test_rate_helpers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_rate_helpers.py; sourceTree = "<group>"; };
 		CB9CD11015DE755F009A3918 /* sinkingfundbond.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sinkingfundbond.hpp; sourceTree = "<group>"; };
 		CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sinkingfundbond.cpp; sourceTree = "<group>"; };
+		CBBB55A515E2C38F0092ABB0 /* bondcurvetest.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = bondcurvetest.py; sourceTree = "<group>"; };
+		CBBB565815E2FC200092ABB0 /* instrumentbases.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = instrumentbases.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CBBB565915E2FC500092ABB0 /* instrumentbases.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = instrumentbases.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CBC8CA6E1599F0F80042C992 /* _indexbase.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _indexbase.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CBC8CA731599F1470042C992 /* indexbases.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = indexbases.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CBC8CA761599F15A0042C992 /* indexbases.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = indexbases.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
@@ -440,6 +441,7 @@
 				CCAFF37C15C6A6C5007A2D8B /* Discarded */,
 				CBCC4E0B15A1FE1B0097AC8B /* quicktest.py */,
 				CCE4EC1415B35ED100F2B646 /* curvetest.py */,
+				CBBB55A515E2C38F0092ABB0 /* bondcurvetest.py */,
 				CC61CCCE15E1C8BF00C5443A /* sinker.py */,
 				CCE4EC3A15B36D7100F2B646 /* curvetest2.py */,
 				CC62B4AE15B4315500848EF4 /* curvetest3.py */,
@@ -693,6 +695,8 @@
 			children = (
 				CC9A9B6A15A8CA3C00B24799 /* __init__.py */,
 				CB502A9F15AB6E9B00A2832C /* _instrumentbases.pxd */,
+				CBBB565915E2FC500092ABB0 /* instrumentbases.pxd */,
+				CBBB565815E2FC200092ABB0 /* instrumentbases.pyx */,
 				CC9FB84315A79F8A0083E005 /* _fixedfloatswap.pxd */,
 				CC9FB84415A79F8A0083E005 /* fixedfloatswap.pxd */,
 				CC9FB84515A79F8A0083E005 /* fixedfloatswap.pyx */,
@@ -950,7 +954,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC4845A215C5B3E200E8522D /* FittedBondCurve.cpp in Sources */,
-				CB9CD11615DE755F009A3918 /* sinkingfundbond.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,7 +962,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC4845E815C5BB0400E8522D /* Bonds.cpp in Sources */,
-				CB9CD11315DE755F009A3918 /* sinkingfundbond.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

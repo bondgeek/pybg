@@ -30,13 +30,7 @@ from pybg.enums import (
     DayCounters, Frequencies, BusinessDayConventions, Calendars
     )
 
-cdef class BulletBond:
-    def __cinit__(self):
-        self._thisptr = NULL
-
-    def __dealloc__(self):
-        if self._thisptr is not NULL:
-            del self._thisptr
+cdef class BulletBond(BondBase):
     
     def __init__(self,
                  Rate coupon,
@@ -58,7 +52,7 @@ cdef class BulletBond:
         
         self._settlementDays = settlementDays
         
-        self._thisptr = new shared_ptr[_bulletbond.BulletBond]( \
+        self._thisptr = new shared_ptr[_instrumentbases.BondBase]( 
             new _bulletbond.BulletBond(
                        coupon,
                        _qldate_from_pydate( maturity ),
@@ -73,118 +67,15 @@ cdef class BulletBond:
                        <_BusinessDayConvention>paymentConvention, 
                        _qldate_from_pydate(evaldate)
                        ))
-        
-        
-    property evalDate:
-        def __get__(self):
-            cdef _qldate.Date dt
-            cdef object result 
             
-            dt = self._thisptr.get().get_eval_date()
-            
-            result = _pydate_from_qldate(dt)
-            return result
-            
-        def __set__(self, object evaldate):
-            cdef _qldate.Date dt
-            cdef object result 
-            
-            dt = _qldate_from_pydate(evaldate)
-            
-            self._thisptr.get().set_eval_date(dt)
-            
-    def setEngine(self, curves.RateHelperCurve crv):
-        cdef _curves.CurveBase _crv  = <_curves.CurveBase>deref(crv._thisptr.get()) 
-        
-        self._thisptr.get().setEngine(_crv)
-        
-    
-    def toPrice(self, bondyield=None):
-        if bondyield:
-            return self._thisptr.get().toPrice(bondyield)
-        else:
-            return self._thisptr.get().toPrice()
-            
-    def toYield(self, bondprice=None):
-        if bondprice:
-            return self._thisptr.get().toYield(bondprice)
-        else:
-            return self._thisptr.get().toYield()
-      
-    # Inspectors
-    #    _QLDate maturityDate()
-    #    _QLDate settlementDate()
-    #    _QLDate issueDate()
-    #    DayCounter dayCounter()
-    #    Frequency frequency()
-    #    Natural settlementDays()
-    #    Calendar calendar()
-    #    Leg redemptions()
-    #    Leg cashflows()
-    
-    property redemptions:
-        def __get__(self):
-            cdef _cashflow.Leg leg
-            cdef object result 
-            
-            leg = self._thisptr.get().redemptions()
-            
-            result = cashflow.leg_items(leg)
-            return result 
-    
-    property cashflows:
-        def __get__(self):
-            cdef _cashflow.Leg leg
-            cdef object result 
-            
-            leg = self._thisptr.get().cashflows()
-            
-            result = cashflow.leg_items(leg)
-            return result 
-
-    property calendar:
-        def __get__(self):
-            cdef _Calendar dc
-            cdef object result 
-            
-            dc = self._thisptr.get().calendar()
-            
-            return Calendars()[dc.name().c_str()]
-
-    property dayCounter:
-        def __get__(self):
-            cdef _DayCounter dc
-            cdef object result 
-            
-            dc = self._thisptr.get().dayCounter()
-            
-            return DayCounters()[dc.name().c_str()]
-
-    property frequency:
-        def __get__(self):
-            cdef _Frequency freq 
-            cdef object result 
-            
-            freq = self._thisptr.get().frequency()
-            
-            return freq
-
-    property issueDate:
-        def __get__(self):
-            cdef _qldate.Date dt
-            cdef object result 
-            
-            dt = self._thisptr.get().issueDate()
-            
-            result = _pydate_from_qldate(dt)
-            return result
-            
+    # Bond Inspectors
+    #Inspectors from FixedRateBond or BulletBond class 
     property settlementDate:
         def __get__(self):
             cdef _qldate.Date dt
             cdef object result 
             
-            dt = self._thisptr.get().settlementDate()
+            dt = (<_bulletbond.BulletBond *>self._thisptr.get()).settlementDate()
             
             result = _pydate_from_qldate(dt)
             return result
@@ -192,18 +83,47 @@ cdef class BulletBond:
         def __set__(self, object pydate):
             cdef _qldate.Date dt = _qldate_from_pydate(pydate)
             
-            dt = self._thisptr.get().settlementDate(dt)
-
-    property settlementDays:
+            dt = (<_bulletbond.BulletBond *>self._thisptr.get()).settlementDate(dt)
+            
+        
+    property cashflows:
         def __get__(self):
-            return self._settlementDays
+            cdef _cashflow.Leg leg
+            cdef object result 
+            
+            leg = (<_bulletbond.BulletBond *>self._thisptr.get()).cashflows()
+            
+            result = cashflow.leg_items(leg)
+            return result
+            
+    property redemptions:
+        def __get__(self):
+            cdef _cashflow.Leg leg
+            cdef object result 
+            
+            leg = (<_bulletbond.BulletBond *>self._thisptr.get()).redemptions()
+            
+            result = cashflow.leg_items(leg)
+            return result 
+    
+
+    property issueDate:
+        def __get__(self):
+            cdef _qldate.Date dt
+            cdef object result 
+            
+            dt = (<_bulletbond.BulletBond *>self._thisptr.get()).issueDate()
+            
+            result = _pydate_from_qldate(dt)
+            return result
         
     property maturity:
         def __get__(self):
             cdef _qldate.Date mty
             cdef object result 
             
-            mty = self._thisptr.get().maturityDate()
+            mty = (<_bulletbond.BulletBond *>self._thisptr.get()).maturityDate()
             
             result = _pydate_from_qldate(mty)
             return result 
+    

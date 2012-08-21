@@ -52,22 +52,17 @@ namespace bondgeek {
                   redemption, 
                   issue_date)
     {}
-
-    void BulletBond::setEngine(CurveBase &crv)
-    {
-        boost::shared_ptr<PricingEngine> discEngine = createPriceEngine<DiscountingBondEngine>(
-                                                                                               crv.discountingTermStructure()
-                                                                                               );
-        
-        setPricingEngine(discEngine);
-    }
     
     void BulletBond::setEngine(CurveBase &crv, 
-                               Real &a, 
-                               Real &sigma,
+                               Real a, 
+                               Real sigma,
                                bool lognormal) 
     {
-        setEngine(crv);
+        boost::shared_ptr<PricingEngine> discEngine = \
+            createPriceEngine<DiscountingBondEngine>(
+                                crv.discountingTermStructure() );
+
+        setPricingEngine(discEngine);
     }
     
     double BulletBond::toPrice(Rate bondyield)

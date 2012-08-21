@@ -16,10 +16,11 @@ from pybg.quantlib._cashflow cimport Leg
 
 cimport pybg._curves as _curves
 cimport pybg.instruments._bulletbond as _bulletbond
+from pybg.instruments._instrumentbases cimport BondBase
 
 cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
 
-    cdef cppclass CallBond:
+    cdef cppclass CallBond(BondBase):
         CallBond(Rate &coupon,
                  _QLDate &maturity,
                  _QLDate &callDate,
@@ -52,8 +53,7 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
                  _QLDate eval_date
                  )
 
-        # Engines
-        void setEngine(_curves.CurveBase crv) 
+        # Engines 
         void setEngine(_curves.CurveBase crv,
                        Real              a, 
                        Real              sigma,
@@ -75,18 +75,10 @@ cdef extern from 'bg/instruments/callbond.hpp' namespace 'bondgeek':
         Calendar calendar()
         Leg redemptions()
         Leg cashflows()
-        _QLDate get_eval_date()
-        void set_eval_date(_QLDate)
 
         int ytwFeature()
         
         # Bond Math
-        double toPrice()
-        double toPrice(Rate bondyield)
-        
-        double toYield(Real bondprice)
-        double toYield()
-        
         double toYTM()
         double toYTM(Real bondprice)
         double toYTM(Real bondprice, Real redemption)

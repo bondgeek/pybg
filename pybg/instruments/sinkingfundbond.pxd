@@ -7,12 +7,15 @@ cimport pybg.version
 from libcpp.vector cimport vector
 from pybg.quantlib.handle cimport shared_ptr
 
+from pybg.instruments.instrumentbases cimport BondBase
+cimport pybg.instruments._instrumentbases as _instrumentbases
+
 cimport pybg.instruments._sinkingfundbond as _sinkingfundbond
 
-cdef class SinkingFundBond:
+cdef class SinkingFundBond(BondBase):
     '''Sinking Fund Bond Structure
     
     '''
-    cdef shared_ptr[_sinkingfundbond.SinkingFundBond]* _thisptr
+    #cdef shared_ptr[_sinkingfundbond.SinkingFundBond]* _thisptr
     cdef int _settlementDays
     cdef Real coupon

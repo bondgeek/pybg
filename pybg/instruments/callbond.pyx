@@ -32,12 +32,6 @@ cimport pybg.quantlib._cashflow as _cashflow
 cimport pybg.quantlib.cashflow as cashflow
 
 cdef class CallBond:
-    def __cinit__(self):
-        self._thisptr = NULL
-
-    def __dealloc__(self):
-        if self._thisptr is not NULL:
-            del self._thisptr
     
     def __init__(self,
                  Rate coupon,
@@ -69,7 +63,7 @@ cdef class CallBond:
         self._coupon = <Real>coupon
         self._settlementDays = settlementDays
         
-        self._thisptr = new shared_ptr[_callbond.CallBond]( \
+        self._thisptr = new shared_ptr[_instrumentbases.BondBase]( \
             new _callbond.CallBond(
                        coupon,
                        _qldate_from_pydate(maturity),
@@ -88,72 +82,36 @@ cdef class CallBond:
                        _qldate_from_pydate(evaldate)
                        )
              )
-
-    property evalDate:
-        def __get__(self):
-            cdef _qldate.Date dt
-            cdef object result 
-            
-            dt = self._thisptr.get().get_eval_date()
-            
-            result = _pydate_from_qldate(dt)
-            return result
-            
-        def __set__(self, object evaldate):
-            cdef _qldate.Date dt
-            cdef object result 
-            
-            dt = _qldate_from_pydate(evaldate)
-            
-            self._thisptr.get().set_eval_date(dt)
-    
-    property coupon:
-        def __get__(self):
-            cdef Real cpn
-            cpn = self._coupon
-            return cpn
         
     property spread:
         def __get__(self):
             cdef Real sprd
-            sprd = self._thisptr.get().getSpread()
+            sprd = (<_callbond.CallBond *>self._thisptr.get()).getSpread()
             return sprd
         
         def __set__(self, Real sprd):
-            self._thisptr.get().setSpread(sprd)
+           (<_callbond.CallBond *>self._thisptr.get()).setSpread(sprd)
     
     property reversionParameter:
         def __get__(self):
             cdef Real value
-            value = self._thisptr.get().reversionParameter()
+            value = (<_callbond.CallBond *>self._thisptr.get()).reversionParameter()
 
     property sigma:
         def __get__(self):
             cdef Real value
-            value = self._thisptr.get().sigma()
+            value = (<_callbond.CallBond *>self._thisptr.get()).sigma()
     
     property lognormal:
         def __get__(self):
             cdef bool value
-            value = self._thisptr.get().lognormal()
-    
-                
-    property redemptions:
-        def __get__(self):
-            cdef _cashflow.Leg leg
-            cdef object result 
-            
-            leg = self._thisptr.get().redemptions()
-            
-            result = cashflow.leg_items(leg)
-            
-            return result 
+            value = (<_callbond.CallBond *>self._thisptr.get()).lognormal()
     
     property ytwFeature:
         def __get__(self):
             cdef int n 
             
-            n = self._thisptr.get().ytwFeature()
+            n = (<_callbond.CallBond *>self._thisptr.get()).ytwFeature()
             return n
             
     property settlementDate:
@@ -161,7 +119,7 @@ cdef class CallBond:
             cdef _qldate.Date dt
             cdef object result 
             
-            dt = self._thisptr.get().settlementDate()
+            dt = (<_callbond.CallBond *>self._thisptr.get()).settlementDate()
             
             result = _pydate_from_qldate(dt)
             return result
@@ -169,94 +127,65 @@ cdef class CallBond:
         def __set__(self, object pydate):
             cdef _qldate.Date dt = _qldate_from_pydate(pydate)
             
-            dt = self._thisptr.get().settlementDate(dt)
+            dt = (<_callbond.CallBond *>self._thisptr.get()).settlementDate(dt)
 
-    property settlementDays:
+    property cashflows:
         def __get__(self):
-            return self._settlementDays
-    
-    property maturity:
-        def __get__(self):
-            cdef _qldate.Date mty
+            cdef _cashflow.Leg leg
             cdef object result 
             
-            mty = self._thisptr.get().maturityDate()
+            leg = (<_callbond.CallBond *>self._thisptr.get()).cashflows()
             
-            result = _pydate_from_qldate(mty)
+            result = cashflow.leg_items(leg)
+            return result
+            
+    property redemptions:
+        def __get__(self):
+            cdef _cashflow.Leg leg
+            cdef object result 
+            
+            leg = (<_callbond.CallBond *>self._thisptr.get()).redemptions()
+            
+            result = cashflow.leg_items(leg)
             return result 
-            
-    property calendar:
-        def __get__(self):
-            cdef _Calendar dc
-            cdef object result 
-            
-            dc = self._thisptr.get().calendar()
-            
-            return enums.Calendars()[dc.name().c_str()]
+    
 
-    property dayCounter:
-        def __get__(self):
-            cdef _DayCounter dc
-            cdef object result 
-            
-            dc = self._thisptr.get().dayCounter()
-            
-            return enums.DayCounters()[dc.name().c_str()]
-
-    property frequency:
-        def __get__(self):
-            cdef _Frequency freq 
-            cdef object result 
-            
-            freq = self._thisptr.get().frequency()
-            
-            return freq
-            
     property issueDate:
         def __get__(self):
             cdef _qldate.Date dt
             cdef object result 
             
-            dt = self._thisptr.get().issueDate()
+            dt = (<_callbond.CallBond *>self._thisptr.get()).issueDate()
             
             result = _pydate_from_qldate(dt)
             return result
+        
+    property maturity:
+        def __get__(self):
+            cdef _qldate.Date mty
+            cdef object result 
+            
+            mty = (<_callbond.CallBond *>self._thisptr.get()).maturityDate()
+            
+            result = _pydate_from_qldate(mty)
+            return result 
+    
             
     # Bond Math
-    def toPrice(self, bondyield=None):
-        cdef double prx
-        
-        if not bondyield:
-            prx = self._thisptr.get().toPrice()
-        else:
-            prx = self._thisptr.get().toPrice(bondyield)
-        
-        return prx 
-        
-    def toYield(self, bondprice=None):
-        cdef double yld
-        
-        if not bondprice:
-            yld = self._thisptr.get().toYield()
-        else:
-            yld = self._thisptr.get().toYield(bondprice)
-        
-        return yld
-         
     def toYTM(self, bondprice=None, redemption=100.0):
         cdef double yld
         
         if not bondprice:
-            yld = self._thisptr.get().toYTM()
+            yld = (<_callbond.CallBond *>self._thisptr.get()).toYTM()
         else:
-            yld = self._thisptr.get().toYTM(bondprice, redemption)
+            yld = (<_callbond.CallBond *>self._thisptr.get()).toYTM(bondprice, redemption)
         
         return yld
     
     def ytmToPrice(self, bondyield):
         cdef double prx
         
-        prx = self._thisptr.get().ytmToPrice(bondyield)
+        prx = (<_callbond.CallBond *>self._thisptr.get()).ytmToPrice(bondyield)
 
         return prx 
                    
@@ -325,18 +254,6 @@ cdef class CallBond:
             
         return atPrice
         
-    
-    def setEngine(self, 
-                  curves.RateHelperCurve crv,
-                  Real                   a,
-                  Real                   sigma,
-                  int                    lognormal=True):
-        cdef _curves.RateHelperCurve _crv
-        
-        _crv = deref(crv._thisptr.get())
-        
-        self._thisptr.get().setEngine(_crv, a, sigma, <bool>lognormal)
-        
 
     def oasEngine(self,
                   curves.RateHelperCurve crv,
@@ -354,7 +271,11 @@ cdef class CallBond:
         
         _crv = deref(crv._thisptr.get())
         
-        self._thisptr.get().oasEngine(_crv, a, sigma, spread, <bool>lognormal)
+        (<_callbond.CallBond *>self._thisptr.get()).oasEngine(_crv, 
+                                                              a, 
+                                                              sigma, 
+                                                              spread, 
+                                                              <bool>lognormal)
 
 
     def oasValue(self, 
@@ -366,7 +287,10 @@ cdef class CallBond:
         
         '''
         cdef Real value
-        value = self._thisptr.get().oasValue(spread, sigma, a, <bool>lognormal)
+        value = (<_callbond.CallBond *>self._thisptr.get()).oasValue(spread, 
+                                                                     sigma, 
+                                                                     a, 
+                                                                     <bool>lognormal)
         
         return value
     
@@ -376,7 +300,10 @@ cdef class CallBond:
             Real a=0.0,
             int  lognormal=True):
         cdef Real value
-        value = self._thisptr.get().oas(bondprice, sigma, a, <bool>lognormal)
+        value = (<_callbond.CallBond *>self._thisptr.get()).oas(bondprice, 
+                                                                sigma, 
+                                                                a, 
+                                                                <bool>lognormal)
         
         return value
     
@@ -386,9 +313,10 @@ cdef class CallBond:
                       Real a=0.0,
                       int  lognormal=True):
         cdef Real value
-        value = self._thisptr.get().oasImpliedVol(bondprice, 
-                                                  spread, 
-                                                  a, 
-                                                  <bool>lognormal)
+        value = (<_callbond.CallBond *>self._thisptr.get()).oasImpliedVol(
+                                                              bondprice, 
+                                                              spread, 
+                                                              a, 
+                                                              <bool>lognormal)
     
         return value

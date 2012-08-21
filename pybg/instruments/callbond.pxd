@@ -4,12 +4,15 @@ include '../quantlib/types.pxi'
 
 from pybg.quantlib.handle cimport shared_ptr
 
+from pybg.instruments.instrumentbases cimport BondBase
+cimport pybg.instruments._instrumentbases as _instrumentbases
+
 cimport pybg.instruments._callbond as _callbond
 
-cdef class CallBond:
+cdef class CallBond(BondBase):
     '''Callable Bond Structure for OAS calcs
     
     '''
-    cdef shared_ptr[_callbond.CallBond]* _thisptr
+    #cdef shared_ptr[_callbond.CallBond]* _thisptr
     cdef Real _coupon
     cdef int _settlementDays

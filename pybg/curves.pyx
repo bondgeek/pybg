@@ -37,7 +37,6 @@ cdef public enum RateHelperType:
     FUT     = _curves.FUT
     SWAP    = _curves.SWAP
 
-
 cdef _curves.CurveMap curveMap_from_dict(pycurve):
     cdef _curves.CurveMap   curve
         

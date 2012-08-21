@@ -6,7 +6,7 @@ from pybg.curvetypes import USDLiborCurve
 
 from datetime import date
 
-dt0 = date(2012, 6, 30)
+dt0 = date(2008, 9, 15)
 
 depos = {
 #'12M': 0.010695,
