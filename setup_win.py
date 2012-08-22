@@ -93,17 +93,23 @@ extension_paths_lib  = [
  ('pybg.ql', ['pybg/ql.pyx']),
  ('pybg.version', ['pybg/version.pyx']),
  
+ ('pybg.date_handlers', ['pybg/date_handlers.pyx']),
+ 
  ('pybg.curves', ['pybg/curves.pyx']),
                   
  ('pybg.curvetypes.usdliborcurve', ['pybg/curvetypes/usdliborcurve.pyx']),
  ('pybg.curvetypes.euriborcurve', ['pybg/curvetypes/euriborcurve.pyx']),
  
  ('pybg.indexbases', ['pybg/indexbases.pyx']),
-  
+ 
+ ('pybg.instruments.instrumentbases', ['pybg/instruments/instrumentbases.pyx']),
+
  ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx']),
                     
  ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx']),
  
+  ('pybg.instruments.sinkingfundbond', ['pybg/instruments/sinkingfundbond.pyx']),
+  
  ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx']),
  
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 

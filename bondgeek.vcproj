@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\bg\instruments\sinkingfundbond.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\bg\swaptype.hpp"
 				>
 			</File>
@@ -246,6 +250,10 @@
 			</File>
 			<File
 				RelativePath=".\bg\curves\ratehelpercurve.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\bg\instruments\sinkingfundbond.cpp"
 				>
 			</File>
 		</Filter>
