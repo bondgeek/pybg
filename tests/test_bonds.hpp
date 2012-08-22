@@ -108,8 +108,8 @@ BOOST_AUTO_TEST_CASE( bulletbond_price_yield_consistency )
     double yld;
     for (int i=0; i < LENGTH(coupon); i++) {
         for (int j=0; j < LENGTH(maturity); j++) {
-            for (int k; k < LENGTH(bondCalendar); k++) {
-                for (int l; l < LENGTH(bondDayCounter); l++) {
+            for (int k=0; k < LENGTH(bondCalendar); k++) {
+                for (int l=0; l < LENGTH(bondDayCounter); l++) {
                     BulletBond bnd(
                                    coupon[i],
                                    maturity[j],

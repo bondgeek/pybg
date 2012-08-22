@@ -87,7 +87,7 @@ namespace bondgeek
                                ) 
     {
         maturityDate_ = schedule.endDate();
-        
+
         cashflows_ = FixedRateLeg(schedule)
         .withNotionals(notionalAmortization)
         .withCouponRates(coupons, accrualDayCounter)
@@ -105,43 +105,48 @@ namespace bondgeek
                                                             const Schedule&          schedule
                                                             )
     {
-        Frequency   frequency = schedule.tenor().frequency();
-        int         sched_size = schedule.size();
+        Frequency            frequency = schedule.tenor().frequency();
+        unsigned int         sched_size = schedule.size();
         
         std::vector<Real> sf_notionals(sched_size, 0.0);
         
         //Total amount sunk
         double sf_total=0.0;
-        for (int i=0; i < sf_par.size(); i++)
+        for (unsigned int i=0; i < sf_par.size(); i++)
             sf_total += sf_par[i];
-        
+
         int nsub = numSubPeriod(Period(frequency), Period(sf_freq));
         QL_ENSURE(nsub > 0, 
                   "sink frequency not compatible with bond schedule");
         QL_ENSURE(sf_par.size() <= sched_size, 
                   "sink schedule longer than bond schedule");
-        
+
         // prior to sinking fund start all notionals are par.
         int sf_start_pos = sched_size - (1 + nsub * sf_par.size()); 
         for (int i = 0; i < sf_start_pos; i++)
         {
             sf_notionals[i] = 100.;
         }
-        
+
         double bal = 100. ;
         int n_itr = 0;
-        for (int i=sf_start_pos; i < sched_size; i=i+nsub) 
+        for (unsigned int i=sf_start_pos; i < sched_size; i=i+nsub) 
         {
             for (int j = 0; j < nsub; j++) 
             {
                 if (i+j < sched_size)
+                {
                     sf_notionals[i+j] = bal;
+                }
             }
             
-            bal -= 100.0 * sf_par[n_itr] / sf_total;
-            n_itr++;        
+            if (bal > QL_EPSILON) 
+            {
+                bal -= 100.0 * sf_par[n_itr] / sf_total;
+                n_itr++; 
+            }
         }
-        
+
         return sf_notionals;
     }
      

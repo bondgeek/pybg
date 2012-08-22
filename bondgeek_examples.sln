@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bg_example", "bondgeek_exam
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "curvetest", "curvetest\curvetest.vcproj", "{892D3991-DEE5-4440-9173-2B2D5D63843B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcproj", "{25C75163-8DC6-4C49-A82C-D920E231CA22}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,10 +19,6 @@ Global
 		{892D3991-DEE5-4440-9173-2B2D5D63843B}.Debug|Win32.Build.0 = Debug|Win32
 		{892D3991-DEE5-4440-9173-2B2D5D63843B}.Release|Win32.ActiveCfg = Release|Win32
 		{892D3991-DEE5-4440-9173-2B2D5D63843B}.Release|Win32.Build.0 = Release|Win32
-		{25C75163-8DC6-4C49-A82C-D920E231CA22}.Debug|Win32.ActiveCfg = Debug|Win32
-		{25C75163-8DC6-4C49-A82C-D920E231CA22}.Debug|Win32.Build.0 = Debug|Win32
-		{25C75163-8DC6-4C49-A82C-D920E231CA22}.Release|Win32.ActiveCfg = Release|Win32
-		{25C75163-8DC6-4C49-A82C-D920E231CA22}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

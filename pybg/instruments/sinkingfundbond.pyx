@@ -50,7 +50,7 @@ cdef class SinkingFundBond:
         '''sinking fund bond
         
         '''
-        
+
         BondBase.__init__(self, 
                  evaldate,
                  coupon,
@@ -58,7 +58,7 @@ cdef class SinkingFundBond:
                  issue_date=issue_date,
                  sinkingfund=sinkingfund,
                  sinkingfundFrequency=sinkingfundFrequency
-                 ) 
+                 )
         
         if not daycounter:
             daycounter = DayCounters.ActualActual(DayCounters.Bond)
@@ -66,12 +66,12 @@ cdef class SinkingFundBond:
         if not calendar:
             calendar = Calendars.UnitedStates( \
                                             Calendars.GOVERNMENTBOND)
-                                                     
+
         cdef vector[Real] sf 
         cdef Real sf_pmt
         for sf_pmt in sinkingfund:
             sf.push_back(sf_pmt)
-                
+
         self._thisptr = new shared_ptr[_instrumentbases.BondBase]( \
             new _sinkingfundbond.SinkingFundBond(
                        coupon,
@@ -90,14 +90,13 @@ cdef class SinkingFundBond:
                        _qldate_from_pydate(self.evalDate)
                        ))
         
-        
     # Bond Inspectors
     #Inspectors from FixedRateBond or BulletBond class 
     property settlementDate:
         def __get__(self):
             cdef _qldate.Date dt
             cdef object result 
-            
+       
             dt = (<_sinkingfundbond.SinkingFundBond *>self._thisptr.get()).settlementDate()
             
             result = _pydate_from_qldate(dt)
@@ -107,8 +106,7 @@ cdef class SinkingFundBond:
             cdef _qldate.Date dt = _qldate_from_pydate(pydate)
             
             dt = (<_sinkingfundbond.SinkingFundBond *>self._thisptr.get()).settlementDate(dt)
-            
-        
+
     property cashflows:
         def __get__(self):
             cdef _cashflow.Leg leg

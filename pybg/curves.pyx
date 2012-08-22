@@ -163,10 +163,13 @@ cdef class RateHelperCurve:
         if swaps:
             swapcurve = curveMap_from_dict(swaps)
 
-        if evaldate:
-            self.curveDate = evaldate
+        if not evaldate:
+            evaldate = get_eval_date()
+            
+        self.curveDate = evaldate
         
-        self._thisptr.get().update(depocurve, futcurve, swapcurve) 
+        self._thisptr.get().update(depocurve, futcurve, swapcurve, 
+                                   _qldate_from_pydate(self.curveDate))
         
         return self.curveDate
 
@@ -374,10 +377,14 @@ cdef class BondCurve:
             
         _bondcurve = bondCurveMap_from_dict(bondcurve)
         
-        if evaldate:
-            self.curveDate = evaldate
-        
-        (<_curves.BondCurve *>self._thisptr.get()).update(_bondcurve, _depocurve) 
+        if not evaldate:
+            evaldate = get_eval_date()
+            
+        self.curveDate = evaldate
+
+        (<_curves.BondCurve *>self._thisptr.get()).update(_bondcurve, 
+                                                          _depocurve,
+                                                          _qldate_from_pydate(self.curveDate)) 
         
         return self.curveDate
     
