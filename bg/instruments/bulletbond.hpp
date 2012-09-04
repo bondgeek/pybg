@@ -45,6 +45,8 @@ namespace bondgeek {
         virtual double toPrice(Rate bondyield);
         virtual double toYield(Real bondprice);
         
+        virtual double accrued(void) { return this->accruedAmount(); }
+                               
         // alpha, sigma & lognormal parameters are ignored for bullet/noncall
         virtual void setEngine(CurveBase &crv, 
                                Real a=QL_EPSILON, 

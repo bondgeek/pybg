@@ -42,6 +42,33 @@ void showCashFlows(Bond &bnd)
     
 }
 
+void showAssetSwapCashFlows(AssetSwap &aswap)
+{
+    Leg fixedLeg = aswap.bondLeg();
+    Leg floatLeg = aswap.floatingLeg();
+    
+    Date cfDate;
+    double cfAmt;
+    
+    cout << endl << "Fixed Leg: " << endl;
+    Leg::iterator fxIt;
+    for (fxIt=fixedLeg.begin(); fxIt < fixedLeg.end(); fxIt++) 
+    {
+        cfDate = (*fxIt)->date();
+        cfAmt = (*fxIt)->amount();
+        cout << cfDate << " | " << cfAmt << endl;
+    }
+    cout << endl << "Floating Leg: " << endl;
+    Leg::iterator flIt;
+    for (flIt=floatLeg.begin(); flIt < floatLeg.end(); flIt++) 
+    {
+        cfDate = (*flIt)->date();
+        cfAmt = (*flIt)->amount();
+        cout << cfDate << " | " << cfAmt << endl;
+    }
+    
+}
+
 void showRedemptions(Bond &bnd)
 {
     Leg fixedLeg = bnd.redemptions();
@@ -82,16 +109,19 @@ int main (int argc, char * const argv[])
 
     cout << endl << "Today: " << today << endl;
     cout << "Price with a bg curve " << endl;
-    string depotenors[] = {"1W", "1M", "3M", "6M", "9M", "1y"};
-    double depospots[] = {.055, .055, .055, .055, .055, .055};
-    string swaptenors[] = {"2y", "3y", "5y", "10y", "15y", "20y", "30y"};
-    double swapspots[] = {.055, .055, .055, .055, .055, .055, .055};
+    string depotenors[] = {"1W", "1M", "3M", "6M", "9M"};
+    double depospots[] = {0.0018400, 0.0023050, 0.0041825,
+                          0.0070765, 0.0086780};
+    string swaptenors[] = {"2y", "3y", "5y", "10Y", 
+                           "15Y", "20Y", "30Y"};
+    double swapspots[] = {.0040100, 0.0042600, 0.0077300, 0.0106595, 
+                          0.0211555, 0.02310205, 0.0247007};
     
     cout << "Test with new curve " << endl;
     RateHelperCurve usdLiborCurve = RateHelperCurve(USDLiborCurve("3M"));
     usdLiborCurve.update(depotenors, 
                          depospots, 
-                         6,
+                         5,
                          swaptenors,                                                                      
                          swapspots,
                          7,
@@ -228,41 +258,14 @@ int main (int argc, char * const argv[])
     double prc = bnd.cleanPrice();
     double prc2 = bnd2.cleanPrice();
     
-    cout << endl << "priced0: " << prc0 << endl; 
-    cout << endl << "priced1: " << prc1 << endl; 
-    cout << endl << "priced: " << prc << endl; 
-    cout << endl << "priced2: " << prc2 << endl;
-    
-    cout << "avg price: " << (prc0+prc1+prc)/3. << endl;
-
-    Date settle = Date(1, February, 2012);
-    today = bondCalendar.advance(settle, -settlementDays, Days);
-    
-    Settings::instance().evaluationDate() = today;
-    
-    cout << "eval / settle " 
-    << today << " / "
-    << settle << endl;
-    
-    sf_bal.assign(sf_sch, sf_sch+13);
-    SinkingFundBond bnd3(.0663,
-                         Date(1, February, 2035),
-                         sf_bal,
-                         sf_freq,
-                         Date(4, February, 2010),
-                         bondCalendar,
-                         settlementDays,
-                         bondDayCounter,
-                         frequency,
-                         rval,
-                         faceAmount,
-                         accrualConvention,
-                         paymentConvention
-                         ); 
-    
-    showCashFlows(bnd3);
-    
-    cout << "cf yield: " << bnd3.toYield(109.36) << endl;
+    cout << endl << "Pricing component bonds" << endl 
+    << "priced0: " << prc0 << endl 
+    << "priced1: " << prc1 << endl 
+    << "priced: " << prc << endl
+    << "avg price: " << (prc0+prc1+prc)/3. << endl
+    << endl 
+    << "priced sinking fund bond: " << prc2 << endl;
+    cout << "cf yield: " << bnd.toYield(prc2) << endl;
     
     return 0;
 }

@@ -19,8 +19,8 @@
 #include <bg/instruments/sinkingfundbond.hpp>
 #include <bg/instruments/callbond.hpp>
 
-// swaptype handles this include
-// #include <bg/instruments/fixedfloatswap.hpp>
 #include <bg/swaptype.hpp>
+#include <bg/instruments/fixedfloatswap.hpp>
+#include <bg/instruments/bulletassetswap.hpp>
 
 #endif

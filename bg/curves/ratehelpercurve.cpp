@@ -126,6 +126,7 @@ namespace bondgeek
     
     void RateHelperCurve::build_termstructure(void) 
     {
+        // TODO:  allow different interpolators (non-log) for negative rates.
         double tolerance = 1.0e-12;
         
         Settings::instance().evaluationDate();

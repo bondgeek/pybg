@@ -60,6 +60,8 @@ namespace bondgeek
         virtual double toPrice() =0;
         virtual double toPrice(Rate bondyield) =0;        
         
+        virtual double accrued() =0;
+        
         // Inspectors not available in all QuantLib classes
         DayCounter  get_dayCounter() { return _daycounter; }
         Frequency   get_frequency() { return _payfrequency; }

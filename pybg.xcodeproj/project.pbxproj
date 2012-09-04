@@ -32,12 +32,23 @@
 		CB378E5B1594C6FD00C91A4E /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
 		CB378E5C1594C6FD00C91A4E /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
 		CB378E5F1594C73A00C91A4E /* callbond_example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D025F1594B7470002568B /* callbond_example.cpp */; };
-		CB9CD11215DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11515DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11715DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11815DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11915DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
 		CB9CD11A15DE755F009A3918 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
+		CC00A1EF15F4030B00AE2474 /* asset_swap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC00A1ED15F4016300AE2474 /* asset_swap.cpp */; };
+		CC00A1F015F4031A00AE2474 /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
+		CC00A22B15F407F300AE2474 /* libbondgeek.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF687B415CEFC5400606695 /* libbondgeek.dylib */; };
+		CC00A22E15F4083700AE2474 /* sinkingfundbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB9CD11115DE755F009A3918 /* sinkingfundbond.cpp */; };
+		CC00A22F15F4084900AE2474 /* bondcurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845F515C5BEDE00E8522D /* bondcurve.cpp */; };
+		CC00A23015F4084900AE2474 /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
+		CC00A23115F4084900AE2474 /* curvebase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02031594B7470002568B /* curvebase.cpp */; };
+		CC00A23215F4084900AE2474 /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
+		CC00A23315F4084900AE2474 /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
+		CC00A23415F4084900AE2474 /* callbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02121594B7470002568B /* callbond.cpp */; };
+		CC00A23515F4084900AE2474 /* fixedfloatswap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02141594B7470002568B /* fixedfloatswap.cpp */; };
+		CC29BB8415F2BF4200E76645 /* bondcurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845F515C5BEDE00E8522D /* bondcurve.cpp */; };
 		CC48463315C5D44D00E8522D /* bondcurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845F515C5BEDE00E8522D /* bondcurve.cpp */; };
 		CC61CCD115E1CC1500C5443A /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CC61CCD215E1CC3600C5443A /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
@@ -49,12 +60,6 @@
 		CC61CCD815E1CC5D00C5443A /* bondgeek.hpp in Headers */ = {isa = PBXBuildFile; fileRef = CB4D02011594B7470002568B /* bondgeek.hpp */; };
 		CC61CD1015E1CF8300C5443A /* bondcurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC4845F515C5BEDE00E8522D /* bondcurve.cpp */; };
 		CC947DEF15D800AE00138FFD /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
-		CC947DF015D800D600138FFD /* bulletbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02101594B7470002568B /* bulletbond.cpp */; };
-		CC947DF115D800D600138FFD /* callbond.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02121594B7470002568B /* callbond.cpp */; };
-		CC947DF215D800D600138FFD /* fixedfloatswap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02141594B7470002568B /* fixedfloatswap.cpp */; };
-		CC947DF315D800D600138FFD /* curvebase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02031594B7470002568B /* curvebase.cpp */; };
-		CC947DF415D800D600138FFD /* ratehelpercurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D02081594B7470002568B /* ratehelpercurve.cpp */; };
-		CC947DF515D800D600138FFD /* date_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB4D020A1594B7470002568B /* date_utilities.cpp */; };
 		CC947DF715D800FA00138FFD /* sinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC947DF615D800FA00138FFD /* sinker.cpp */; };
 		CCB1E5C715B5800E00F738BB /* libQuantLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4D01FC1594B6510002568B /* libQuantLib.dylib */; };
 		CCB1E5CA15B5807C00F738BB /* curvetest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCB1E5C915B5807C00F738BB /* curvetest.cpp */; };
@@ -227,6 +232,9 @@
 		CBCC4EDA15A247B30097AC8B /* _euriborcurve.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = _euriborcurve.pxd; path = curvetypes/_euriborcurve.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CBCC4EDD15A247F70097AC8B /* euriborcurve.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = euriborcurve.pyx; path = curvetypes/euriborcurve.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CBCC4EE015A248560097AC8B /* euriborcurve.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = euriborcurve.pxd; path = curvetypes/euriborcurve.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CC00A16515F3D40900AE2474 /* bulletassetswap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bulletassetswap.hpp; sourceTree = "<group>"; };
+		CC00A1E315F4012700AE2474 /* asset_swap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = asset_swap; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC00A1ED15F4016300AE2474 /* asset_swap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = asset_swap.cpp; sourceTree = "<group>"; };
 		CC0BADE315CF121E006C385D /* date_handlers.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date_handlers.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC0BADE415CF122A006C385D /* date_handlers.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date_handlers.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CC0BCDC915964E5400DBA0DC /* test_curves.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_curves.py; sourceTree = "<group>"; };
@@ -280,10 +288,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC00A1E115F4012700AE2474 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC00A1F015F4031A00AE2474 /* libQuantLib.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC947DE815D8008900138FFD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC00A22B15F407F300AE2474 /* libbondgeek.dylib in Frameworks */,
 				CC947DEF15D800AE00138FFD /* libQuantLib.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +361,7 @@
 				CCB1E5C215B57FE300F738BB /* curvetest */,
 				CCF687B415CEFC5400606695 /* libbondgeek.dylib */,
 				CC947DEA15D8008900138FFD /* sinker */,
+				CC00A1E315F4012700AE2474 /* asset_swap */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,6 +417,7 @@
 				CB4D02121594B7470002568B /* callbond.cpp */,
 				CB4D02151594B7470002568B /* fixedfloatswap.hpp */,
 				CB4D02141594B7470002568B /* fixedfloatswap.cpp */,
+				CC00A16515F3D40900AE2474 /* bulletassetswap.hpp */,
 			);
 			path = instruments;
 			sourceTree = "<group>";
@@ -410,6 +429,7 @@
 				CB4D02601594B7470002568B /* bg_example.cpp */,
 				CCB1E5C915B5807C00F738BB /* curvetest.cpp */,
 				CC947DF615D800FA00138FFD /* sinker.cpp */,
+				CC00A1ED15F4016300AE2474 /* asset_swap.cpp */,
 			);
 			path = examples;
 			sourceTree = "<group>";
@@ -753,6 +773,22 @@
 			productReference = CB4D02B71594B8A50002568B /* bg_example */;
 			productType = "com.apple.product-type.tool";
 		};
+		CC00A1E215F4012700AE2474 /* asset_swap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC00A1EC15F4013D00AE2474 /* Build configuration list for PBXNativeTarget "asset_swap" */;
+			buildPhases = (
+				CC00A1E015F4012700AE2474 /* Sources */,
+				CC00A1E115F4012700AE2474 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = asset_swap;
+			productName = asset_swap;
+			productReference = CC00A1E315F4012700AE2474 /* asset_swap */;
+			productType = "com.apple.product-type.tool";
+		};
 		CC947DE915D8008900138FFD /* sinker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC947DEE15D800AC00138FFD /* Build configuration list for PBXNativeTarget "sinker" */;
@@ -830,6 +866,7 @@
 				CCB1E5C115B57FE300F738BB /* curvetest */,
 				CCF687B315CEFC5400606695 /* bondgeek */,
 				CC947DE915D8008900138FFD /* sinker */,
+				CC00A1E215F4012700AE2474 /* asset_swap */,
 			);
 		};
 /* End PBXProject section */
@@ -881,18 +918,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC00A1E015F4012700AE2474 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC00A22F15F4084900AE2474 /* bondcurve.cpp in Sources */,
+				CC00A23015F4084900AE2474 /* date_utilities.cpp in Sources */,
+				CC00A23115F4084900AE2474 /* curvebase.cpp in Sources */,
+				CC00A23215F4084900AE2474 /* ratehelpercurve.cpp in Sources */,
+				CC00A23315F4084900AE2474 /* bulletbond.cpp in Sources */,
+				CC00A23415F4084900AE2474 /* callbond.cpp in Sources */,
+				CC00A23515F4084900AE2474 /* fixedfloatswap.cpp in Sources */,
+				CC00A22E15F4083700AE2474 /* sinkingfundbond.cpp in Sources */,
+				CC00A1EF15F4030B00AE2474 /* asset_swap.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC947DE715D8008900138FFD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC947DF015D800D600138FFD /* bulletbond.cpp in Sources */,
-				CC947DF115D800D600138FFD /* callbond.cpp in Sources */,
-				CC947DF215D800D600138FFD /* fixedfloatswap.cpp in Sources */,
-				CC947DF315D800D600138FFD /* curvebase.cpp in Sources */,
-				CC947DF415D800D600138FFD /* ratehelpercurve.cpp in Sources */,
-				CC947DF515D800D600138FFD /* date_utilities.cpp in Sources */,
 				CC947DF715D800FA00138FFD /* sinker.cpp in Sources */,
-				CB9CD11215DE755F009A3918 /* sinkingfundbond.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,12 +962,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC29BB8415F2BF4200E76645 /* bondcurve.cpp in Sources */,
+				CC61CCD715E1CC3600C5443A /* date_utilities.cpp in Sources */,
+				CC61CCD515E1CC3600C5443A /* curvebase.cpp in Sources */,
+				CC61CCD615E1CC3600C5443A /* ratehelpercurve.cpp in Sources */,
 				CC61CCD215E1CC3600C5443A /* bulletbond.cpp in Sources */,
 				CC61CCD315E1CC3600C5443A /* callbond.cpp in Sources */,
 				CC61CCD415E1CC3600C5443A /* fixedfloatswap.cpp in Sources */,
-				CC61CCD515E1CC3600C5443A /* curvebase.cpp in Sources */,
-				CC61CCD615E1CC3600C5443A /* ratehelpercurve.cpp in Sources */,
-				CC61CCD715E1CC3600C5443A /* date_utilities.cpp in Sources */,
 				CB9CD11515DE755F009A3918 /* sinkingfundbond.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1057,6 +1104,41 @@
 			};
 			name = Release;
 		};
+		CC00A1E515F4012800AE2474 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = asset_swap;
+			};
+			name = Debug;
+		};
+		CC00A1E615F4012800AE2474 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"${SOURCE_ROOT}/build/Release",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = asset_swap;
+				VALID_ARCHS = i386;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		CC947DEC15D8008900138FFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1147,6 +1229,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
 				PRODUCT_NAME = bondgeek;
+				VALID_ARCHS = i386;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1186,6 +1269,15 @@
 			buildConfigurations = (
 				CB4D02B91594B8A60002568B /* Debug */,
 				CB4D02BA1594B8A60002568B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC00A1EC15F4013D00AE2474 /* Build configuration list for PBXNativeTarget "asset_swap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC00A1E515F4012800AE2474 /* Debug */,
+				CC00A1E615F4012800AE2474 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

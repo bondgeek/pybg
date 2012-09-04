@@ -88,7 +88,11 @@ cdef class BondBase:
             return self._thisptr.get().toYield(bondprice)
         else:
             return self._thisptr.get().toYield()
-      
+    
+    def accrued(self):
+        return self._thisptr.get().accrued()
+        
+        
     # Inspectors from BondBase
     property evalDate:
         def __get__(self):

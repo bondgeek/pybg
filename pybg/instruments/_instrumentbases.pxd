@@ -63,6 +63,9 @@ cdef extern from 'bg/instruments/bondbase.hpp' namespace 'bondgeek':
         
         double toYield() except +
         double toYield(Rate bondprice) except +
+        
+        Real accrued() except +
+        
 
 cdef extern from 'ql/instruments/bond.hpp' namespace 'QuantLib':
     cdef cppclass Bond:

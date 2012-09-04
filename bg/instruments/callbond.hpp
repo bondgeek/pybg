@@ -164,8 +164,11 @@ namespace bondgeek {
         // Bond Math
         virtual double toPrice() { return this->cleanPrice(); }
         virtual double toPrice(Rate bondyield);
+        
         virtual double toYield(Real bondprice);
         virtual double toYield() {return toYield(toPrice()); };
+        
+        virtual double accrued(void) { return this->accruedAmount(); }
         
         double toYTM();
         double toYTM(Real bondprice, Real redemption=100.0);
