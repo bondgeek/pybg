@@ -6,40 +6,19 @@
  *  Copyright 2012 BG Research LLC. All rights reserved.
  *
  */
-#ifndef FIXEDFLOATSWAP_H
-#define FIXEDFLOATSWAP_H
+#ifndef BULLETASSETSWAP_H
+#define BULLETASSETSWAP_H
 
-#include <bg/instruments/fixedfloatswap.hpp>
+#include <ql/quantlib.hpp>
+#include <bg/instruments/instrumentbase.hpp>
+#include <bg/indexbase.hpp>
 
 namespace bondgeek {
         
     class BulletAssetSwap : public InstrumentBase, public AssetSwap  {
     protected:
         Real  _cleanPrice;
-        /*        
-        SwapPayType             _payerType; // payBondCoupon
-        Rate                    _fixedRate; // = 0.04;
-        Spread                  _spread;
-        Date                    _settlementDate; 
-        Date                    _maturity;
-        Real                    _notional; // = 1000000.0;
         
-        // parameters
-        Calendar _calendar;
-        boost::shared_ptr<IborIndex> _iborIndex;
-        
-        // fixed leg
-        Frequency               _fixedLegFrequency; 
-        DayCounter              _fixedLegDayCounter; 
-        BusinessDayConvention   _fixedLegConvention; 
-        
-        // floating leg
-        Frequency                       _floatingLegFrequency; 
-        DayCounter                      _floatingLegDayCounter; 
-        BusinessDayConvention           _floatingLegConvention; 
-        
-        RelinkableHandle<YieldTermStructure> _discountingTermStructure;  
-         */
     public:
         BulletAssetSwap(const boost::shared_ptr< Bond > &bond,
                         boost::shared_ptr< IborIndex > iborIndex,
@@ -47,7 +26,6 @@ namespace bondgeek {
                         bool parAssetSwap=true,
                         bool payBondCoupon=false,
                         Spread spread=0.0,
-                        bool parAssetSwap=true
                         // Eval date
                         Date eval_date=Date()
                         )
@@ -70,7 +48,7 @@ namespace bondgeek {
                                bool lognormal=true) ;
     };
     
-    void FixedFloatSwap::setEngine(CurveBase &crv, 
+    void BulletAssetSwap::setEngine(CurveBase &crv, 
                                    Real a, 
                                    Real sigma,
                                    bool lognormal)   
@@ -83,4 +61,5 @@ namespace bondgeek {
         
         setPricingEngine(swapEngine);
     }
+}
 #endif

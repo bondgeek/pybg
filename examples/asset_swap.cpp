@@ -182,5 +182,19 @@ int main (int argc, char * const argv[])
     
     showAssetSwapCashFlows(aswap);
     
+    BulletAssetSwap aswap2(abnd,
+                           libor3m_ptr,
+                           bondCleanPrice);
+    
+    aswap2.setEngine(usdLiborCurve);
+    
+    showAssetSwapCashFlows(aswap2);
+    
+    cout << "\n\nswap2: " 
+    << "fair spread: " << io::rate(aswap2.fairSpread()) << endl
+    << "fair cleanPrice: " <<aswap2.fairCleanPrice() << endl
+    << endl
+    << endl;
+    
     return 0;
 }
