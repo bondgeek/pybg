@@ -38,9 +38,11 @@
     }
     """
 
+# TODO:  replace with calls to bgtools library
+
 import re
 
-from libcpp.string cimport string
+# from libcpp.string cimport string
 from datetime import date 
 
 cimport pybg.quantlib.time.date as qldate
