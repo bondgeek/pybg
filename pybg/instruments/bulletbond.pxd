@@ -13,6 +13,20 @@ cimport pybg.instruments._bulletbond as _bulletbond
 cdef class BulletBond(BondBase):
     '''Bullet Bond Structure
     
+    Arguments:
+     Rate coupon,
+     object maturity,
+     object issue_date,
+     Calendar calendar,
+     int settlementDays=3,
+     DayCounter daycounter=DayCounters.ActualActual(DayCounters.Bond),
+     frequency=Frequencies.Semiannual,
+     Real redemption=100.0,
+     Real faceamount=100.0,
+     accrualConvention=BusinessDayConventions.Unadjusted,
+     paymentConvention=BusinessDayConventions.Unadjusted,
+     object evaldate=None
+    
     '''
     #cdef shared_ptr[_bulletbond.BulletBond]* _thisptr
     cdef int _settlementDays

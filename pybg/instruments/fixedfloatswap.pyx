@@ -7,7 +7,7 @@ cimport pybg.instruments._fixedfloatswap as _fixedfloatswap
 
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
-from pybg.ql import get_eval_date, set_eval_date
+from pybg.settings import get_eval_date, set_eval_date
 
 from cython.operator cimport dereference as deref
 from libcpp.string cimport string

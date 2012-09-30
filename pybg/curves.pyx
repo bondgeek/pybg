@@ -17,12 +17,14 @@ cimport pybg.quantlib.time.date as qldate
 
 cimport pybg.quantlib.time._calendar as _calendar
 from pybg.quantlib.time._period cimport Frequency as _Frequency
-from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
-
+from pybg.quantlib.time._calendar cimport (
+    BusinessDayConvention as _BusinessDayConvention
+    )
+    
 from pybg.quantlib.handle cimport shared_ptr
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
-from pybg.ql import get_eval_date, set_eval_date
+from pybg.settings import get_eval_date, set_eval_date
 
 from pybg.enums import TimeUnits, Calendars, DayCounters
 
@@ -382,9 +384,11 @@ cdef class BondCurve:
             
         self.curveDate = evaldate
 
-        (<_curves.BondCurve *>self._thisptr.get()).update(_bondcurve, 
-                                                          _depocurve,
-                                                          _qldate_from_pydate(self.curveDate)) 
+        (<_curves.BondCurve *>self._thisptr.get()).update(
+            _bondcurve, 
+            _depocurve,
+            _qldate_from_pydate(self.curveDate)
+            ) 
         
         return self.curveDate
     

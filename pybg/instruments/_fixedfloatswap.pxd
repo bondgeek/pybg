@@ -57,11 +57,6 @@ cdef extern from 'bg/instruments/fixedfloatswap.hpp' namespace 'bondgeek':
         Leg         fixedLeg()
         Leg         floatingLeg()
 
-        # from InstrumentBase
-        #_QLDate     get_eval_date()
-        #void        set_eval_date(_QLDate)
-        #void setEngine(_curves.CurveBase, Real, Real, bool)
-        
         #Results
         Real    NPV()
         Real 	fixedLegBPS() 

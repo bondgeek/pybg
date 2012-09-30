@@ -13,7 +13,7 @@ from pybg.quantlib.currency import USDCurrency
 from pybg.quantlib.index import Index
 from pybg.quantlib.indexes.interest_rate_index import InterestRateIndex
 from pybg.quantlib.indexes.libor import Libor
-from pybg.ql import Settings
+from pybg.settings import Settings
 from pybg.quantlib.time.api import Days, Months, Period, TARGET
 from pybg.quantlib.time.api import Actual360, today
 

@@ -5,9 +5,10 @@ from pybg.quantlib.time.api import *
 import pybg.curves as curves
 from pybg.curvetypes import USDLiborCurve, EURiborCurve
 
-from pybg.ql import get_eval_date, set_eval_date
+from pybg.settings import get_eval_date, set_eval_date
 
 import pybg.ql as ql
+import pybg.imm as imm
 
 from datetime import date
 
@@ -82,7 +83,7 @@ class CurvesTestCase(unittest.TestCase):
         
         set_eval_date(date(2012, 7, 2))
         
-        cdate = ql.IMM.contract_date('ED3')
+        cdate = imm.IMM.contract_date('ED3')
         
         self.assertTrue(
             cdate == date(2013, 3, 20)

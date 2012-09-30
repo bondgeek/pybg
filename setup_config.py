@@ -89,12 +89,15 @@ elif sys.platform == 'win32':
                 )
 
 extension_paths  = [
- ('pybg.ql', ['pybg/ql.pyx', 'bg/date_utilities.cpp']),
- 
  ('pybg.version', ['pybg/version.pyx']),
+
+ ('pybg.ql', ['pybg/ql.pyx']),
+
+ ('pybg.settings', ['pybg/settings.pyx', 'bg/date_utilities.cpp']),
  
- ('pybg.date_handlers', ['pybg/date_handlers.pyx']),
- 
+ ('pybg.imm', ['pybg/imm.pyx', 'bg/date_utilities.cpp']),
+
+  
  ('pybg.curves', ['pybg/curves.pyx', 
                   'bg/curvebase.cpp',
                   'bg/curves/ratehelpercurve.cpp',

@@ -17,7 +17,7 @@ from pybg.quantlib.time._daycounter cimport DayCounter as _DayCounter
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
-from pybg.ql import get_eval_date, set_eval_date
+from pybg.settings import get_eval_date, set_eval_date
 
 cimport pybg._curves as _curves
 cimport pybg.curves as curves

@@ -1,6 +1,7 @@
 import unittest
 
 import pybg.ql
+import pybg.settings
 import pybg.curves as curves
 import pybg.instruments.bulletbond as bb
 import pybg.instruments.sinkingfundbond as sf 
@@ -12,11 +13,11 @@ from pybg.enums import (
 from datetime import date
 
 
-class CurvesTestCase(unittest.TestCase):
+class BondsTestCase(unittest.TestCase):
 
     def test_bondcurve(self):
         
-        pybg.ql.set_eval_date(date(2008, 9, 15))
+        pybg.settings.set_eval_date(date(2008, 9, 15))
  
         bcrv = curves.BondCurve( curves.CurveBase(
             Calendars.UnitedStates(Calendars.GOVERNMENTBOND),
@@ -83,7 +84,7 @@ class CurvesTestCase(unittest.TestCase):
 
     def test_bulletbond(self):
         
-        pybg.ql.set_eval_date(date(2012,8,28))
+        pybg.settings.set_eval_date(date(2012,8,28))
  
         dated = date(2003, 5, 15)
         mty = date(2027, 5, 15)
@@ -98,7 +99,7 @@ class CurvesTestCase(unittest.TestCase):
         
     def test_sinkingfundbond(self):
 
-        pybg.ql.set_eval_date(date(2012,6,28))
+        pybg.settings.set_eval_date(date(2012,6,28))
  
         dated = date(2003, 6, 15)
         maturities = [

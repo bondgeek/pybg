@@ -10,7 +10,7 @@
 import unittest
 
 from pybg.quantlib.currency import USDCurrency
-from pybg.ql import Settings
+from pybg.settings import Settings
 from pybg.quantlib.termstructures.yields.rate_helpers import DepositRateHelper, SwapRateHelper
 from pybg.quantlib.termstructures.yields.piecewise_yield_curve import \
     term_structure_factory

@@ -1,4 +1,6 @@
 # enumerations used in QuantLib code.
+from bgtools.utils.dates import parse_date
+
 from pybg.ql import qldate_from_pydate, pydate_from_qldate
 
 class TimeUnits(object):
@@ -48,6 +50,8 @@ class DayCounters(dict):
     
     @classmethod
     def year_fraction(cls, pydate1, pydate2, daycounter=None):
+        pydate1, pydate2 = map(parse_date, (pydate1, pydate2))
+        print pydate1, pydate2
         if not daycounter:
             daycounter = cls.ActualActual()
         
@@ -121,7 +125,7 @@ class Calendars(dict):
 
 
     @classmethod
-    def advance(cls, pydate, n, timeunit, calendar=None, convention=None):
+    def advance(cls, pydate, n, timeunit=None, calendar=None, convention=None):
         if not calendar:
             calendar = cls.TARGET()
         
@@ -131,6 +135,9 @@ class Calendars(dict):
         if not convention:
             convention = BusinessDayConventions.Following
         
+        if not timeunit:
+            timeunit = TimeUnits.Days
+            
         qldate = qldate_from_pydate(pydate)
         try:
             return pydate_from_qldate(calendar.advance(qldate, n, timeunit))

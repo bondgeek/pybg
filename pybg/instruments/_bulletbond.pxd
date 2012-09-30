@@ -55,6 +55,3 @@ cdef extern from 'bg/instruments/bulletbond.hpp' namespace 'bondgeek':
         Leg redemptions()
         Leg cashflows()
         
-        # Inspectors from InstrumentBase
-        #_QLDate get_eval_date()
-        #void set_eval_date(_QLDate)

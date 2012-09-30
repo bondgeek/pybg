@@ -6,7 +6,8 @@ from pybg.quantlib.time.api import (
     Following
 )
 
-from pybg.ql import Settings, pydate_from_qldate, get_eval_date, set_eval_date
+from pybg.ql import pydate_from_qldate
+from pybg.settings import Settings, get_eval_date, set_eval_date
 
 from datetime import date
 
