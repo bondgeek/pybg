@@ -91,6 +91,11 @@ extension_paths_win  = [
 
 extension_paths_lib  = [
  ('pybg.ql', ['pybg/ql.pyx']),
+
+ ('pybg.settings', ['pybg/settings.pyx']),
+ 
+ ('pybg.imm', ['pybg/imm.pyx']),
+
  ('pybg.version', ['pybg/version.pyx']),
  
  ('pybg.date_handlers', ['pybg/date_handlers.pyx']),
