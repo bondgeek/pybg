@@ -9,11 +9,14 @@
 
 import unittest
 
+from pybg.settings import Settings
+from pybg.ql import qldate_from_pydate
+
 from pybg.quantlib.currency import USDCurrency
 from pybg.quantlib.index import Index
 from pybg.quantlib.indexes.interest_rate_index import InterestRateIndex
 from pybg.quantlib.indexes.libor import Libor
-from pybg.settings import Settings
+
 from pybg.quantlib.time.api import Days, Months, Period, TARGET
 from pybg.quantlib.time.api import Actual360, today
 
@@ -35,16 +38,11 @@ class TestLibor(unittest.TestCase):
 
     def test_create_libor_index(self):
 
-        settings = Settings.instance()
-
-        # Market information
-        calendar = TARGET()
-
-        # must be a business day
-        eval_date = calendar.adjust(today())
-        settings.evaluation_date = eval_date
-
-
+        settings = Settings(calendar = TARGET()).instance()
+        calendar = settings.calendar
+        
+        eval_date = qldate_from_pydate(settings.today())
+        
         settlement_days = 2
         settlement_date = calendar.advance(eval_date, settlement_days, Days)
         # must be a business day

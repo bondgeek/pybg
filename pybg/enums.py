@@ -112,9 +112,6 @@ class Calendars(dict):
 
     @classmethod
     def adjust(cls, pydate, calendar=None, convention=None):
-        pydate = parse_date(pydate)
-        if not pydate:
-            return None
             
         if not calendar:
             calendar = cls.TARGET()
@@ -137,9 +134,6 @@ class Calendars(dict):
 
     @classmethod
     def advance(cls, pydate, n, timeunit=None, calendar=None, convention=None):
-        pydate = parse_date(pydate)
-        if not pydate:
-            return None
             
         if not calendar:
             calendar = cls.TARGET()

@@ -35,12 +35,13 @@ cpdef object pydate_from_qldate(qldate.Date qdate):
 cdef _qldate.Date _qldate_from_pydate(object pydate):
     cdef qldate.Date qdate_ref = qldate.Date.from_datetime(pydate)
     cdef _qldate.Date* date_ref = <_qldate.Date*>qdate_ref._thisptr.get()
-    
+        
     return deref(date_ref)
     
 
 cpdef qldate.Date qldate_from_pydate(object pydate):
     cdef qldate.Date qdate_ref = qldate.Date.from_datetime(pydate)
+    
     return qdate_ref
     
                     

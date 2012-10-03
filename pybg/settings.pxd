@@ -7,5 +7,5 @@ cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
 
 cdef class Settings:
-    cdef object calendar
-    cdef object convention
+    cdef object _calendar
+    cdef object _convention

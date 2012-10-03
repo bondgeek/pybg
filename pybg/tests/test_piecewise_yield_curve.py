@@ -9,8 +9,11 @@
 
 import unittest
 
-from pybg.quantlib.currency import USDCurrency
 from pybg.settings import Settings
+from pybg.ql import qldate_from_pydate, pydate_from_qldate
+
+from pybg.quantlib.currency import USDCurrency
+
 from pybg.quantlib.termstructures.yields.rate_helpers import DepositRateHelper, SwapRateHelper
 from pybg.quantlib.termstructures.yields.piecewise_yield_curve import \
     term_structure_factory
@@ -28,24 +31,23 @@ class PiecewiseYieldCurveTestCase(unittest.TestCase):
     def test_creation(self):
 
         # Market information
-        calendar = TARGET()
-        
-        settings = Settings()
+        settings = Settings(calendar = TARGET())
+        calendar = settings.calendar 
 
         settlement_date = Date(18, September, 2008)
         # must be a business day
         settlement_date = calendar.adjust(settlement_date);
 
-
         # must be a business day
-        settings.evaluation_date = calendar.advance(settlement_date, -2, Days)
+        settings.evaluation_date = pydate_from_qldate(
+            calendar.advance(settlement_date, -2, Days)
+            )
 
         quotes = [0.0096, 0.0145, 0.0194]
         tenors =  [3, 6, 12]
 
         rate_helpers = []
 
-        calendar =  TARGET()
         deposit_day_counter = Actual365Fixed()
         convention = ModifiedFollowing
         end_of_month = True
@@ -82,15 +84,13 @@ class PiecewiseYieldCurveTestCase(unittest.TestCase):
 
     def test_deposit_swap(self):
 
-        settings = Settings()
-
         # Market information
-        calendar = TARGET()
+        settings = Settings(calendar = TARGET())
+        calendar = settings.calendar 
 
         # must be a business day
-        eval_date = calendar.adjust(today())
-        settings.evaluation_date = eval_date
-
+        eval_date = qldate_from_pydate(settings.today())
+        
         settlement_days = 2
         settlement_date = calendar.advance(eval_date, settlement_days, Days)
         # must be a business day

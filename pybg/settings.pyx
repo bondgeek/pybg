@@ -28,8 +28,12 @@ cdef class Settings:
                  calendar=Calendars.TARGET(), 
                  convention=BusinessDayConventions.Following):
                  
-        self.calendar = calendar
-        self.convention = convention
+        self._calendar = calendar
+        self._convention = convention
+    
+    def today(self):
+        self.evaluation_date = datetime.date.today()
+        return self.evaluation_date
         
     property evaluation_date:
         """
@@ -45,12 +49,17 @@ cdef class Settings:
         def __set__(self, evaluation_date):
             evaluation_date = Calendars.adjust(
                 parse_date(evaluation_date),
-                self.calendar,
-                self.convention
+                self._calendar,
+                self._convention
                 )
                 
             cdef _qldate.Date date_ref = _qldate_from_pydate(evaluation_date)
             set_evaluation_date(date_ref)
+    
+    property calendar:
+        '''market calendar'''
+        def __get__(self):
+            return self._calendar
             
     property version:
         """Returns the QuantLib C++ version (QL_VERSION) used by this wrapper.
