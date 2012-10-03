@@ -4,6 +4,7 @@ import numpy as np
 from scipy.stats import norm
 
 from bgtools.utils.dates import parse_date
+from bgtools.math.solvers import Secant 
 
 from pybg.settings import get_eval_date
 from pybg.enums import (
@@ -79,13 +80,18 @@ class EquityOption(object):
     def settlementDays(self, ndays):
         self._settlementDays = ndays
             
-    def calc(self, S, v, r, greeks=True):
+    def calc(self, vol, stock_px, short_rate, greeks=True):
         """
-        S, stock price
-        v, volatility (sigma) 
-        r, short rate in continous compounding (=log(1+discount))
+        vol, volatility (sigma) 
+        stock_px, stock price
+        short_rate, short rate in continous compounding (=log(1+discount))
         
         """
+        # rename variables to shorten formulas for readability
+        v = vol
+        S = stock_px
+        r = short_rate
+        
         d = self._putcall
         X = self.strike
         q = self.dividend
@@ -131,5 +137,21 @@ class EquityOption(object):
                 'rho':rho
                 }
         
+        else:
+            self.greeks = {}
+        
         return value
+    
+    def implVol(self, option_px, stock_px, short_rate, greeks=True):
+        
+        self.greeks = {}
+        obj_px = lambda v: self.calc(v, stock_px, short_rate, False)
+        
+        iv = Secant(.05, .20, obj_px, option_px)
+        
+        if greeks:
+            px = self.calc(stock_px, iv, short_rate, True)
+        
+        return iv
+        
     

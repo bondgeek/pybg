@@ -49,9 +49,16 @@ class DayCounters(dict):
         self.update(*args)
     
     @classmethod
-    def year_fraction(cls, pydate1, pydate2, daycounter=None):
-        pydate1, pydate2 = map(parse_date, (pydate1, pydate2))
-        print pydate1, pydate2
+    def year_fraction(cls, date1, date2, daycounter=None):
+        '''
+        Calculate the fraction of a year between two date1 and date2, 
+        based on the daycount specified.
+        
+        dates may be ccyymmdd or python datetime.dates
+        
+        '''
+        pydate1, pydate2 = map(parse_date, (date1, date2))
+        
         if not daycounter:
             daycounter = cls.ActualActual()
         
@@ -105,6 +112,10 @@ class Calendars(dict):
 
     @classmethod
     def adjust(cls, pydate, calendar=None, convention=None):
+        pydate = parse_date(pydate)
+        if not pydate:
+            return None
+            
         if not calendar:
             calendar = cls.TARGET()
             
@@ -126,6 +137,10 @@ class Calendars(dict):
 
     @classmethod
     def advance(cls, pydate, n, timeunit=None, calendar=None, convention=None):
+        pydate = parse_date(pydate)
+        if not pydate:
+            return None
+            
         if not calendar:
             calendar = cls.TARGET()
         

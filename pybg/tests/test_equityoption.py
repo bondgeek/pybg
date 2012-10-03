@@ -20,7 +20,7 @@ class EquityOptionsTestCase(unittest.TestCase):
         Settings().evaluation_date = 20120928
         
         optn = O.EquityOption(300., 20121201, .03)
-        ov = optn.calc(310., .2, .08)
+        ov = optn.calc(.2, 310., .08)
                 
         self.assertEqual(date(2012, 10, 1), optn.settlementDate)
         self.assertAlmostEqual(ov, 17.28, 2)
@@ -34,6 +34,6 @@ class EquityOptionsTestCase(unittest.TestCase):
         Settings().evaluation_date = 20120731
         
         optn = O.EquityOption(300., 20121201, .03)
-        ov = optn.calc(305, .25, .08)
+        ov = optn.calc(.25, 305, .08)
         
         self.assertAlmostEqual(optn.greeks['gamma'], .00857, 5)
