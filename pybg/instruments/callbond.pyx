@@ -17,8 +17,9 @@ from pybg.quantlib.time._daycounter cimport DayCounter as _DayCounter
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
-from pybg.settings import get_eval_date, set_eval_date
-
+from pybg.settings import (
+    get_eval_date, set_eval_date, PySettings, parse_date
+    )
 cimport pybg._curves as _curves
 cimport pybg.curves as curves
 
@@ -41,8 +42,9 @@ cdef class CallBond:
                  object maturity,
                  object first_calldate,
                  Real first_callprice,
-                 object par_calldate=None,
-                 object issue_date=None,
+                 object par_calldate,
+                 object issue_date,
+                 object oid_yield=None,
                  Calendar calendar=None,
                  int settlementDays=3,
                  DayCounter daycounter=None,
@@ -58,6 +60,11 @@ cdef class CallBond:
         
         '''
         
+        maturity, first_calldate, par_calldate, issue_date = \
+            map(parse_date, 
+                (maturity, first_calldate, par_calldate, issue_date))
+        
+        #TODO: default values for call dates, issue_date
         BondBase.__init__(self, 
                  evaldate,
                  coupon,
@@ -66,7 +73,8 @@ cdef class CallBond:
                  first_calldate=first_calldate,
                  first_callprice=first_callprice,
                  par_calldate=par_calldate,
-                 callfrequency=callfrequency
+                 callfrequency=callfrequency,
+                 oid_yield=oid_yield
                  ) 
         
         if not daycounter:
@@ -170,7 +178,8 @@ cdef class CallBond:
         if not bondprice:
             yld = (<_callbond.CallBond *>self._thisptr.get()).toYTM()
         else:
-            yld = (<_callbond.CallBond *>self._thisptr.get()).toYTM(bondprice, redemption)
+            yld = (<_callbond.CallBond *>self._thisptr.get()).toYTM(bondprice, 
+                                                                    redemption)
         
         return yld
     
@@ -181,35 +190,20 @@ cdef class CallBond:
 
         return prx 
                    
-    def qtax(self, oid, ptsyear=0.25):
-        """Calculate de minimus cut-off for market discount bonds
-        
-        """
-        _qtax = {"ptsyear": ptsyear}    
-        
-        if oid > self.coupon:
-            _qtax["oid"] = oid
-            _qtax["rval"] = self.ytmToPrice(oid)
-        else:
-            _qtax["oid"] = self.coupon
-            _qtax["rval"] = 100.0
-        
-        nyrs = DayCounters.year_fraction(self.settlementDate,
-                                               self.maturity)
-                                                        
-        _qtax["demin"] = float(floor(nyrs)) * ptsyear
-        
-        _qtax["cut_off_yield"] = self.toYTM(_qtax["rval"] - _qtax["demin"])
-            
-        return _qtax
     
-    def toATY(self, bondprice, capgains, ordinc, oid=None, ptsyear=0.25):
+    def toATY(self, bondprice, oid=None, ptsyear=None, 
+                  capgains=None, ordinc=None):
             
-        _qtax = self.qtax(oid, ptsyear)
+        _qtax = self.qtax(oid, ptsyear, capgains, ordinc)
         
-        if bondprice <= _qtax["rval"]:
-            amd = max(_qtax["rval"] - bondprice, 0)
-            taxRate = capgains if amd < _qtax["demin"] else ordinc
+        if bondprice <= _qtax["rv"]:
+            amd = max(_qtax["rv"] - bondprice, 0)
+            
+            if amd < _qtax["discount"]:
+                taxRate = _qtax["cg_rate"] 
+            else:
+                taxRate = _qtax["oi_rate"]
+                
             rval = 100 - amd * taxRate
             aty = self.toYTM(bondprice, redemption=rval)
 
@@ -218,14 +212,15 @@ cdef class CallBond:
                         
         return aty
     
-    def atyToPrice(self, atyield, capgains, ordinc, oid=None, ptsyear=0.25):
+    def atyToPrice(self, atyield, oid=None, ptsyear=None, 
+                  capgains=None, ordinc=None):
         
-        _qtax = self.qtax(oid, ptsyear)
+        _qtax = self.qtax(oid, ptsyear, capgains, ordinc)
                 
         atPrice = self.ytmToPrice(atyield)
         
-        if atPrice < _qtax["rval"]:
-            amd = _qtax["rval"] - atPrice
+        if atPrice < _qtax["rv"]:
+            amd = _qtax["rv"] - atPrice
             taxpv = BB.BulletBond(
                                   0.,
                                   self.maturity,
@@ -240,7 +235,7 @@ cdef class CallBond:
                                   BusinessDayConventions.Unadjusted,
                                   get_eval_date() ).toPrice(atyield)
                                                
-            taxRate = capgains if amd < _qtax["demin"] else ordinc
+            taxRate = capgains if amd < _qtax["discount"] else ordinc
             taxHit = taxRate * taxpv * amd/(100. - taxpv * taxRate)
             atPrice -= taxHit
             

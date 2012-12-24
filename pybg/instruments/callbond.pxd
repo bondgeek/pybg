@@ -10,7 +10,11 @@ cimport pybg.instruments._instrumentbases as _instrumentbases
 cimport pybg.instruments._callbond as _callbond
 
 cdef class CallBond(BondBase):
-    '''Callable Bond Structure for OAS calcs
+    '''
+    Callable Bond Structure for OAS calcs
+    
+    Also includes after tax yield calculations for bonds subject to 
+    accrued market discount
     
     '''
     pass

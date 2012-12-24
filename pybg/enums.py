@@ -64,11 +64,13 @@ class DayCounters(dict):
         
         qldate1 = qldate_from_pydate(pydate1)
         qldate2 = qldate_from_pydate(pydate2)
-        
+
         return daycounter.year_fraction(qldate1, qldate2)
         
     @classmethod
     def daycount(cls, pydate1, pydate2, daycounter=None):
+        pydate1, pydate2 = map(parse_date, (date1, date2))
+        
         if not daycounter:
             daycounter = cls.ActualActual()
         
@@ -112,7 +114,7 @@ class Calendars(dict):
 
     @classmethod
     def adjust(cls, pydate, calendar=None, convention=None):
-            
+        
         if not calendar:
             calendar = cls.TARGET()
             
@@ -122,7 +124,7 @@ class Calendars(dict):
         if not convention:
             convention = BusinessDayConventions.Following
         
-        qldate = qldate_from_pydate(pydate)
+        qldate = qldate_from_pydate(parse_date(pydate))
         try:
             return pydate_from_qldate(calendar.adjust(qldate, convention))
         except:
@@ -147,7 +149,7 @@ class Calendars(dict):
         if not timeunit:
             timeunit = TimeUnits.Days
             
-        qldate = qldate_from_pydate(pydate)
+        qldate = qldate_from_pydate(parse_date(pydate))
         try:
             return pydate_from_qldate(calendar.advance(qldate, n, timeunit))
             
@@ -166,7 +168,7 @@ class Calendars(dict):
         elif not hasattr(calendar, "advance"):
             return None
         
-        qldate = qldate_from_pydate(pydate)
+        qldate = qldate_from_pydate(parse_date(pydate))
         try:
             return calendar.is_business_day(qldate)
             

@@ -24,4 +24,6 @@ cdef class BondBase:
     cdef object _sinkingfundFrequency
     cdef object _callfrequency
     cdef bool _sinker
+    cdef Real _oidYield
+    cdef object _qtax
     

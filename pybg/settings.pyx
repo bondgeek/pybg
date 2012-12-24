@@ -4,6 +4,7 @@
 import datetime  
 
 from bgtools.utils.dates import parse_date
+from bgtools.dpatterns import Singleton, Record
 
 from pybg.ql import qldate_from_pydate, pydate_from_qldate
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
@@ -19,17 +20,28 @@ cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     _qldate.Date get_evaluation_date()
     void set_evaluation_date(_qldate.Date& date)
 
-
+class TaxRates(Record):
+    _default ={'cap_gains': .15,
+               'ord_income': .35,
+               'demin_ptsyear': .25
+               }
+    def __init__(self, values=None):
+        if not values:
+            values = self._default
+        Record.__init__(self, values.keys(), values)
+    
 # Global Settings
 #    Using datetime objects for interface with the real world
 cdef class Settings:
 
     def __init__(self, 
                  calendar=Calendars.TARGET(), 
-                 convention=BusinessDayConventions.Following):
+                 convention=BusinessDayConventions.Following,
+                 taxrates=TaxRates()):
                  
         self._calendar = calendar
         self._convention = convention
+        self._taxrates = taxrates
     
     def today(self):
         self.evaluation_date = datetime.date.today()
@@ -67,6 +79,22 @@ cdef class Settings:
         """
         def __get__(self):
             return version()
+    
+    property taxrates:
+        def __get__(self):
+            return self._taxrates
+        
+        def __set__(self, newrates):
+            values = {}
+            for a in TaxRates.attrs:
+                try:
+                    v = newrates.get(a, None)
+                except:
+                    v = getattr(newrates, a, None)
+                    
+                if v:
+                    values[a] = v
+            
 
     @classmethod
     def instance(cls):
@@ -93,3 +121,8 @@ def set_eval_date(eval_date=None):
         print("\nError setting evaluation date: %s" % eval_date)
         Settings().instance().evaluation_date = dt
         print("Defaulting to %s\n" % dt)
+
+class PySettings(Singleton):
+    instance = Settings()
+        
+        

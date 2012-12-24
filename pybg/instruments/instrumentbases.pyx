@@ -3,6 +3,8 @@
 
 from libcpp cimport bool
 
+from math import floor
+
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
 
@@ -15,7 +17,7 @@ from pybg.quantlib.time._daycounter cimport DayCounter as _DayCounter
 from pybg.quantlib.time._calendar cimport BusinessDayConvention as _BusinessDayConvention
 
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
-from pybg.settings import get_eval_date, set_eval_date
+from pybg.settings import get_eval_date, set_eval_date, PySettings
 
 cimport pybg._curves as _curves
 cimport pybg.curves as curves
@@ -42,7 +44,8 @@ cdef class BondBase:
                  object par_calldate=None,
                  callfrequency=Frequencies.Annual,
                  object sinkingfund=None,
-                 sinkingfundFrequency=Frequencies.Annual
+                 sinkingfundFrequency=Frequencies.Annual,
+                 object oid_yield=None
                  ):
                  
         self.evalDate = get_eval_date() if not evaldate else evaldate
@@ -64,7 +67,7 @@ cdef class BondBase:
         self._sinkingfund = sinkingfund 
         self._sinker = False if not sinkingfund else True
         self._sinkingfundFrequency = sinkingfundFrequency
-        
+        self._oidYield = coupon if not oid_yield else oid_yield
         
     def setEngine(self, crv, a=0., sigma=0., lognormal=True):
         cdef _curves.CurveBase _crv
@@ -76,7 +79,7 @@ cdef class BondBase:
         
         self._thisptr.get().setEngine(_crv, a, sigma, <bool>lognormal)
 
-    
+
     def toPrice(self, bondyield=None):
         if bondyield:
             return self._thisptr.get().toPrice(bondyield)
@@ -92,7 +95,42 @@ cdef class BondBase:
     def accrued(self):
         return self._thisptr.get().accrued()
         
+    def qtax(self, oid=None, demin_ptsyear=None, capgains=None, ordinc=None):
+        self._qtax = {}
         
+        if not oid:
+            oid = self._oidYield
+        
+        if not capgains:
+            self._qtax['cg_rate'] = PySettings.instance.taxrates.cap_gains
+        
+        if not ordinc:
+            self._qtax['oi_rate'] = PySettings.instance.taxrates.ord_income
+            
+        if not demin_ptsyear:
+            demin_ptsyear = PySettings.instance.taxrates.demin_ptsyear
+
+        self._qtax['oid'] = max(oid, self.coupon)
+        self._qtax['rv'] = min(100.0, self.toPrice(oid))
+        
+        nyears = DayCounters.year_fraction(self.settlementDate,
+                                           self.maturity)
+
+        self._qtax['discount'] = float(floor(nyears)) * demin_ptsyear
+        self._qtax['price'] = self._qtax['rv'] - self._qtax['discount']
+        try:
+            self._qtax['yield'] = self.toYield(self._qtax['price'])
+            
+        except:
+            self._qtax['yield'] = self.coupon
+            
+        return self._qtax
+        
+    # derived classes will supersede these
+    property settlementDate:
+        def __get__(self):
+            return Calendars.advance(self.evalDate, self.settlementDays)
+                
     # Inspectors from BondBase
     property evalDate:
         def __get__(self):
