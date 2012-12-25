@@ -67,7 +67,7 @@ class EquityOption(object):
     @property
     def expiration(self):
         return self._expiration
-        
+    
     @property
     def dividend(self):
         return self._dividend
@@ -79,7 +79,7 @@ class EquityOption(object):
     @settlementDays.setter
     def settlementDays(self, ndays):
         self._settlementDays = ndays
-            
+    
     def calc(self, vol, stock_px, short_rate, greeks=True):
         """
         vol, volatility (sigma) 
@@ -126,7 +126,7 @@ class EquityOption(object):
                 delta = pv_q * (cdf(d1) - 1)                
                 theta = -S*pv_q*(q*cdf(-d1) + N*v/(2.*sqrtT)) - r*X*pvr*cdf(-d2)
                 rho = -X * T * np.exp(-r*T) * cdf(-d2)
-                
+        
             self.greeks = {
                 'value': value,
                 'T': T,
