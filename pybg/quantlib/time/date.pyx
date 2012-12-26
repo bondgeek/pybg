@@ -233,33 +233,59 @@ cdef class Date:
 
     property month:
         def __get__(self):
-            return self._thisptr.get().month()
-
+            try:
+                return self._thisptr.get().month()
+            except:
+                return None
+                
     property day:
         def __get__(self):
-            return self._thisptr.get().dayOfMonth()
+            try:
+                return self._thisptr.get().dayOfMonth()
+            except:
+                return None
 
     property year:
         def __get__(self):
-            return self._thisptr.get().year()
+            try:
+                return self._thisptr.get().year()
+            except:
+                return None
 
     property serial:
         def __get__(self):
-            return self._thisptr.get().serialNumber()
+            try:
+                return self._thisptr.get().serialNumber()
+            except:
+                return None
 
     property weekday:
         def __get__(self):
-            return self._thisptr.get().weekday()
+            try:
+                return self._thisptr.get().weekday()
+            except:
+                return None
 
     #: Day of the year (one based - Jan 1st = 1)
     property day_of_year:
         def __get__(self):
-            return self._thisptr.get().dayOfYear()
-
+            try:
+                return self._thisptr.get().dayOfYear()
+            except:
+                return None
+        
     def __str__(self):
         # fixme: cannot find an easy way to get the << operator usable here
-        return '%2d/%02d/%2d' % (self._thisptr.get().dayOfMonth(),
+        #return '%2d/%02d/%2d' % (self._thisptr.get().dayOfMonth(),
+        #        self._thisptr.get().month(), self._thisptr.get().year())
+        try:  
+            rstr =  '%2d/%02d/%2d' % (self._thisptr.get().dayOfMonth(),
                 self._thisptr.get().month(), self._thisptr.get().year())
+
+        except:
+            rstr = ""
+        
+        return rstr
 
     def __repr__(self):
         return self.__str__()

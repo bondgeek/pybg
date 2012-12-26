@@ -60,10 +60,10 @@ cdef extern from "ql/time/date.hpp" namespace "QuantLib":
         Date() except +
         Date(long serialnumber) except +
         Date(int d, int m, int y) except +
-        Day dayOfMonth()
-        Month month()
-        int year()
-        long serialNumber()
+        Day dayOfMonth() except +
+        Month month() except +
+        int year() except +
+        long serialNumber() except +
         bool operator==(Date*)
         Weekday weekday()
         Day dayOfYear()
