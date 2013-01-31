@@ -21,8 +21,8 @@ cdef extern from "bg/date_utilities.hpp" namespace "bondgeek":
     void set_evaluation_date(_qldate.Date& date)
 
 class TaxRates(Record):
-    _default ={'cap_gains': .15,
-               'ord_income': .35,
+    _default ={'cap_gains': .238,
+               'ord_income': .434,
                'demin_ptsyear': .25
                }
     def __init__(self, values=None):

@@ -5,6 +5,8 @@ from math import floor
 
 from libcpp cimport bool
 
+from pybg.settings import TaxRates
+
 cimport pybg.quantlib.time._date as _qldate
 cimport pybg.quantlib.time.date as qldate
 
@@ -214,6 +216,9 @@ cdef class CallBond:
     
     def atyToPrice(self, atyield, oid=None, ptsyear=None, 
                   capgains=None, ordinc=None):
+        '''
+        Calculate price from after-tax yield
+        '''
         
         _qtax = self.qtax(oid, ptsyear, capgains, ordinc)
                 
@@ -224,18 +229,22 @@ cdef class CallBond:
             taxpv = BB.BulletBond(
                                   0.,
                                   self.maturity,
-                                  self.issueDate,
+                                  self.issue_date,
                                   self.calendar,
                                   self.settlementDays,
-                                  self.daycounter,
+                                  self.dayCounter,
                                   self.frequency,
                                   100.0,
                                   100.0,
                                   BusinessDayConventions.Unadjusted,
                                   BusinessDayConventions.Unadjusted,
                                   get_eval_date() ).toPrice(atyield)
-                                               
-            taxRate = capgains if amd < _qtax["discount"] else ordinc
+                                       
+            if amd < _qtax["discount"]:
+                taxRate = _qtax['cg_rate']  
+            else:
+                taxRate = _qtax['oi_rate']
+                
             taxHit = taxRate * taxpv * amd/(100. - taxpv * taxRate)
             atPrice -= taxHit
             

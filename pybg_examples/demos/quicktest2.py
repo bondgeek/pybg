@@ -6,9 +6,11 @@ import pybg.instruments.bulletbond as B
 
 from pybg.curvetypes import USDLiborCurve, EURiborCurve
 
-from pybg.instruments.fixedfloatswap import USDLiborSwap, FixedPayer, FixedReceiver, EuriborSwap
+from pybg.instruments.fixedfloatswap import ( 
+    USDLiborSwap, FixedPayer, FixedReceiver, EuriborSwap
+    )
 
-from pybg.ql import get_eval_date, set_eval_date
+from pybg import get_eval_date, set_eval_date
 
 import pybg.ql as ql
 

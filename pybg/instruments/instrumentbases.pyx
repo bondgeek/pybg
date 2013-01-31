@@ -103,9 +103,13 @@ cdef class BondBase:
         
         if not capgains:
             self._qtax['cg_rate'] = PySettings.instance.taxrates.cap_gains
+        else:
+            self._qtax['cg_rate'] = capgains
         
         if not ordinc:
             self._qtax['oi_rate'] = PySettings.instance.taxrates.ord_income
+        else:
+            self._qtax['oi_rate'] = ordinc
             
         if not demin_ptsyear:
             demin_ptsyear = PySettings.instance.taxrates.demin_ptsyear
