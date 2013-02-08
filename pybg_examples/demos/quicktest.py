@@ -4,7 +4,7 @@ from datetime import date
 import pybg.curves as curves
 
 from pybg import get_eval_date, set_eval_date
-
+from pybg.date_handlers import parse_date
 from pybg.enums import Frequencies, DayCounters, Calendars
 from pybg.curvetypes import USDLiborCurve, EURiborCurve
 from pybg.instruments.fixedfloatswap import USDLiborSwap, FixedPayer, FixedReceiver, EuriborSwap
@@ -101,6 +101,7 @@ print("Call bond value: {0:.3f}, {1:.3%}".format(prc, yld))
 
 print("\n\nreset date and try after-tax")
 set_eval_date(20130130)
+print("date: {}\ncusip: 64966FMG6".format(get_eval_date()))
 
 nyc = C.CallBond(.05, 
                  date(2016, 9, 1), 
@@ -114,4 +115,3 @@ nyc = C.CallBond(.05,
 atyPx = nyc.atyToPrice(.07, capgains=.238, ordinc=.434)
 
 print("7% aty to price (bbg=90.561): {}".format(atyPx))
-
