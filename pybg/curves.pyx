@@ -30,6 +30,7 @@ from pybg.enums import TimeUnits, Calendars, DayCounters
 
 cimport pybg.quantlib.time.calendar as calendar 
 from pybg.quantlib.time.daycounter cimport DayCounter
+from pybg.tenor import Tenor
 
 from datetime import date 
 
@@ -251,6 +252,26 @@ cdef class RateHelperCurve:
         cdef char* tnr = key
         cdef Rate rate = self._thisptr.get().tenorquote(<string>tnr)
         return rate
+    
+    def par_rate(self, tenor, freq=2):
+        """
+        Returns par rate for given tenor.
+        
+        tenor: e.g. "3M", "10Y"
+        freq:  coupon frequency as integer number of payments for year
+        
+        """
+        tnr = Tenor(tenor)
+        nperiods = tnr.numberOfPeriods(freq)
+        dfreq = float(freq)
+        
+        mdisc = (1. - self.discount(tnr.term))        
+
+        cpndisc = sum([self.discount((n+1.)/dfreq) for n in range(nperiods)])
+        
+        parrate = dfreq * (mdisc / cpndisc if cpndisc > 0. else mdisc)
+        
+        return parrate
         
     def discount(self, ref):
         cdef double yrs 

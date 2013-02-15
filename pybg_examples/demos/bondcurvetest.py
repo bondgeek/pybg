@@ -3,6 +3,7 @@ import pybg.enums
 import pybg.curves as curves
 
 from pybg.curvetypes import USDLiborCurve
+from pybg import get_eval_date, set_eval_date
 
 from datetime import date
 
@@ -35,12 +36,12 @@ swaps = {
 
 
 print("\nSetting eval date: %s" % dt0)
-pybg.ql.set_eval_date(dt0)
-print("eval date used: {}".format(pybg.ql.get_eval_date()))
+set_eval_date(dt0)
+print("eval date used: {}".format(get_eval_date()))
 
 rh = curves.RateHelperCurve(USDLiborCurve("3M"))
 
-rh.update(depos, {}, swaps, pybg.ql.get_eval_date())
+rh.update(depos, {}, swaps, get_eval_date())
 
 govbondcurve = curves.CurveBase(pybg.enums.Calendars.UnitedStates(pybg.enums.Calendars.GOVERNMENTBOND),
 1,
@@ -88,8 +89,13 @@ bond_ids = [
         "B1", "B2", "B3", "B4", "B5"
     ]
 
+depos = dict(zip(
+                ("1W", "1M", "3M", "1y"), 
+                (.001757, 0.002022, 0.002901, 0.0076)
+            ))
+
 q = zip(marketQuotes, maturities, couponRates, dated)
 bndcrv = dict(zip(bond_ids, q))
 
-bcrv.update(bndcrv)
+bcrv.update(bndcrv, depos)
 
