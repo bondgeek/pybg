@@ -100,7 +100,8 @@ class Tenor(object):
         tenor('3m').schedule(settleDate, maturityDate) or
         tenor('3m').schedule(settleDate, '10Y')
         
-        gives a schedule of dates from settleDate to maturity with a short front stub.
+        gives a schedule of dates from settleDate to maturity with a 
+        short front stub.
         '''
         settle_ = qldate_from_pydate(settle_)
         mty_ = qldate_from_pydate(maturity_)

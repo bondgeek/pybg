@@ -33,16 +33,20 @@ class Months(object):
 class DateGeneration(object):
     from pybg.quantlib.time.schedule import Backward, Forward
 
-# TODO: subclass dict, as for Calenars
-#       daycount, yearFraction interface for pydates
 class DayCounters(dict):
-    from pybg.quantlib.time.daycounter import Thirty360, Actual360, Actual365Fixed
-    from pybg.quantlib.time.daycounters.actual_actual import ActualActual, ISMA, ISDA, Bond
+    from pybg.quantlib.time.daycounter import (
+        Thirty360, Actual360, Actual365Fixed
+        )
+    from pybg.quantlib.time.daycounters.actual_actual import (
+        ActualActual, ISMA, ISDA, Bond
+        )
+        
     _lookup = dict([(dc.name(), dc) for dc in
         [Thirty360(), Actual360(), Actual365Fixed(),
-        ActualActual(), ActualActual(ISMA), ActualActual(ISDA), ActualActual(Bond)
-        ]
-        ])
+        ActualActual(), ActualActual(ISMA), ActualActual(ISDA),
+        ActualActual(Bond)
+        ]]
+        )
     
     def __init__(self, *args):
         dict.__init__(self, self._lookup)
@@ -155,7 +159,9 @@ class Calendars(dict):
             
         except:
             try:
-                return pydate_from_qldate(calendar().advance(qldate, n, timeunit))
+                return pydate_from_qldate(
+                    calendar().advance(qldate, n, timeunit)
+                    )
             
             except:
                 return None

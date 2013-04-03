@@ -35,7 +35,19 @@ from pybg.quantlib.quotes import SimpleQuote
 from pybg.settings import get_eval_date, set_eval_date, Settings
 
 from pybg.enums import (
-    DayCounters, Frequencies, BusinessDayConventions, Calendars
+    DayCounters, Frequencies, BusinessDayConventions, Calendars,
+    qldate_from_pydate, pydate_from_qldate
+    )
+
+from pybg.tenor import Tenor
+
+bondtypes = dict(
+    muni=dict(calendar=Calendars.UnitedStates(Calendars.GOVERNMENTBOND),
+              daycounter=DayCounters.Thirty360(DayCounters.Bond)
+              ),
+    ustsy=dict(calendar=Calendars.UnitedStates(Calendars.GOVERNMENTBOND),
+               daycounter=DayCounters.ActualActual()
+               ),
     )
 
 
