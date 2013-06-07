@@ -8,8 +8,6 @@ Tenor class
 '''
 from datetime import date 
 
-import pybg.quantlib.time.date as qldate
-
 from pybg.enums import TimeUnits
 
 from pybg.quantlib.time.api import *
@@ -84,18 +82,24 @@ class Tenor(object):
         '''
         return int(self.term * int(frequency))
     
-    def advance(self, date_, convention=Unadjusted, 
-                      calendar=TARGET(), reverse=False):
+    def advance(self, 
+                date_, 
+                convention=Unadjusted, 
+                calendar=TARGET(), 
+                reverse=False,
+                aspy=True):
         
         date_ = qldate_from_pydate(date_)
         length_ = self.length if not reverse else -self.length
         
-    
-        return calendar.advance(date_, length_, self.timeunit, 
-                                convention=convention)
+        date_ = calendar.advance(date_, length_, self.timeunit, 
+                                 convention=convention)
+                                 
+        return date_ if not aspy else pydate_from_qldate(date_)
     
     def schedule(self, settle_, maturity_, convention=Unadjusted,
-                       calendar=TARGET()):
+                       calendar=TARGET(),
+                       aspy=True):
         '''
         tenor('3m').schedule(settleDate, maturityDate) or
         tenor('3m').schedule(settleDate, '10Y')
@@ -110,7 +114,8 @@ class Tenor(object):
         if type(maturity_) == str and not mty_:
             maturity_ = Tenor(maturity_).advance(settle_, 
                                                  convention=convention,
-                                                 calendar=calendar)
+                                                 calendar=calendar
+                                                 )
         else:
             maturity_ = mty_
             
@@ -123,6 +128,9 @@ class Tenor(object):
             sched.append(settle_)
             
         sched.sort(key=lambda dt: dt.serial)
+        
+        if aspy:
+            sched = [pydate_from_qldate(dt) for dt in sched]
         
         return sched
                     

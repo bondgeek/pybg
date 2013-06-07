@@ -24,8 +24,5 @@ build_win:
 test:
 	nosetests -v pybg/tests
 	
-test0:
-	nosetests -v pybg/tests/test_curves.py
-	
 install:
 	python setup.py install

@@ -85,6 +85,21 @@ class DayCounters(dict):
             
                 
 class Calendars(dict):
+    '''
+    Wrapper for quantlib Calendar objects and methods. Accepts python.datetime
+    objects instead of pyql.quantlib dates.
+    
+    :adjust:            Adjust date to business day
+    :advance:           Advance date by specified period
+    :is_business_day:   Checks date
+    
+    can be used as a dict using name property of pyql.quantlib.calendar objects
+    for example:
+        
+        Calendars()['TARGET'] returns TARGET calendar
+        
+    ''' 
+
     from pybg.quantlib.time.calendar import TARGET
     from pybg.quantlib.time.calendars.null_calendar import NullCalendar
     from pybg.quantlib.time.calendars.germany import (
@@ -113,6 +128,7 @@ class Calendars(dict):
         )
     
     def __init__(self, *args):
+                       
         dict.__init__(self, self._lookup)
         self.update(*args)
 
