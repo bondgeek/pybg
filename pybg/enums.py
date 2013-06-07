@@ -72,7 +72,7 @@ class DayCounters(dict):
         return daycounter.year_fraction(qldate1, qldate2)
         
     @classmethod
-    def daycount(cls, pydate1, pydate2, daycounter=None):
+    def daycount(cls, date1, date2, daycounter=None):
         pydate1, pydate2 = map(parse_date, (date1, date2))
         
         if not daycounter:
@@ -140,7 +140,22 @@ class Calendars(dict):
 
     @classmethod
     def advance(cls, pydate, n, timeunit=None, calendar=None, convention=None):
-            
+        """
+        Advance pydate according the specified calendar and convention
+        
+        :pydate:   e.g. 19600809, date(1964, 9, 29), '5-23-1993'
+        :n:        integer
+        :timeunit: e.g., enums.TimeUnits.Days
+
+        usage
+        -----
+        
+        Note 9/6/1980 is a weekend
+        
+        >>> Calendars.advance(19800906, 1)
+        datetime.date(1980, 9, 8)
+        
+        """
         if not calendar:
             calendar = cls.TARGET()
         
@@ -164,6 +179,7 @@ class Calendars(dict):
                     )
             
             except:
+                print("failure {}".format(qldate))
                 return None
 
     @classmethod
@@ -184,3 +200,7 @@ class Calendars(dict):
             
             except:
                 return None            
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

@@ -1,4 +1,4 @@
-pybg -- bondgeek's fixed income python libraries
+pybg -- fixed income python libraries
 ================================================
 
 pybg is a set of wrappers and extensions to QuantLib.  It is inspired by,
@@ -6,17 +6,29 @@ and borrows freely from Enthought's PyQL Cython wrappers for QuantLib.
 
 The purpose of this libraries is to:
 
-1) Provide a interface to QuantLib's fixed-income capabilities that is easily 
+1. Provide a interface to QuantLib's fixed-income capabilities that is easily 
 used in a Python front end.
-2) Minimize the extent of new data types needed to communicate with the library. 
+
+#. Minimize the extent of new data types needed to communicate with the library. 
 For example, python datetime objects are used instead of QuantLib Dates.
 
 
 Build Info
-==========
+__________
+
+For Mac OSX:
+
     make build_ext
     make test
 
+on Windows:
+
+    make build_win
+    make test
+
+then install:
+
+    make install
 
 License Info:
     QuantLib: http://quantlib.org/reference/license.html
