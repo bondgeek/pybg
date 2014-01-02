@@ -60,7 +60,7 @@ CYTHON_DIRECTIVES = {"embedsignatur": True}
 
 if sys.platform in ('darwin', 'linux2'):
     INCLUDE_DIRS = [os.environ.get('BG_INCLUDE_DIRS', "/usr/local/include"), '.']
-    LIBRARY_DIRS = [os.environ.get('BG_INCLUDE_DIRS', "/usr/local/lib"), ]
+    LIBRARY_DIRS = [os.environ.get('BG_LIBRARY_DIRS', "/usr/local/lib"), ]
     ext_args = dict(
                 include_dirs=INCLUDE_DIRS,
                 library_dirs=LIBRARY_DIRS,
