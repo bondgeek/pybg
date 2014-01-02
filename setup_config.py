@@ -22,7 +22,7 @@ def collect_ext_dirpaths(_dirpath='bg/quantlib'):
                 cython_extension_directories.append(pyxpath)
 
     return cython_extension_directories
-	
+
 def get_define_macros():
     defines = [ ('HAVE_CONFIG_H', None) ]
     if sys.platform == 'win32':
@@ -58,15 +58,15 @@ def get_extra_link_args():
  
 CYTHON_DIRECTIVES = {"embedsignatur": True}
 
-if sys.platform == 'darwin':
-    INCLUDE_DIRS = ["/usr/local/include", '.']
-    LIBRARY_DIRS = ["/usr/local/lib"]
+if sys.platform in ('darwin', 'linux2'):
+    INCLUDE_DIRS = [os.environ.get('BG_INCLUDE_DIRS', "/usr/local/include"), '.']
+    LIBRARY_DIRS = [os.environ.get('BG_INCLUDE_DIRS', "/usr/local/lib"), ]
     ext_args = dict(
                 include_dirs=INCLUDE_DIRS,
                 library_dirs=LIBRARY_DIRS,
                 libraries = ['QuantLib', ], # libraries to link
                 )
-    
+
 elif sys.platform == 'win32':
     INCLUDE_DIRS = [r"C:\QuantLib\QuantLib-1.2",
                     r"C:\Program Files (x86)\boost\boost_1_47", 
