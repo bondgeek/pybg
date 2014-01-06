@@ -30,6 +30,40 @@ then install:
 
     make install
 
+
+REQUIREMENTS & ENVIRONMENT
+__________________________
+
+Set environment variables:
+
+BG_LIBRARY_DIRS
+BG_INCLUDE_DIRS
+
+Assumes QuantLib is compiled and available in /usr/local/lib or directory path specified in BG_LIBRARY_DIRS
+
+see requirements.txt
+
+Under Mac OSX10.6, set the following environment variables:
+
+Add to virtualenv activate script:
+
+    export CFLAGS="-m32 -arch i386"
+    export CPPFLAGS="-m32 -arch i386"
+    export CXXFLAGS="-m32 -arch i386"
+    export ARCHFLAGS="-arch i386"
+    export MACOSX_DEPLOYMENT_TARGET=10.6
+    export LDFLAGS="-arch i386 -L/usr/local/lib"
+
+and in deactivate:
+
+    unset CFLAGS
+    unset CPPFLAGS
+    unset CXXFLAGS
+    unset ARCHFLAGS
+    unset MACOSX_DEPLOYMENT_TARGET
+    unset LDFLAGS
+
+
 License Info:
     QuantLib: http://quantlib.org/reference/license.html
     pyql:   https://github.com/enthought/pyql/blob/master/LICENSE.txt

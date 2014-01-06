@@ -239,6 +239,8 @@
 		CC43CDCB15E413E200FFBF2C /* test_bonds.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_bonds.py; sourceTree = "<group>"; };
 		CC4845F415C5BEDE00E8522D /* bondcurve.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondcurve.hpp; sourceTree = "<group>"; };
 		CC4845F515C5BEDE00E8522D /* bondcurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bondcurve.cpp; sourceTree = "<group>"; };
+		CC8844F91877163300D39736 /* setup_win.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = setup_win.py; sourceTree = "<group>"; };
+		CC8844FC1877255500D39736 /* requirements.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = requirements.txt; sourceTree = "<group>"; };
 		CC947DEA15D8008900138FFD /* sinker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = sinker; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC947DF615D800FA00138FFD /* sinker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sinker.cpp; sourceTree = "<group>"; };
 		CC96902315C4957F008B5B6D /* bondbase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bondbase.hpp; sourceTree = "<group>"; };
@@ -348,7 +350,9 @@
 				CB4D01FF1594B7470002568B /* bg */,
 				CB4D025C1594B7470002568B /* examples */,
 				CB4D02611594B7470002568B /* Makefile */,
+				CC8844F91877163300D39736 /* setup_win.py */,
 				CB4D02621594B7470002568B /* README */,
+				CC8844FC1877255500D39736 /* requirements.txt */,
 				CB4D02631594B7470002568B /* setup_config.py */,
 				CB4D02641594B7470002568B /* setup.py */,
 				CB4D02651594B7470002568B /* tests */,

@@ -18,6 +18,7 @@ build/
 *.mode1v3
 *.mode2v3
 bondgeek.xcodeproj/!*.xcodeproj/project.pbxproj
+*.pbxproj
 
 # swig generated files
 swig/example/example.py
