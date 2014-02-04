@@ -119,7 +119,3 @@ cdef extern from 'bg/curves/bondcurve.hpp' namespace 'bondgeek':
                     )
         
         bool updateBondCurve(BondCurveMap crv) except +
-        
-
-        
-        
