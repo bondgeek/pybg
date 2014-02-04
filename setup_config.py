@@ -87,7 +87,7 @@ elif sys.platform == 'win32':
                 extra_link_args = get_extra_link_args(),
                 pyrex_directives= CYTHON_DIRECTIVES
                 )
-extension_paths = [
+extension_paths_dbg = [
  ('pybg.version', ['pybg/version.pyx']),
  ('pybg.ql', ['pybg/ql.pyx']),
  ('pybg.settings', ['pybg/settings.pyx', 'bg/date_utilities.cpp']),
@@ -97,10 +97,12 @@ extension_paths = [
  ('pybg.quantlib.quotes', ['pybg/quantlib/quotes.pyx']),
  ('pybg.quantlib.time.calendar', ['pybg/quantlib/time/calendar.pyx']),
  ('pybg.quantlib.time.date', ['pybg/quantlib/time/date.pyx']),
+ ('pybg.quantlib.time.daycounter', ['pybg/quantlib/time/daycounter.pyx']),
+ ('pybg.quantlib.time.schedule', ['pybg/quantlib/time/schedule.pyx']),
  
 ]
 
-extension_paths_dbg  = [  # use this full set when not debugging
+extension_paths = [  # use this full set when not debugging
  ('pybg.version', ['pybg/version.pyx']),
  ('pybg.ql', ['pybg/ql.pyx']),
  ('pybg.settings', ['pybg/settings.pyx', 'bg/date_utilities.cpp']),
