@@ -108,6 +108,7 @@ extension_paths = [  # use this full set when not debugging
  ('pybg.settings', ['pybg/settings.pyx', 'bg/date_utilities.cpp']),
  ('pybg.imm', ['pybg/imm.pyx', 'bg/date_utilities.cpp']),
  ('pybg.curves', ['pybg/curves.pyx', 
+                  'bg/date_utilities.cpp' 
                   'bg/curvebase.cpp',
                   'bg/curves/ratehelpercurve.cpp',
                   'bg/curves/bondcurve.cpp']),
