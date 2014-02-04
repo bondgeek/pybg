@@ -4,7 +4,7 @@
 import datetime  
 
 from bgtools.utils.dates import parse_date
-from bgtools.dpatterns import Singleton, Record
+from bgtools.utils.dpatterns import Singleton, Record
 
 from pybg.ql import qldate_from_pydate, pydate_from_qldate
 from pybg.ql cimport _pydate_from_qldate, _qldate_from_pydate
