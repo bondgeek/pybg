@@ -4,7 +4,6 @@ from datetime import date
 import pybg.curves as curves
 
 from pybg import get_eval_date, set_eval_date
-from pybg.date_handlers import parse_date
 from pybg.enums import Frequencies, DayCounters, Calendars
 from pybg.curvetypes import USDLiborCurve, EURiborCurve
 from pybg.instruments.fixedfloatswap import USDLiborSwap, FixedPayer, FixedReceiver, EuriborSwap
