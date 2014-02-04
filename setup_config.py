@@ -95,6 +95,7 @@ extension_paths = [
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),
  ('pybg.quantlib.quotes', ['pybg/quantlib/quotes.pyx']),
+ ('pybg.quantlib.time.date', ['pybg/quantlib/time/date.pyx']),
  
 ]
 

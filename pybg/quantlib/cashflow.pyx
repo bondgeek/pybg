@@ -15,6 +15,7 @@ from pybg.quantlib.handle cimport shared_ptr
 from pybg.ql import pydate_from_qldate
 from pybg.ql cimport _qldate_from_pydate
 
+
 cdef class CashFlow:
     """Abstract Base Class.
     
@@ -63,6 +64,7 @@ cdef class SimpleCashFlow(CashFlow):
     def __str__(self):
         return 'Simple Cash Flow: %f, %s' % (self.amount,
                                              self.date)
+
                                      
 cdef object leg_items(vector[shared_ptr[_cf.CashFlow]] leg):
     cdef int i
@@ -81,6 +83,7 @@ cdef object leg_items(vector[shared_ptr[_cf.CashFlow]] leg):
                         )
         
     return itemlist
+
 
 cdef class SimpleLeg:
 
