@@ -255,6 +255,8 @@
 		CCA506FC15E18CFA0082C4AD /* sinkingfundbond.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sinkingfundbond.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CCA506FF15E18D2A0082C4AD /* sinkingfundbond.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sinkingfundbond.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CCA7170415BB59F5005ED72F /* enums.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = enums.py; sourceTree = "<group>"; };
+		CCA8A0E818A289D1007BBEEB /* version.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = version.pxd; path = ../version.pxd; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		CCA8A0EB18A289ED007BBEEB /* version.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = version.pyx; path = ../version.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CCAACCA61618B2F000DF8633 /* blackscholes.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = blackscholes.py; sourceTree = "<group>"; };
 		CCAACCCA1618BFC900DF8633 /* settings.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = settings.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		CCAACCCD1618C2A600DF8633 /* imm.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = imm.pyx; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
@@ -456,6 +458,8 @@
 		CB4D026B1594B8350002568B /* pybg */ = {
 			isa = PBXGroup;
 			children = (
+				CCA8A0E818A289D1007BBEEB /* version.pxd */,
+				CCA8A0EB18A289ED007BBEEB /* version.pyx */,
 				CB4D026C1594B8350002568B /* __init__.py */,
 				CCA7170415BB59F5005ED72F /* enums.py */,
 				CB4D02701594B8350002568B /* ql.pxd */,

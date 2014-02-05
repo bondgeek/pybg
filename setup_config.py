@@ -88,6 +88,12 @@ elif sys.platform == 'win32':
                 pyrex_directives= CYTHON_DIRECTIVES
                 )
 
+extension_paths_dbg = [  # use this full set when not debugging
+ ('pybg.version', ['pybg/version.pyx']),
+ ('pybg.ql', ['pybg/ql.pyx']),
+ ('pybg.quantlib.time.date', ['pybg/quantlib/time/date.pyx']),
+]
+
 extension_paths = [  # use this full set when not debugging
  ('pybg.version', ['pybg/version.pyx']),
  ('pybg.ql', ['pybg/ql.pyx']),
@@ -103,13 +109,17 @@ extension_paths = [  # use this full set when not debugging
  ('pybg.indexbases', ['pybg/indexbases.pyx']),
  ('pybg.instruments.instrumentbases', ['pybg/instruments/instrumentbases.pyx']),
  ('pybg.instruments.fixedfloatswap', ['pybg/instruments/fixedfloatswap.pyx',
+                                      'bg/date_utilities.cpp', 
                                       'bg/instruments/fixedfloatswap.cpp']),
  ('pybg.instruments.bulletbond', ['pybg/instruments/bulletbond.pyx',
+                                  'bg/date_utilities.cpp',
                                   'bg/instruments/bulletbond.cpp']),
- ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx', 
+ ('pybg.instruments.callbond', ['pybg/instruments/callbond.pyx',
+                                'bg/date_utilities.cpp', 
                                 'bg/instruments/callbond.cpp']),
  ('pybg.instruments.sinkingfundbond', ['pybg/instruments/sinkingfundbond.pyx',
-  'bg/instruments/sinkingfundbond.cpp']),
+                                       'bg/date_utilities.cpp', 
+                                       'bg/instruments/sinkingfundbond.cpp']),
  ('pybg.quantlib.currency', ['pybg/quantlib/currency.pyx']), 
  ('pybg.quantlib.cashflow', ['pybg/quantlib/cashflow.pyx']),
  ('pybg.quantlib.quotes', ['pybg/quantlib/quotes.pyx']),

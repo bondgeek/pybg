@@ -18,6 +18,9 @@ clean_win:
 build_ext:   
 	python2.7 setup.py build_ext --inplace
 
+build_ext32:   
+	arch -i386 python2.7 setup.py build_ext --inplace
+
 build_win:
 	python setup_win.py build_ext --inplace
 	
