@@ -73,6 +73,8 @@
 
 /* Begin PBXFileReference section */
 		C6859E8B029090EE04C91782 /* pybg.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = pybg.1; sourceTree = "<group>"; };
+		CB1CCBB918A550F700C0139F /* version.pyx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = version.pyx; sourceTree = "<group>"; };
+		CB1CCBBA18A550F700C0139F /* version.pxd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = version.pxd; sourceTree = "<group>"; };
 		CB2C913D1594E19100B78DFB /* usdliborcurve.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = usdliborcurve.hpp; sourceTree = "<group>"; };
 		CB378E121594C27300C91A4E /* bg_test_suite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bg_test_suite; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB378E4F1594C6E100C91A4E /* callbond_example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = callbond_example; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -471,6 +473,8 @@
 				CBC8CA6E1599F0F80042C992 /* _indexbase.pxd */,
 				CBC8CA731599F1470042C992 /* indexbases.pxd */,
 				CBC8CA761599F15A0042C992 /* indexbases.pyx */,
+				CB1CCBB918A550F700C0139F /* version.pyx */,
+				CB1CCBBA18A550F700C0139F /* version.pxd */,
 				CC9FB84615A79F910083E005 /* instruments */,
 				CB73B3C81598F243008F60C4 /* curvetypes */,
 				CB4D02721594B8350002568B /* quantlib */,
